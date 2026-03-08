@@ -1,0 +1,721 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "LinguaNerd - Database frasi",
+    "languages": ["it", "en", "cs", "es", "fr", "ro"],
+    "situations": ["saluti", "presentazioni", "ristorante", "viaggio", "shopping", "emergenze", "lavoro", "famiglia"],
+    "levels": ["A1", "A2", "B1", "B2"],
+    "last_updated": "2026-03-08",
+    "total_phrases": 30
+  },
+  "phrases": [
+
+    // ── SALUTI ────────────────────────────────────────────────────────────────
+    {
+      "id": "p001",
+      "situation": "saluti",
+      "level": "A1",
+      "type": "espressione",
+      "translations": {
+        "it": "Buongiorno!",
+        "en": "Good morning!",
+        "cs": "Dobré ráno!",
+        "es": "¡Buenos días!",
+        "fr": "Bonjour !",
+        "ro": "Bună dimineața!"
+      },
+      "pronunciation": {
+        "it": "bwon-JOR-no",
+        "en": "good MOR-ning",
+        "cs": "DOB-reh RAA-no",
+        "es": "BWE-nos DI-as",
+        "fr": "bon-ZHOOR",
+        "ro": "BU-nuh di-mi-NYATS-ah"
+      },
+      "notes": "Usato dalla mattina fino a metà pomeriggio"
+    },
+    {
+      "id": "p002",
+      "situation": "saluti",
+      "level": "A1",
+      "type": "espressione",
+      "translations": {
+        "it": "Buonasera!",
+        "en": "Good evening!",
+        "cs": "Dobrý večer!",
+        "es": "¡Buenas noches!",
+        "fr": "Bonsoir !",
+        "ro": "Bună seara!"
+      },
+      "pronunciation": {
+        "it": "bwona-SE-ra",
+        "en": "good EE-vning",
+        "cs": "DOB-ree VE-cher",
+        "es": "BWE-nas NO-ches",
+        "fr": "bon-SWAAR",
+        "ro": "BU-nuh SYAA-ra"
+      },
+      "notes": "Usato dal tardo pomeriggio in poi"
+    },
+    {
+      "id": "p003",
+      "situation": "saluti",
+      "level": "A1",
+      "type": "domanda",
+      "translations": {
+        "it": "Come stai?",
+        "en": "How are you?",
+        "cs": "Jak se máš?",
+        "es": "¿Cómo estás?",
+        "fr": "Comment tu vas ?",
+        "ro": "Ce mai faci?"
+      },
+      "pronunciation": {
+        "it": "KO-me STAI",
+        "en": "hau ar YUU",
+        "cs": "yak se MAASH",
+        "es": "KO-mo es-TAAS",
+        "fr": "ko-MAAN tyu VAA",
+        "ro": "che mai FACH"
+      },
+      "notes": "Forma informale. Formale: 'Come sta?' / 'How do you do?'"
+    },
+    {
+      "id": "p004",
+      "situation": "saluti",
+      "level": "A1",
+      "type": "risposta",
+      "translations": {
+        "it": "Sto bene, grazie!",
+        "en": "I'm fine, thank you!",
+        "cs": "Mám se dobře, díky!",
+        "es": "Estoy bien, ¡gracias!",
+        "fr": "Je vais bien, merci !",
+        "ro": "Sunt bine, mulțumesc!"
+      },
+      "pronunciation": {
+        "it": "sto BEH-ne GRA-tsye",
+        "en": "aim FAIN THANK yuu",
+        "cs": "maam se DOB-rzhe DEE-ki",
+        "es": "es-TOY BYEN GRA-syas",
+        "fr": "zhe veh BYAN mer-SEE",
+        "ro": "sunt BI-ne mul-TSU-mesk"
+      },
+      "notes": "Risposta standard al saluto"
+    },
+    {
+      "id": "p005",
+      "situation": "saluti",
+      "level": "A1",
+      "type": "espressione",
+      "translations": {
+        "it": "Arrivederci!",
+        "en": "Goodbye!",
+        "cs": "Na shledanou!",
+        "es": "¡Adiós!",
+        "fr": "Au revoir !",
+        "ro": "La revedere!"
+      },
+      "pronunciation": {
+        "it": "ar-ri-ve-DER-chi",
+        "en": "good-BAI",
+        "cs": "na-SKHLE-da-no",
+        "es": "a-DYOS",
+        "fr": "o ruh-VWAAR",
+        "ro": "la re-ve-DE-re"
+      },
+      "notes": "Commiato formale"
+    },
+
+    // ── PRESENTAZIONI ─────────────────────────────────────────────────────────
+    {
+      "id": "p006",
+      "situation": "presentazioni",
+      "level": "A1",
+      "type": "affermazione",
+      "translations": {
+        "it": "Mi chiamo Marco.",
+        "en": "My name is Marco.",
+        "cs": "Jmenuji se Marco.",
+        "es": "Me llamo Marco.",
+        "fr": "Je m'appelle Marco.",
+        "ro": "Mă numesc Marco."
+      },
+      "pronunciation": {
+        "it": "mi KYA-mo MAR-ko",
+        "en": "mai NAIM iz MAR-ko",
+        "cs": "YME-nu-yi se MAR-ko",
+        "es": "me YA-mo MAR-ko",
+        "fr": "zhe ma-PEL MAR-ko",
+        "ro": "muh NU-mesk MAR-ko"
+      },
+      "notes": "Sostituire 'Marco' con il proprio nome"
+    },
+    {
+      "id": "p007",
+      "situation": "presentazioni",
+      "level": "A1",
+      "type": "domanda",
+      "translations": {
+        "it": "Di dove sei?",
+        "en": "Where are you from?",
+        "cs": "Odkud jsi?",
+        "es": "¿De dónde eres?",
+        "fr": "Tu viens d'où ?",
+        "ro": "De unde ești?"
+      },
+      "pronunciation": {
+        "it": "di DO-ve SEI",
+        "en": "wer ar yuu FROM",
+        "cs": "OT-kud YSI",
+        "es": "de DON-de E-res",
+        "fr": "tyu VYAN DOO",
+        "ro": "de UN-de YESH-ti"
+      },
+      "notes": "Forma informale"
+    },
+    {
+      "id": "p008",
+      "situation": "presentazioni",
+      "level": "A1",
+      "type": "affermazione",
+      "translations": {
+        "it": "Sono italiano.",
+        "en": "I am Italian.",
+        "cs": "Jsem Ital.",
+        "es": "Soy italiano.",
+        "fr": "Je suis italien.",
+        "ro": "Sunt italian."
+      },
+      "pronunciation": {
+        "it": "SO-no i-ta-LYA-no",
+        "en": "ai am i-TAL-yan",
+        "cs": "YSEM I-tal",
+        "es": "soy i-ta-LYA-no",
+        "fr": "zhe swi i-ta-LYAN",
+        "ro": "sunt i-ta-LYA-n"
+      },
+      "notes": "Adattare la nazionalità"
+    },
+    {
+      "id": "p009",
+      "situation": "presentazioni",
+      "level": "A1",
+      "type": "domanda",
+      "translations": {
+        "it": "Quanti anni hai?",
+        "en": "How old are you?",
+        "cs": "Kolik ti je let?",
+        "es": "¿Cuántos años tienes?",
+        "fr": "Tu as quel âge ?",
+        "ro": "Câți ani ai?"
+      },
+      "pronunciation": {
+        "it": "KWAN-ti AN-ni AI",
+        "en": "hau OLD ar YUU",
+        "cs": "KO-lik ti ye LET",
+        "es": "KWAN-tos A-nyos TYE-nes",
+        "fr": "tyu aa kel AAZH",
+        "ro": "KUTS an AI"
+      },
+      "notes": "Domanda sull'età, informale"
+    },
+
+    // ── RISTORANTE ────────────────────────────────────────────────────────────
+    {
+      "id": "p010",
+      "situation": "ristorante",
+      "level": "A1",
+      "type": "richiesta",
+      "translations": {
+        "it": "Un tavolo per due, per favore.",
+        "en": "A table for two, please.",
+        "cs": "Stůl pro dva, prosím.",
+        "es": "Una mesa para dos, por favor.",
+        "fr": "Une table pour deux, s'il vous plaît.",
+        "ro": "O masă pentru două persoane, vă rog."
+      },
+      "pronunciation": {
+        "it": "un TA-vo-lo per DUE per fa-VO-re",
+        "en": "a TAY-bl for TUU PLEEZ",
+        "cs": "STOOL pro DVA PRO-seem",
+        "es": "una ME-sa PA-ra dos por fa-VOR",
+        "fr": "yn TAB-l pour dø sil vu PLEH",
+        "ro": "o MA-suh PEN-tru DWA per-SOA-ne vuh ROG"
+      },
+      "notes": "Frase utile all'ingresso del ristorante"
+    },
+    {
+      "id": "p011",
+      "situation": "ristorante",
+      "level": "A1",
+      "type": "richiesta",
+      "translations": {
+        "it": "Il menu, per favore.",
+        "en": "The menu, please.",
+        "cs": "Jídelní lístek, prosím.",
+        "es": "La carta, por favor.",
+        "fr": "La carte, s'il vous plaît.",
+        "ro": "Meniul, vă rog."
+      },
+      "pronunciation": {
+        "it": "il me-NU per fa-VO-re",
+        "en": "the MEN-yuu PLEEZ",
+        "cs": "YEE-del-nee LEES-tek PRO-seem",
+        "es": "la KAR-ta por fa-VOR",
+        "fr": "la KART sil vu PLEH",
+        "ro": "me-NYU-l vuh ROG"
+      },
+      "notes": null
+    },
+    {
+      "id": "p012",
+      "situation": "ristorante",
+      "level": "A1",
+      "type": "richiesta",
+      "translations": {
+        "it": "Il conto, per favore.",
+        "en": "The bill, please.",
+        "cs": "Účet, prosím.",
+        "es": "La cuenta, por favor.",
+        "fr": "L'addition, s'il vous plaît.",
+        "ro": "Nota de plată, vă rog."
+      },
+      "pronunciation": {
+        "it": "il KON-to per fa-VO-re",
+        "en": "the BIL PLEEZ",
+        "cs": "OO-chet PRO-seem",
+        "es": "la KWEN-ta por fa-VOR",
+        "fr": "la-di-SYON sil vu PLEH",
+        "ro": "NO-ta de PLA-tuh vuh ROG"
+      },
+      "notes": "Usata a fine pasto"
+    },
+    {
+      "id": "p013",
+      "situation": "ristorante",
+      "level": "A2",
+      "type": "domanda",
+      "translations": {
+        "it": "Cosa consiglia?",
+        "en": "What do you recommend?",
+        "cs": "Co doporučujete?",
+        "es": "¿Qué recomienda?",
+        "fr": "Qu'est-ce que vous recommandez ?",
+        "ro": "Ce recomandați?"
+      },
+      "pronunciation": {
+        "it": "KO-za kon-SI-lya",
+        "en": "wot du yuu rek-o-MEND",
+        "cs": "tso do-po-RU-chu-ye-te",
+        "es": "ke re-ko-MYEN-da",
+        "fr": "kes-ke vu re-ko-man-DEH",
+        "ro": "che re-ko-man-DATS"
+      },
+      "notes": "Forma formale, rivolta al cameriere"
+    },
+
+    // ── VIAGGIO ───────────────────────────────────────────────────────────────
+    {
+      "id": "p014",
+      "situation": "viaggio",
+      "level": "A1",
+      "type": "domanda",
+      "translations": {
+        "it": "Dov'è la stazione?",
+        "en": "Where is the station?",
+        "cs": "Kde je nádraží?",
+        "es": "¿Dónde está la estación?",
+        "fr": "Où est la gare ?",
+        "ro": "Unde este gara?"
+      },
+      "pronunciation": {
+        "it": "do-VEH la sta-TSYO-ne",
+        "en": "wer iz the STAY-shun",
+        "cs": "kde ye NAA-dra-zhee",
+        "es": "DON-de es-TA la es-ta-SYON",
+        "fr": "u eh la GAAR",
+        "ro": "UN-de YES-te GA-ra"
+      },
+      "notes": "Sostituire 'stazione' con qualsiasi luogo"
+    },
+    {
+      "id": "p015",
+      "situation": "viaggio",
+      "level": "A1",
+      "type": "richiesta",
+      "translations": {
+        "it": "Un biglietto per Roma, per favore.",
+        "en": "A ticket to Rome, please.",
+        "cs": "Jízdenku do Říma, prosím.",
+        "es": "Un billete para Roma, por favor.",
+        "fr": "Un billet pour Rome, s'il vous plaît.",
+        "ro": "Un bilet pentru Roma, vă rog."
+      },
+      "pronunciation": {
+        "it": "un bi-LYE-to per RO-ma per fa-VO-re",
+        "en": "a TIK-et tu ROME PLEEZ",
+        "cs": "YEEZ-den-ku do RZHEE-ma PRO-seem",
+        "es": "un bi-YE-te PA-ra RO-ma por fa-VOR",
+        "fr": "an bi-YEH pur ROM sil vu PLEH",
+        "ro": "un bi-LET PEN-tru RO-ma vuh ROG"
+      },
+      "notes": "Sostituire 'Roma' con la destinazione"
+    },
+    {
+      "id": "p016",
+      "situation": "viaggio",
+      "level": "A2",
+      "type": "domanda",
+      "translations": {
+        "it": "A che ora parte il treno?",
+        "en": "What time does the train leave?",
+        "cs": "V kolik hodin odjíždí vlak?",
+        "es": "¿A qué hora sale el tren?",
+        "fr": "À quelle heure part le train ?",
+        "ro": "La ce oră pleacă trenul?"
+      },
+      "pronunciation": {
+        "it": "a ke O-ra PAR-te il TRE-no",
+        "en": "wot taim duz the TRAYN LEEV",
+        "cs": "f KO-lik HO-din od-YEEZH-dyee VLAK",
+        "es": "a ke O-ra SA-le el TREN",
+        "fr": "a kel ÖR par le TRAN",
+        "ro": "la che O-ruh PLE-a-kuh TRE-nul"
+      },
+      "notes": "Sostituire 'treno' con autobus, aereo ecc."
+    },
+
+    // ── SHOPPING ──────────────────────────────────────────────────────────────
+    {
+      "id": "p017",
+      "situation": "shopping",
+      "level": "A1",
+      "type": "domanda",
+      "translations": {
+        "it": "Quanto costa?",
+        "en": "How much does it cost?",
+        "cs": "Kolik to stojí?",
+        "es": "¿Cuánto cuesta?",
+        "fr": "Combien ça coûte ?",
+        "ro": "Cât costă?"
+      },
+      "pronunciation": {
+        "it": "KWAN-to KOS-ta",
+        "en": "hau MUCH duz it KOST",
+        "cs": "KO-lik to STO-yee",
+        "es": "KWAN-to KWES-ta",
+        "fr": "kom-BYAN sa KOOT",
+        "ro": "KUT KOS-tuh"
+      },
+      "notes": "Domanda basilare per acquisti"
+    },
+    {
+      "id": "p018",
+      "situation": "shopping",
+      "level": "A1",
+      "type": "richiesta",
+      "translations": {
+        "it": "Lo prendo.",
+        "en": "I'll take it.",
+        "cs": "Vezmu si to.",
+        "es": "Me lo llevo.",
+        "fr": "Je le prends.",
+        "ro": "Îl iau."
+      },
+      "pronunciation": {
+        "it": "lo PREN-do",
+        "en": "ail TAYK it",
+        "cs": "VEZ-mu si to",
+        "es": "me lo YE-vo",
+        "fr": "zhe le PRAN",
+        "ro": "ul YAU"
+      },
+      "notes": null
+    },
+    {
+      "id": "p019",
+      "situation": "shopping",
+      "level": "A2",
+      "type": "domanda",
+      "translations": {
+        "it": "Avete questo in taglia media?",
+        "en": "Do you have this in medium size?",
+        "cs": "Máte to ve střední velikosti?",
+        "es": "¿Tiene esto en talla mediana?",
+        "fr": "Vous avez ceci en taille moyenne ?",
+        "ro": "Aveți asta la mărimea medie?"
+      },
+      "pronunciation": {
+        "it": "a-VE-te KWES-to in TA-lya ME-dya",
+        "en": "du yuu hav this in MEE-dyum SAIZ",
+        "cs": "MAA-te to ve STRZHED-nyee ve-LI-kos-ti",
+        "es": "TYE-ne ES-to en TA-lya me-DYA-na",
+        "fr": "vu za-VEH se-SI an TAY mwa-YEN",
+        "ro": "a-VETS AS-ta la muh-RI-me-a ME-dye"
+      },
+      "notes": "Sostituire 'media' con piccola/grande"
+    },
+
+    // ── EMERGENZE ─────────────────────────────────────────────────────────────
+    {
+      "id": "p020",
+      "situation": "emergenze",
+      "level": "A1",
+      "type": "richiesta",
+      "translations": {
+        "it": "Aiuto!",
+        "en": "Help!",
+        "cs": "Pomoc!",
+        "es": "¡Socorro!",
+        "fr": "Au secours !",
+        "ro": "Ajutor!"
+      },
+      "pronunciation": {
+        "it": "a-YU-to",
+        "en": "HELP",
+        "cs": "PO-mots",
+        "es": "so-KO-ro",
+        "fr": "o se-KOOR",
+        "ro": "a-zhu-TOR"
+      },
+      "notes": "⚠️ Parola di emergenza fondamentale"
+    },
+    {
+      "id": "p021",
+      "situation": "emergenze",
+      "level": "A1",
+      "type": "richiesta",
+      "translations": {
+        "it": "Chiamate un medico!",
+        "en": "Call a doctor!",
+        "cs": "Zavolejte doktora!",
+        "es": "¡Llamen a un médico!",
+        "fr": "Appelez un médecin !",
+        "ro": "Chemați un doctor!"
+      },
+      "pronunciation": {
+        "it": "kya-MA-te un ME-di-ko",
+        "en": "KOL a DOK-tor",
+        "cs": "za-VO-ley-te DOK-to-ra",
+        "es": "YA-men a un ME-di-ko",
+        "fr": "ap-LAY an med-SAN",
+        "ro": "ke-MATS un DOK-tor"
+      },
+      "notes": "⚠️ Emergenza medica"
+    },
+    {
+      "id": "p022",
+      "situation": "emergenze",
+      "level": "A1",
+      "type": "affermazione",
+      "translations": {
+        "it": "Ho perso il passaporto.",
+        "en": "I lost my passport.",
+        "cs": "Ztratil jsem pas.",
+        "es": "He perdido mi pasaporte.",
+        "fr": "J'ai perdu mon passeport.",
+        "ro": "Mi-am pierdut pașaportul."
+      },
+      "pronunciation": {
+        "it": "o PER-so il pas-sa-POR-to",
+        "en": "ai LOST mai PAAS-port",
+        "cs": "STRA-tyil ysem PAAS",
+        "es": "e per-DI-do mi pa-sa-POR-te",
+        "fr": "zheh per-DY mon paas-POR",
+        "ro": "mi-am PYER-dut pa-sha-POR-tul"
+      },
+      "notes": "Da usare alla polizia o ambasciata"
+    },
+
+    // ── LAVORO ────────────────────────────────────────────────────────────────
+    {
+      "id": "p023",
+      "situation": "lavoro",
+      "level": "A2",
+      "type": "domanda",
+      "translations": {
+        "it": "Di cosa si occupa?",
+        "en": "What do you do for work?",
+        "cs": "Čím se zabýváte?",
+        "es": "¿A qué se dedica?",
+        "fr": "Qu'est-ce que vous faites dans la vie ?",
+        "ro": "Cu ce vă ocupați?"
+      },
+      "pronunciation": {
+        "it": "di KO-za si ok-KU-pa",
+        "en": "wot du yuu DUU for WURK",
+        "cs": "CHEM se za-BEE-vaa-te",
+        "es": "a ke se de-DI-ka",
+        "fr": "kes-ke vu FET dan la VEE",
+        "ro": "ku che vuh o-ku-PATS"
+      },
+      "notes": "Forma formale"
+    },
+    {
+      "id": "p024",
+      "situation": "lavoro",
+      "level": "A2",
+      "type": "affermazione",
+      "translations": {
+        "it": "Lavoro come ingegnere.",
+        "en": "I work as an engineer.",
+        "cs": "Pracuji jako inženýr.",
+        "es": "Trabajo como ingeniero.",
+        "fr": "Je travaille comme ingénieur.",
+        "ro": "Lucrez ca inginer."
+      },
+      "pronunciation": {
+        "it": "la-VO-ro KO-me in-dze-NYE-re",
+        "en": "ai WURK az an en-dzi-NEER",
+        "cs": "PRA-tsu-yi YA-ko in-zhe-NEER",
+        "es": "tra-BA-kho KO-mo in-khe-NYE-ro",
+        "fr": "zhe tra-VAY kom an-zheh-NYÖR",
+        "ro": "LU-krez ka in-zhi-NER"
+      },
+      "notes": "Sostituire 'ingegnere' con la propria professione"
+    },
+
+    // ── FAMIGLIA ──────────────────────────────────────────────────────────────
+    {
+      "id": "p025",
+      "situation": "famiglia",
+      "level": "A1",
+      "type": "affermazione",
+      "translations": {
+        "it": "Ho due fratelli.",
+        "en": "I have two brothers.",
+        "cs": "Mám dva bratry.",
+        "es": "Tengo dos hermanos.",
+        "fr": "J'ai deux frères.",
+        "ro": "Am doi frați."
+      },
+      "pronunciation": {
+        "it": "o DUE fra-TEL-li",
+        "en": "ai hav TUU BRU-therz",
+        "cs": "maam DVA BRA-tri",
+        "es": "TEN-go dos er-MA-nos",
+        "fr": "zheh dø FREHR",
+        "ro": "am DOI FRATS"
+      },
+      "notes": "Sostituire 'fratelli' con altri membri"
+    },
+    {
+      "id": "p026",
+      "situation": "famiglia",
+      "level": "A1",
+      "type": "affermazione",
+      "translations": {
+        "it": "Sono sposato.",
+        "en": "I am married.",
+        "cs": "Jsem ženatý.",
+        "es": "Estoy casado.",
+        "fr": "Je suis marié.",
+        "ro": "Sunt căsătorit."
+      },
+      "pronunciation": {
+        "it": "SO-no spo-ZA-to",
+        "en": "ai am MA-reed",
+        "cs": "ysem ZHE-na-tee",
+        "es": "es-TOY ka-SA-do",
+        "fr": "zhe swi ma-RYEH",
+        "ro": "sunt kuh-suh-to-RIT"
+      },
+      "notes": "Forma maschile. Femminile: sposata/married/vdaná/casada/mariée/căsătorită"
+    },
+
+    // ── LIVELLO A2 / B1 EXTRA ─────────────────────────────────────────────────
+    {
+      "id": "p027",
+      "situation": "saluti",
+      "level": "A2",
+      "type": "espressione",
+      "translations": {
+        "it": "È un piacere conoscerti.",
+        "en": "Nice to meet you.",
+        "cs": "Těší mě.",
+        "es": "Encantado de conocerte.",
+        "fr": "Enchanté de te rencontrer.",
+        "ro": "Îmi pare bine să te cunosc."
+      },
+      "pronunciation": {
+        "it": "eh un PYA-che-re ko-NO-sher-ti",
+        "en": "nais tu MEET yuu",
+        "cs": "TYE-shee mye",
+        "es": "en-kan-TA-do de ko-no-SER-te",
+        "fr": "an-shan-TEH de te ron-kon-TREH",
+        "ro": "eem PA-re BI-ne suh te ku-NOSK"
+      },
+      "notes": "Usato al primo incontro"
+    },
+    {
+      "id": "p028",
+      "situation": "viaggio",
+      "level": "B1",
+      "type": "domanda",
+      "translations": {
+        "it": "Potrebbe ripetere più lentamente?",
+        "en": "Could you repeat that more slowly?",
+        "cs": "Mohl byste to zopakovat pomaleji?",
+        "es": "¿Podría repetirlo más despacio?",
+        "fr": "Pourriez-vous répéter plus lentement ?",
+        "ro": "Ați putea repeta mai rar?"
+      },
+      "pronunciation": {
+        "it": "po-TREB-be ri-PE-te-re pyu len-ta-MEN-te",
+        "en": "kud yuu ri-PEET that mor SLOH-lee",
+        "cs": "MOL BIS-te to zo-PA-ko-vat po-MA-le-yi",
+        "es": "po-DRI-a re-pe-TIR-lo mas des-PA-syo",
+        "fr": "pu-ryeh-VU reh-peh-TEH ply lant-MAAN",
+        "ro": "ats pu-TE-a re-pe-TA mai RAR"
+      },
+      "notes": "Fondamentale quando non si capisce"
+    },
+    {
+      "id": "p029",
+      "situation": "lavoro",
+      "level": "B1",
+      "type": "affermazione",
+      "translations": {
+        "it": "Sono qui per una riunione.",
+        "en": "I am here for a meeting.",
+        "cs": "Jsem zde na schůzi.",
+        "es": "Estoy aquí para una reunión.",
+        "fr": "Je suis ici pour une réunion.",
+        "ro": "Sunt aici pentru o ședință."
+      },
+      "pronunciation": {
+        "it": "SO-no kwi PER una riu-NYO-ne",
+        "en": "ai am HEER for a MEE-ting",
+        "cs": "ysem ZDE na SKHOO-zi",
+        "es": "es-TOY a-KI PA-ra una reu-NYON",
+        "fr": "zhe swi i-SEE pur yn reh-u-NYON",
+        "ro": "sunt a-ICI PEN-tru o she-DINTS-uh"
+      },
+      "notes": "Utile in contesti professionali"
+    },
+    {
+      "id": "p030",
+      "situation": "ristorante",
+      "level": "B1",
+      "type": "richiesta",
+      "translations": {
+        "it": "Sono allergico alle noci.",
+        "en": "I am allergic to nuts.",
+        "cs": "Jsem alergický na ořechy.",
+        "es": "Soy alérgico a los frutos secos.",
+        "fr": "Je suis allergique aux noix.",
+        "ro": "Sunt alergic la nuci."
+      },
+      "pronunciation": {
+        "it": "SO-no al-LER-ji-ko AL-le NO-chi",
+        "en": "ai am a-LER-jik tu NUTS",
+        "cs": "ysem a-ler-GIK-ee na OR-zhe-khi",
+        "es": "soy a-LER-khi-ko a los FRU-tos SE-kos",
+        "fr": "zhe swi a-ler-ZHEEK o NWAA",
+        "ro": "sunt a-LER-zhik la NUCH"
+      },
+      "notes": "⚠️ Importante per chi ha allergie alimentari"
+    }
+  ]
+}

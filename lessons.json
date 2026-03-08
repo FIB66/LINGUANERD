@@ -1,0 +1,671 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "LinguaNerd - Database lezioni",
+    "languages": ["it", "en", "cs", "es", "fr", "ro"],
+    "levels": ["A1", "A2", "B1", "B2"],
+    "last_updated": "2026-03-08",
+    "total_lessons": 10
+  },
+  "lessons": [
+
+    {
+      "id": "l001",
+      "order": 1,
+      "level": "A1",
+      "title": {
+        "it": "Primi passi: salutarsi",
+        "en": "First steps: greetings",
+        "cs": "První kroky: pozdravy",
+        "es": "Primeros pasos: saludos",
+        "fr": "Premiers pas : se saluer",
+        "ro": "Primii pași: salutări"
+      },
+      "description": {
+        "it": "Impara a salutare, presentarti e chiudere una conversazione in modo naturale.",
+        "en": "Learn to greet, introduce yourself and close a conversation naturally.",
+        "cs": "Nauč se pozdravit, představit se a přirozeně ukončit rozhovor.",
+        "es": "Aprende a saludar, presentarte y cerrar una conversación de forma natural.",
+        "fr": "Apprends à saluer, te présenter et clore une conversation naturellement.",
+        "ro": "Învață să saluți, să te prezinți și să închei o conversație în mod natural."
+      },
+      "objectives": {
+        "it": [
+          "Usare i saluti di base (buongiorno, buonasera, ciao)",
+          "Presentarsi con nome e nazionalità",
+          "Rispondere a 'Come stai?'",
+          "Congedarsi correttamente"
+        ],
+        "en": [
+          "Use basic greetings (hello, good morning, good evening)",
+          "Introduce yourself with name and nationality",
+          "Reply to 'How are you?'",
+          "Say goodbye appropriately"
+        ],
+        "cs": [
+          "Používat základní pozdravy",
+          "Představit se jménem a národností",
+          "Odpovědět na 'Jak se máš?'",
+          "Správně se rozloučit"
+        ],
+        "es": [
+          "Usar saludos básicos",
+          "Presentarse con nombre y nacionalidad",
+          "Responder a '¿Cómo estás?'",
+          "Despedirse correctamente"
+        ],
+        "fr": [
+          "Utiliser les salutations de base",
+          "Se présenter avec le nom et la nationalité",
+          "Répondre à 'Comment tu vas ?'",
+          "Prendre congé correctement"
+        ],
+        "ro": [
+          "Folosi saluturile de bază",
+          "Prezenta cu nume și naționalitate",
+          "Răspunde la 'Ce mai faci?'",
+          "Lua rămas bun corect"
+        ]
+      },
+      "duration_minutes": 15,
+      "linked_words": [],
+      "linked_phrases": ["p001", "p002", "p003", "p004", "p005", "p006", "p027"],
+      "linked_grammar": ["g002"],
+      "unlocks_lesson": "l002"
+    },
+
+    {
+      "id": "l002",
+      "order": 2,
+      "level": "A1",
+      "title": {
+        "it": "Presentarsi e parlare di sé",
+        "en": "Introducing yourself",
+        "cs": "Představování se",
+        "es": "Presentarse",
+        "fr": "Se présenter",
+        "ro": "Prezentarea personală"
+      },
+      "description": {
+        "it": "Parla di te: chi sei, da dove vieni, quanti anni hai e cosa fai.",
+        "en": "Talk about yourself: who you are, where you come from, your age and what you do.",
+        "cs": "Řekni o sobě: kdo jsi, odkud jsi, kolik ti je let a co děláš.",
+        "es": "Habla de ti: quién eres, de dónde vienes, tu edad y qué haces.",
+        "fr": "Parle de toi: qui tu es, d'où tu viens, ton âge et ce que tu fais.",
+        "ro": "Vorbește despre tine: cine ești, de unde ești, vârsta ta și ce faci."
+      },
+      "objectives": {
+        "it": [
+          "Dire il proprio nome",
+          "Indicare nazionalità e provenienza",
+          "Dire la propria età",
+          "Descrivere la propria professione"
+        ],
+        "en": [
+          "Say your name",
+          "State nationality and origin",
+          "Tell your age",
+          "Describe your profession"
+        ],
+        "cs": [
+          "Říci své jméno",
+          "Uvést národnost a původ",
+          "Říci svůj věk",
+          "Popsat své povolání"
+        ],
+        "es": [
+          "Decir tu nombre",
+          "Indicar nacionalidad y procedencia",
+          "Decir tu edad",
+          "Describir tu profesión"
+        ],
+        "fr": [
+          "Dire ton prénom",
+          "Indiquer la nationalité et l'origine",
+          "Dire ton âge",
+          "Décrire ta profession"
+        ],
+        "ro": [
+          "Spune-ți numele",
+          "Indica naționalitatea și originea",
+          "Spune-ți vârsta",
+          "Descrie-ți profesia"
+        ]
+      },
+      "duration_minutes": 20,
+      "linked_words": [],
+      "linked_phrases": ["p006", "p007", "p008", "p009", "p023", "p024"],
+      "linked_grammar": ["g002", "g004"],
+      "requires_lesson": "l001",
+      "unlocks_lesson": "l003"
+    },
+
+    {
+      "id": "l003",
+      "order": 3,
+      "level": "A1",
+      "title": {
+        "it": "I numeri e le quantità",
+        "en": "Numbers and quantities",
+        "cs": "Čísla a množství",
+        "es": "Los números y las cantidades",
+        "fr": "Les chiffres et les quantités",
+        "ro": "Numerele și cantitățile"
+      },
+      "description": {
+        "it": "Impara i numeri da 1 a 100 e come usarli nella vita quotidiana.",
+        "en": "Learn numbers from 1 to 100 and how to use them in everyday life.",
+        "cs": "Nauč se čísla od 1 do 100 a jak je použít v každodenním životě.",
+        "es": "Aprende los números del 1 al 100 y cómo usarlos en la vida cotidiana.",
+        "fr": "Apprends les chiffres de 1 à 100 et comment les utiliser au quotidien.",
+        "ro": "Învață numerele de la 1 la 100 și cum să le folosești în viața de zi cu zi."
+      },
+      "objectives": {
+        "it": [
+          "Contare da 1 a 100",
+          "Usare i numeri per l'età",
+          "Chiedere e dire i prezzi",
+          "Dire ore e date"
+        ],
+        "en": [
+          "Count from 1 to 100",
+          "Use numbers for age",
+          "Ask and say prices",
+          "Tell the time and date"
+        ],
+        "cs": [
+          "Počítat od 1 do 100",
+          "Používat čísla pro věk",
+          "Ptát se na ceny a odpovídat",
+          "Říci čas a datum"
+        ],
+        "es": [
+          "Contar del 1 al 100",
+          "Usar números para la edad",
+          "Preguntar y decir precios",
+          "Decir la hora y la fecha"
+        ],
+        "fr": [
+          "Compter de 1 à 100",
+          "Utiliser les chiffres pour l'âge",
+          "Demander et donner des prix",
+          "Dire l'heure et la date"
+        ],
+        "ro": [
+          "Numără de la 1 la 100",
+          "Folosește numerele pentru vârstă",
+          "Întreabă și spune prețurile",
+          "Spune ora și data"
+        ]
+      },
+      "duration_minutes": 25,
+      "linked_words": ["w018", "w019", "w020", "w021"],
+      "linked_phrases": ["p017"],
+      "linked_grammar": [],
+      "requires_lesson": "l002",
+      "unlocks_lesson": "l004"
+    },
+
+    {
+      "id": "l004",
+      "order": 4,
+      "level": "A1",
+      "title": {
+        "it": "Cibo e bevande",
+        "en": "Food and drinks",
+        "cs": "Jídlo a pití",
+        "es": "Comida y bebidas",
+        "fr": "Nourriture et boissons",
+        "ro": "Mâncare și băuturi"
+      },
+      "description": {
+        "it": "Parla di cibo, ordina al bar e al ristorante, esprimi preferenze alimentari.",
+        "en": "Talk about food, order at a café or restaurant, express food preferences.",
+        "cs": "Mluv o jídle, objednávej v kavárně a restauraci, vyjádři své preference.",
+        "es": "Habla de comida, pide en una cafetería y restaurante, expresa preferencias.",
+        "fr": "Parle de nourriture, commande au café et au restaurant, exprime tes préférences.",
+        "ro": "Vorbește despre mâncare, comandă la cafenea și restaurant, exprimă preferințe."
+      },
+      "objectives": {
+        "it": [
+          "Nominare alimenti e bevande comuni",
+          "Ordinare al bar e al ristorante",
+          "Chiedere il conto",
+          "Esprimere allergie e preferenze"
+        ],
+        "en": [
+          "Name common foods and drinks",
+          "Order at a café and restaurant",
+          "Ask for the bill",
+          "Express allergies and preferences"
+        ],
+        "cs": [
+          "Pojmenovat běžné potraviny a nápoje",
+          "Objednat v kavárně a restauraci",
+          "Požádat o účet",
+          "Vyjádřit alergie a preference"
+        ],
+        "es": [
+          "Nombrar alimentos y bebidas comunes",
+          "Pedir en cafetería y restaurante",
+          "Pedir la cuenta",
+          "Expresar alergias y preferencias"
+        ],
+        "fr": [
+          "Nommer les aliments et boissons courants",
+          "Commander au café et au restaurant",
+          "Demander l'addition",
+          "Exprimer les allergies et préférences"
+        ],
+        "ro": [
+          "Numi alimente și băuturi comune",
+          "Comanda la cafenea și restaurant",
+          "Cere nota de plată",
+          "Exprima alergii și preferințe"
+        ]
+      },
+      "duration_minutes": 25,
+      "linked_words": ["w009", "w010", "w011", "w012", "w013"],
+      "linked_phrases": ["p010", "p011", "p012", "p013", "p030"],
+      "linked_grammar": ["g003"],
+      "requires_lesson": "l003",
+      "unlocks_lesson": "l005"
+    },
+
+    {
+      "id": "l005",
+      "order": 5,
+      "level": "A1",
+      "title": {
+        "it": "Colori e descrizioni",
+        "en": "Colors and descriptions",
+        "cs": "Barvy a popisy",
+        "es": "Colores y descripciones",
+        "fr": "Couleurs et descriptions",
+        "ro": "Culori și descrieri"
+      },
+      "description": {
+        "it": "Descrivi oggetti, persone e luoghi usando colori e aggettivi base.",
+        "en": "Describe objects, people and places using colors and basic adjectives.",
+        "cs": "Popisuj předměty, lidi a místa pomocí barev a základních přídavných jmen.",
+        "es": "Describe objetos, personas y lugares usando colores y adjetivos básicos.",
+        "fr": "Décris des objets, des personnes et des lieux avec des couleurs et des adjectifs de base.",
+        "ro": "Descrie obiecte, persoane și locuri folosind culori și adjective de bază."
+      },
+      "objectives": {
+        "it": [
+          "Nominare i colori principali",
+          "Descrivere oggetti con colori",
+          "Usare aggettivi di dimensione e qualità",
+          "Accordare aggettivi con i sostantivi"
+        ],
+        "en": [
+          "Name the main colors",
+          "Describe objects with colors",
+          "Use adjectives of size and quality",
+          "Understand that English adjectives don't change"
+        ],
+        "cs": [
+          "Pojmenovat základní barvy",
+          "Popisovat předměty barvami",
+          "Používat přídavná jména velikosti a kvality",
+          "Skloňovat přídavná jména správně"
+        ],
+        "es": [
+          "Nombrar los colores principales",
+          "Describir objetos con colores",
+          "Usar adjetivos de tamaño y calidad",
+          "Concordar adjetivos con sustantivos"
+        ],
+        "fr": [
+          "Nommer les couleurs principales",
+          "Décrire des objets avec des couleurs",
+          "Utiliser des adjectifs de taille et de qualité",
+          "Accorder les adjectifs"
+        ],
+        "ro": [
+          "Numi culorile principale",
+          "Descrie obiecte cu culori",
+          "Folosi adjective de dimensiune și calitate",
+          "Acorda adjectivele cu substantivele"
+        ]
+      },
+      "duration_minutes": 20,
+      "linked_words": ["w022", "w023", "w024", "w025"],
+      "linked_phrases": [],
+      "linked_grammar": ["g005", "g006"],
+      "requires_lesson": "l004",
+      "unlocks_lesson": "l006"
+    },
+
+    {
+      "id": "l006",
+      "order": 6,
+      "level": "A1",
+      "title": {
+        "it": "Verbi quotidiani",
+        "en": "Everyday verbs",
+        "cs": "Každodenní slovesa",
+        "es": "Verbos cotidianos",
+        "fr": "Verbes du quotidien",
+        "ro": "Verbe cotidiene"
+      },
+      "description": {
+        "it": "I verbi più usati nella vita di tutti i giorni: mangiare, dormire, lavorare, studiare.",
+        "en": "The most used verbs in everyday life: to eat, to sleep, to work, to study.",
+        "cs": "Nejpoužívanější slovesa v každodenním životě.",
+        "es": "Los verbos más usados en la vida diaria.",
+        "fr": "Les verbes les plus utilisés dans la vie quotidienne.",
+        "ro": "Verbele cele mai folosite în viața de zi cu zi."
+      },
+      "objectives": {
+        "it": [
+          "Coniugare i verbi regolari al presente",
+          "Usare i verbi quotidiani in frasi semplici",
+          "Formare domande e risposte con i verbi",
+          "Descrivere la propria routine"
+        ],
+        "en": [
+          "Conjugate regular verbs in the present",
+          "Use everyday verbs in simple sentences",
+          "Form questions and answers with verbs",
+          "Describe your daily routine"
+        ],
+        "cs": [
+          "Časovat pravidelná slovesa v přítomném čase",
+          "Používat každodenní slovesa v jednoduchých větách",
+          "Tvořit otázky a odpovědi se slovesy",
+          "Popsat svůj denní režim"
+        ],
+        "es": [
+          "Conjugar verbos regulares en presente",
+          "Usar verbos cotidianos en frases simples",
+          "Formar preguntas y respuestas con verbos",
+          "Describir tu rutina diaria"
+        ],
+        "fr": [
+          "Conjuguer des verbes réguliers au présent",
+          "Utiliser les verbes du quotidien en phrases simples",
+          "Former des questions et réponses avec des verbes",
+          "Décrire ta routine quotidienne"
+        ],
+        "ro": [
+          "Conjuga verbe regulate la prezent",
+          "Folosi verbele cotidiene în propoziții simple",
+          "Forma întrebări și răspunsuri cu verbe",
+          "Descrie rutina zilnică"
+        ]
+      },
+      "duration_minutes": 30,
+      "linked_words": ["w001", "w002", "w003", "w004", "w005", "w006", "w007", "w008"],
+      "linked_phrases": [],
+      "linked_grammar": ["g003", "g004", "g008"],
+      "requires_lesson": "l005",
+      "unlocks_lesson": "l007"
+    },
+
+    {
+      "id": "l007",
+      "order": 7,
+      "level": "A1",
+      "title": {
+        "it": "Orientarsi in città",
+        "en": "Getting around the city",
+        "cs": "Orientace ve městě",
+        "es": "Orientarse en la ciudad",
+        "fr": "Se repérer en ville",
+        "ro": "Orientarea în oraș"
+      },
+      "description": {
+        "it": "Chiedi indicazioni, trova luoghi, usa i mezzi di trasporto e parla di luoghi.",
+        "en": "Ask for directions, find places, use public transport and talk about locations.",
+        "cs": "Ptej se na cestu, najdi místa, cestuj MHD a mluv o místech.",
+        "es": "Pide indicaciones, encuentra lugares, usa el transporte público.",
+        "fr": "Demande ton chemin, trouve des lieux, utilise les transports en commun.",
+        "ro": "Cere indicații de direcție, găsește locuri, folosește transportul public."
+      },
+      "objectives": {
+        "it": [
+          "Chiedere e dare indicazioni stradali",
+          "Nominare mezzi di trasporto",
+          "Comprare biglietti",
+          "Usare preposizioni di luogo"
+        ],
+        "en": [
+          "Ask and give street directions",
+          "Name means of transport",
+          "Buy tickets",
+          "Use prepositions of place"
+        ],
+        "cs": [
+          "Ptát se na cestu a popisovat ji",
+          "Pojmenovat dopravní prostředky",
+          "Kupovat jízdenky",
+          "Používat předložky místa"
+        ],
+        "es": [
+          "Pedir y dar indicaciones",
+          "Nombrar medios de transporte",
+          "Comprar billetes",
+          "Usar preposiciones de lugar"
+        ],
+        "fr": [
+          "Demander et donner des directions",
+          "Nommer les moyens de transport",
+          "Acheter des billets",
+          "Utiliser les prépositions de lieu"
+        ],
+        "ro": [
+          "Cere și da indicații de direcție",
+          "Numi mijloace de transport",
+          "Cumpăra bilete",
+          "Folosi prepozițiile de loc"
+        ]
+      },
+      "duration_minutes": 30,
+      "linked_words": ["w014", "w015", "w016", "w017"],
+      "linked_phrases": ["p014", "p015", "p016"],
+      "linked_grammar": ["g007", "g009"],
+      "requires_lesson": "l006",
+      "unlocks_lesson": "l008"
+    },
+
+    {
+      "id": "l008",
+      "order": 8,
+      "level": "A2",
+      "title": {
+        "it": "Shopping e acquisti",
+        "en": "Shopping",
+        "cs": "Nakupování",
+        "es": "Las compras",
+        "fr": "Les achats",
+        "ro": "Cumpărăturile"
+      },
+      "description": {
+        "it": "Fai acquisti, chiedi prezzi, taglie e disponibilità, paga e ricevi il resto.",
+        "en": "Go shopping, ask about prices, sizes and availability, pay and get change.",
+        "cs": "Nakupuj, ptej se na ceny, velikosti a dostupnost, plať a dostávej zpět.",
+        "es": "Ve de compras, pregunta por precios, tallas y disponibilidad, paga y recibe cambio.",
+        "fr": "Fais des courses, demande les prix, tailles et disponibilités, paie et reçois la monnaie.",
+        "ro": "Fă cumpărături, întreabă despre prețuri, mărimi și disponibilitate, plătește."
+      },
+      "objectives": {
+        "it": [
+          "Chiedere il prezzo di un articolo",
+          "Chiedere taglie e disponibilità",
+          "Completare una transazione",
+          "Usare i numeri per prezzi e quantità"
+        ],
+        "en": [
+          "Ask the price of an item",
+          "Ask about sizes and availability",
+          "Complete a transaction",
+          "Use numbers for prices and quantities"
+        ],
+        "cs": [
+          "Zeptat se na cenu zboží",
+          "Ptát se na velikosti a dostupnost",
+          "Dokončit nákup",
+          "Používat čísla pro ceny a množství"
+        ],
+        "es": [
+          "Preguntar el precio de un artículo",
+          "Preguntar por tallas y disponibilidad",
+          "Completar una transacción",
+          "Usar números para precios y cantidades"
+        ],
+        "fr": [
+          "Demander le prix d'un article",
+          "Demander les tailles et la disponibilité",
+          "Finaliser un achat",
+          "Utiliser les chiffres pour les prix et quantités"
+        ],
+        "ro": [
+          "Întreba prețul unui articol",
+          "Întreba despre mărimi și disponibilitate",
+          "Finaliza o tranzacție",
+          "Folosi numerele pentru prețuri și cantități"
+        ]
+      },
+      "duration_minutes": 25,
+      "linked_words": [],
+      "linked_phrases": ["p017", "p018", "p019"],
+      "linked_grammar": ["g007", "g011"],
+      "requires_lesson": "l007",
+      "unlocks_lesson": "l009"
+    },
+
+    {
+      "id": "l009",
+      "order": 9,
+      "level": "A2",
+      "title": {
+        "it": "Raccontare il passato",
+        "en": "Talking about the past",
+        "cs": "Vyprávění o minulosti",
+        "es": "Hablar del pasado",
+        "fr": "Parler du passé",
+        "ro": "Vorbind despre trecut"
+      },
+      "description": {
+        "it": "Racconta cosa hai fatto, dove sei stato e cosa è successo ieri o la settimana scorsa.",
+        "en": "Tell what you did, where you were and what happened yesterday or last week.",
+        "cs": "Vyprávěj, co jsi dělal, kde jsi byl a co se stalo včera nebo minulý týden.",
+        "es": "Cuenta qué hiciste, dónde estuviste y qué pasó ayer o la semana pasada.",
+        "fr": "Raconte ce que tu as fait, où tu étais et ce qui s'est passé hier ou la semaine dernière.",
+        "ro": "Povestește ce ai făcut, unde ai fost și ce s-a întâmplat ieri sau săptămâna trecută."
+      },
+      "objectives": {
+        "it": [
+          "Formare il passato prossimo",
+          "Scegliere tra avere ed essere come ausiliare",
+          "Raccontare eventi passati in sequenza",
+          "Usare espressioni temporali (ieri, la settimana scorsa)"
+        ],
+        "en": [
+          "Form the simple past tense",
+          "Use irregular past forms of common verbs",
+          "Narrate past events in sequence",
+          "Use time expressions (yesterday, last week)"
+        ],
+        "cs": [
+          "Tvořit minulý čas",
+          "Používat nepravidelné tvary minulého času",
+          "Vyprávět minulé události v posloupnosti",
+          "Používat časové výrazy (včera, minulý týden)"
+        ],
+        "es": [
+          "Formar el pretérito indefinido",
+          "Usar formas irregulares de verbos comunes",
+          "Narrar eventos pasados en secuencia",
+          "Usar expresiones temporales (ayer, la semana pasada)"
+        ],
+        "fr": [
+          "Former le passé composé",
+          "Choisir entre avoir et être comme auxiliaire",
+          "Raconter des événements passés en séquence",
+          "Utiliser des expressions temporelles (hier, la semaine dernière)"
+        ],
+        "ro": [
+          "Forma perfectul compus",
+          "Alege între a avea și a fi ca auxiliar",
+          "Povesti evenimente trecute în secvență",
+          "Folosi expresii temporale (ieri, săptămâna trecută)"
+        ]
+      },
+      "duration_minutes": 35,
+      "linked_words": ["w001", "w002", "w003", "w004"],
+      "linked_phrases": [],
+      "linked_grammar": ["g010"],
+      "requires_lesson": "l008",
+      "unlocks_lesson": "l010"
+    },
+
+    {
+      "id": "l010",
+      "order": 10,
+      "level": "A2",
+      "title": {
+        "it": "Parlare del futuro",
+        "en": "Talking about the future",
+        "cs": "Mluvení o budoucnosti",
+        "es": "Hablar del futuro",
+        "fr": "Parler du futur",
+        "ro": "Vorbind despre viitor"
+      },
+      "description": {
+        "it": "Esprimi piani, intenzioni e previsioni. Parla di quello che farai domani o il mese prossimo.",
+        "en": "Express plans, intentions and predictions. Talk about what you will do tomorrow or next month.",
+        "cs": "Vyjadřuj plány, záměry a předpovědi. Mluv o tom, co budeš dělat zítra nebo příští měsíc.",
+        "es": "Expresa planes, intenciones y predicciones. Habla de lo que harás mañana o el próximo mes.",
+        "fr": "Exprime des projets, des intentions et des prédictions. Parle de ce que tu feras demain ou le mois prochain.",
+        "ro": "Exprimă planuri, intenții și previziuni. Vorbește despre ce vei face mâine sau luna viitoare."
+      },
+      "objectives": {
+        "it": [
+          "Formare il futuro semplice",
+          "Usare 'andare + infinito' per piani immediati",
+          "Esprimere intenzioni e previsioni",
+          "Usare espressioni temporali future"
+        ],
+        "en": [
+          "Form the future simple (will + infinitive)",
+          "Use 'going to' for immediate plans",
+          "Express intentions and predictions",
+          "Use future time expressions"
+        ],
+        "cs": [
+          "Tvořit budoucí čas",
+          "Používat 'budu + infinitiv' pro bezprostřední plány",
+          "Vyjadřovat záměry a předpovědi",
+          "Používat budoucí časové výrazy"
+        ],
+        "es": [
+          "Formar el futuro simple",
+          "Usar 'ir a + infinitivo' para planes inmediatos",
+          "Expresar intenciones y predicciones",
+          "Usar expresiones temporales de futuro"
+        ],
+        "fr": [
+          "Former le futur simple",
+          "Utiliser 'aller + infinitif' pour les projets immédiats",
+          "Exprimer des intentions et des prédictions",
+          "Utiliser des expressions temporelles futures"
+        ],
+        "ro": [
+          "Forma viitorul simplu",
+          "Folosi 'o să + conjunctiv' pentru planuri imediate",
+          "Exprima intenții și previziuni",
+          "Folosi expresii temporale de viitor"
+        ]
+      },
+      "duration_minutes": 30,
+      "linked_words": ["w003", "w007"],
+      "linked_phrases": [],
+      "linked_grammar": ["g012"],
+      "requires_lesson": "l009",
+      "unlocks_lesson": null
+    }
+  ]
+}

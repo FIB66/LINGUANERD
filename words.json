@@ -1,0 +1,537 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "LinguaNerd - Database parole",
+    "languages": ["it", "en", "cs", "es", "fr", "ro"],
+    "categories": ["verbi", "cibo", "viaggi", "numeri", "colori"],
+    "last_updated": "2026-03-08",
+    "total_words": 24
+  },
+  "words": [
+    {
+      "id": "w001",
+      "cat": "verbi",
+      "level": "A1",
+      "translations": {
+        "it": "studiare",
+        "en": "to study",
+        "cs": "studovat",
+        "es": "estudiar",
+        "fr": "etudier",
+        "ro": "a studia"
+      },
+      "examples": {
+        "it": "Anna studia economia.",
+        "en": "Anna studies economics.",
+        "cs": "Anna studuje ekonomii.",
+        "es": "Anna estudia economia.",
+        "fr": "Anna etudie l'economie.",
+        "ro": "Anna studiaza economia."
+      }
+    },
+    {
+      "id": "w002",
+      "cat": "verbi",
+      "level": "A1",
+      "translations": {
+        "it": "lavorare",
+        "en": "to work",
+        "cs": "pracovat",
+        "es": "trabajar",
+        "fr": "travailler",
+        "ro": "a lucra"
+      },
+      "examples": {
+        "it": "Lavoro ogni giorno.",
+        "en": "I work every day.",
+        "cs": "Kazdy den pracuji.",
+        "es": "Trabajo cada dia.",
+        "fr": "Je travaille chaque jour.",
+        "ro": "Lucrez in fiecare zi."
+      }
+    },
+    {
+      "id": "w003",
+      "cat": "verbi",
+      "level": "A1",
+      "translations": {
+        "it": "viaggiare",
+        "en": "to travel",
+        "cs": "cestovat",
+        "es": "viajar",
+        "fr": "voyager",
+        "ro": "a calatori"
+      },
+      "examples": {
+        "it": "Adoro viaggiare.",
+        "en": "I love to travel.",
+        "cs": "Rada cestuji.",
+        "es": "Me encanta viajar.",
+        "fr": "J'adore voyager.",
+        "ro": "Imi place sa calatoresc."
+      }
+    },
+    {
+      "id": "w004",
+      "cat": "verbi",
+      "level": "A1",
+      "translations": {
+        "it": "mangiare",
+        "en": "to eat",
+        "cs": "jist",
+        "es": "comer",
+        "fr": "manger",
+        "ro": "a manca"
+      },
+      "examples": {
+        "it": "Mangiamo insieme.",
+        "en": "We eat together.",
+        "cs": "Jime spolecne.",
+        "es": "Comemos juntos.",
+        "fr": "Nous mangeons ensemble.",
+        "ro": "Mancam impreuna."
+      }
+    },
+    {
+      "id": "w005",
+      "cat": "verbi",
+      "level": "A1",
+      "translations": {
+        "it": "dormire",
+        "en": "to sleep",
+        "cs": "spat",
+        "es": "dormir",
+        "fr": "dormir",
+        "ro": "a dormi"
+      },
+      "examples": {
+        "it": "Dormo otto ore.",
+        "en": "I sleep eight hours.",
+        "cs": "Spim osm hodin.",
+        "es": "Duermo ocho horas.",
+        "fr": "Je dors huit heures.",
+        "ro": "Dorm opt ore."
+      }
+    },
+    {
+      "id": "w006",
+      "cat": "verbi",
+      "level": "A1",
+      "translations": {
+        "it": "leggere",
+        "en": "to read",
+        "cs": "cist",
+        "es": "leer",
+        "fr": "lire",
+        "ro": "a citi"
+      },
+      "examples": {
+        "it": "Mi piace leggere libri.",
+        "en": "I like reading books.",
+        "cs": "Rad ctu knihy.",
+        "es": "Me gusta leer libros.",
+        "fr": "J'aime lire des livres.",
+        "ro": "Imi place sa citesc carti."
+      }
+    },
+    {
+      "id": "w007",
+      "cat": "verbi",
+      "level": "A1",
+      "translations": {
+        "it": "parlare",
+        "en": "to speak",
+        "cs": "mluvit",
+        "es": "hablar",
+        "fr": "parler",
+        "ro": "a vorbi"
+      },
+      "examples": {
+        "it": "Parlo italiano.",
+        "en": "I speak Czech.",
+        "cs": "Mluvim cesky.",
+        "es": "Hablo espanol.",
+        "fr": "Je parle francais.",
+        "ro": "Vorbesc romaneste."
+      }
+    },
+    {
+      "id": "w008",
+      "cat": "verbi",
+      "level": "A1",
+      "translations": {
+        "it": "scrivere",
+        "en": "to write",
+        "cs": "psat",
+        "es": "escribir",
+        "fr": "ecrire",
+        "ro": "a scrie"
+      },
+      "examples": {
+        "it": "Scrivo una lettera.",
+        "en": "I write a letter.",
+        "cs": "Pisu dopis.",
+        "es": "Escribo una carta.",
+        "fr": "J'ecris une lettre.",
+        "ro": "Scriu o scrisoare."
+      }
+    },
+    {
+      "id": "w009",
+      "cat": "cibo",
+      "level": "A1",
+      "translations": {
+        "it": "pane",
+        "en": "bread",
+        "cs": "chleb",
+        "es": "pan",
+        "fr": "pain",
+        "ro": "paine"
+      },
+      "examples": {
+        "it": "Compro il pane.",
+        "en": "I buy bread.",
+        "cs": "Kupuji chleb.",
+        "es": "Compro pan.",
+        "fr": "J'achete du pain.",
+        "ro": "Cumpar paine."
+      }
+    },
+    {
+      "id": "w010",
+      "cat": "cibo",
+      "level": "A1",
+      "translations": {
+        "it": "acqua",
+        "en": "water",
+        "cs": "voda",
+        "es": "agua",
+        "fr": "eau",
+        "ro": "apa"
+      },
+      "examples": {
+        "it": "Bevo acqua.",
+        "en": "I drink water.",
+        "cs": "Piju vodu.",
+        "es": "Bebo agua.",
+        "fr": "Je bois de l'eau.",
+        "ro": "Beau apa."
+      }
+    },
+    {
+      "id": "w011",
+      "cat": "cibo",
+      "level": "A1",
+      "translations": {
+        "it": "caffe",
+        "en": "coffee",
+        "cs": "kava",
+        "es": "cafe",
+        "fr": "cafe",
+        "ro": "cafea"
+      },
+      "examples": {
+        "it": "Bevo caffe.",
+        "en": "I drink coffee.",
+        "cs": "Piju kavu.",
+        "es": "Bebo cafe.",
+        "fr": "Je bois du cafe.",
+        "ro": "Beau cafea."
+      }
+    },
+    {
+      "id": "w012",
+      "cat": "cibo",
+      "level": "A1",
+      "translations": {
+        "it": "carne",
+        "en": "meat",
+        "cs": "maso",
+        "es": "carne",
+        "fr": "viande",
+        "ro": "carne"
+      },
+      "examples": {
+        "it": "Mangio carne.",
+        "en": "I eat meat.",
+        "cs": "Jim maso.",
+        "es": "Como carne.",
+        "fr": "Je mange de la viande.",
+        "ro": "Manc carne."
+      }
+    },
+    {
+      "id": "w013",
+      "cat": "cibo",
+      "level": "A1",
+      "translations": {
+        "it": "frutta",
+        "en": "fruit",
+        "cs": "ovoce",
+        "es": "fruta",
+        "fr": "fruit",
+        "ro": "fructe"
+      },
+      "examples": {
+        "it": "Mangio frutta.",
+        "en": "I eat fruit.",
+        "cs": "Jim ovoce.",
+        "es": "Como fruta.",
+        "fr": "Je mange des fruits.",
+        "ro": "Manc fructe."
+      }
+    },
+    {
+      "id": "w014",
+      "cat": "viaggi",
+      "level": "A1",
+      "translations": {
+        "it": "aeroporto",
+        "en": "airport",
+        "cs": "letiste",
+        "es": "aeropuerto",
+        "fr": "aeroport",
+        "ro": "aeroport"
+      },
+      "examples": {
+        "it": "Sono all'aeroporto.",
+        "en": "I am at the airport.",
+        "cs": "Jsem na letisti.",
+        "es": "Estoy en el aeropuerto.",
+        "fr": "Je suis a l'aeroport.",
+        "ro": "Sunt la aeroport."
+      }
+    },
+    {
+      "id": "w015",
+      "cat": "viaggi",
+      "level": "A1",
+      "translations": {
+        "it": "hotel",
+        "en": "hotel",
+        "cs": "hotel",
+        "es": "hotel",
+        "fr": "hotel",
+        "ro": "hotel"
+      },
+      "examples": {
+        "it": "Alloggio all'hotel.",
+        "en": "I stay at the hotel.",
+        "cs": "Bydlim v hotelu.",
+        "es": "Me alojo en el hotel.",
+        "fr": "Je loge a l'hotel.",
+        "ro": "Stau la hotel."
+      }
+    },
+    {
+      "id": "w016",
+      "cat": "viaggi",
+      "level": "A1",
+      "translations": {
+        "it": "treno",
+        "en": "train",
+        "cs": "vlak",
+        "es": "tren",
+        "fr": "train",
+        "ro": "tren"
+      },
+      "examples": {
+        "it": "Viaggio in treno.",
+        "en": "I travel by train.",
+        "cs": "Jedu vlakem.",
+        "es": "Viajo en tren.",
+        "fr": "Je voyage en train.",
+        "ro": "Calatoresc cu trenul."
+      }
+    },
+    {
+      "id": "w017",
+      "cat": "viaggi",
+      "level": "A1",
+      "translations": {
+        "it": "passaporto",
+        "en": "passport",
+        "cs": "pas",
+        "es": "pasaporte",
+        "fr": "passeport",
+        "ro": "pasaport"
+      },
+      "examples": {
+        "it": "Ho il passaporto.",
+        "en": "I have a passport.",
+        "cs": "Mam pas.",
+        "es": "Tengo pasaporte.",
+        "fr": "J'ai un passeport.",
+        "ro": "Am un pasaport."
+      }
+    },
+    {
+      "id": "w018",
+      "cat": "numeri",
+      "level": "A1",
+      "translations": {
+        "it": "uno",
+        "en": "one",
+        "cs": "jedna",
+        "es": "uno",
+        "fr": "un",
+        "ro": "unu"
+      },
+      "examples": {
+        "it": "Ho un fratello.",
+        "en": "I have one brother.",
+        "cs": "Mam jednoho brata.",
+        "es": "Tengo un hermano.",
+        "fr": "J'ai un frere.",
+        "ro": "Am un frate."
+      }
+    },
+    {
+      "id": "w019",
+      "cat": "numeri",
+      "level": "A1",
+      "translations": {
+        "it": "due",
+        "en": "two",
+        "cs": "dva",
+        "es": "dos",
+        "fr": "deux",
+        "ro": "doi"
+      },
+      "examples": {
+        "it": "Ho due cani.",
+        "en": "I have two dogs.",
+        "cs": "Mam dva psy.",
+        "es": "Tengo dos perros.",
+        "fr": "J'ai deux chiens.",
+        "ro": "Am doi caini."
+      }
+    },
+    {
+      "id": "w020",
+      "cat": "numeri",
+      "level": "A1",
+      "translations": {
+        "it": "cinque",
+        "en": "five",
+        "cs": "pet",
+        "es": "cinco",
+        "fr": "cinq",
+        "ro": "cinci"
+      },
+      "examples": {
+        "it": "Ho cinque libri.",
+        "en": "I have five books.",
+        "cs": "Mam pet knih.",
+        "es": "Tengo cinco libros.",
+        "fr": "J'ai cinq livres.",
+        "ro": "Am cinci carti."
+      }
+    },
+    {
+      "id": "w021",
+      "cat": "numeri",
+      "level": "A1",
+      "translations": {
+        "it": "dieci",
+        "en": "ten",
+        "cs": "deset",
+        "es": "diez",
+        "fr": "dix",
+        "ro": "zece"
+      },
+      "examples": {
+        "it": "Sono le dieci.",
+        "en": "It is ten o'clock.",
+        "cs": "Je deset hodin.",
+        "es": "Son las diez.",
+        "fr": "Il est dix heures.",
+        "ro": "Este ora zece."
+      }
+    },
+    {
+      "id": "w022",
+      "cat": "colori",
+      "level": "A1",
+      "translations": {
+        "it": "rosso",
+        "en": "red",
+        "cs": "cervena",
+        "es": "rojo",
+        "fr": "rouge",
+        "ro": "rosu"
+      },
+      "examples": {
+        "it": "Ho una macchina rossa.",
+        "en": "I have a red car.",
+        "cs": "Mam cervene auto.",
+        "es": "Tengo un coche rojo.",
+        "fr": "J'ai une voiture rouge.",
+        "ro": "Am o masina rosie."
+      }
+    },
+    {
+      "id": "w023",
+      "cat": "colori",
+      "level": "A1",
+      "translations": {
+        "it": "blu",
+        "en": "blue",
+        "cs": "modra",
+        "es": "azul",
+        "fr": "bleu",
+        "ro": "albastru"
+      },
+      "examples": {
+        "it": "Il cielo e blu.",
+        "en": "The sky is blue.",
+        "cs": "Obloha je modra.",
+        "es": "El cielo es azul.",
+        "fr": "Le ciel est bleu.",
+        "ro": "Cerul este albastru."
+      }
+    },
+    {
+      "id": "w024",
+      "cat": "colori",
+      "level": "A1",
+      "translations": {
+        "it": "verde",
+        "en": "green",
+        "cs": "zelena",
+        "es": "verde",
+        "fr": "vert",
+        "ro": "verde"
+      },
+      "examples": {
+        "it": "L'erba e verde.",
+        "en": "The grass is green.",
+        "cs": "Trava je zelena.",
+        "es": "La hierba es verde.",
+        "fr": "L'herbe est verte.",
+        "ro": "Iarba este verde."
+      }
+    },
+    {
+      "id": "w025",
+      "cat": "colori",
+      "level": "A1",
+      "translations": {
+        "it": "giallo",
+        "en": "yellow",
+        "cs": "zluta",
+        "es": "amarillo",
+        "fr": "jaune",
+        "ro": "galben"
+      },
+      "examples": {
+        "it": "Il sole e giallo.",
+        "en": "The sun is yellow.",
+        "cs": "Slunce je zlute.",
+        "es": "El sol es amarillo.",
+        "fr": "Le soleil est jaune.",
+        "ro": "Soarele este galben."
+      }
+    }
+  ]
+}

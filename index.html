@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>LinguaNerd</title>
+  <meta name="theme-color" content="#0f0c29"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="LinguaNerd"/>
+  <link rel="manifest" href="manifest.json"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body,#root{min-height:100%;background:#0f0c29;font-family:'Nunito',sans-serif;}
+    button{font-family:'Nunito',sans-serif;}
+    ::-webkit-scrollbar{width:4px;}
+    ::-webkit-scrollbar-thumb{background:rgba(99,102,241,0.4);border-radius:2px;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+    @keyframes popIn{0%{transform:scale(0.85);opacity:0;}100%{transform:scale(1);opacity:1;}}
+    @keyframes scanline{0%{transform:translateY(-100%);}100%{transform:translateY(100vh);}}
+    button:active{transform:scale(0.97)!important;}
+    /* ── PC LAYOUT ── */
+    .pc-root{display:none;}
+    @media(min-width:900px){
+      .mobile-root{display:none!important;}
+      .pc-root{display:flex;min-height:100vh;background:#080612;}
+    }
+    .pc-sidebar{width:200px;min-height:100vh;background:#0d0b1e;border-right:1px solid rgba(99,102,241,0.15);display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;z-index:50;}
+    .pc-main{margin-left:200px;margin-right:320px;min-height:100vh;overflow-y:auto;}
+    .pc-right{width:320px;min-height:100vh;background:#0d0b1e;border-left:1px solid rgba(99,102,241,0.15);position:fixed;top:0;right:0;bottom:0;overflow-y:auto;}
+    .pc-nav-btn{display:flex;align-items:center;gap:10px;padding:10px 16px;border:none;background:transparent;color:rgba(255,255,255,0.4);font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;cursor:pointer;width:100%;text-align:left;border-left:2px solid transparent;transition:all 0.15s;}
+    .pc-nav-btn:hover{background:rgba(99,102,241,0.08);color:rgba(255,255,255,0.7);}
+    .pc-nav-btn.active{background:rgba(99,102,241,0.15);color:#a5b4fc;border-left:2px solid #6366f1;}
+    .pc-card{background:#13102a;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;}
+    .pc-label{color:rgba(255,255,255,0.25);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+    .pc-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+    .pc-stat{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:7px;padding:8px 10px;}
+    .pc-stat-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;line-height:1;}
+    .pc-stat-lbl{font-size:9px;color:rgba(255,255,255,0.3);margin-top:3px;}
+    ::-webkit-scrollbar{width:3px;}
+    ::-webkit-scrollbar-thumb{background:rgba(99,102,241,0.3);border-radius:2px;}
+    .pc-main *{max-width:100%;}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+
+const { useState, useEffect } = React;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const LANGUAGES = [
+  {id:"it",label:"Italiano",flag:"🇮🇹"},
+  {id:"en",label:"Inglese",flag:"🇬🇧"},
+  {id:"cs",label:"Ceco",flag:"🇨🇿"},
+  {id:"es",label:"Spagnolo",flag:"🇪🇸"},
+  {id:"fr",label:"Francese",flag:"🇫🇷"},
+  {id:"ro",label:"Rumeno",flag:"🇷🇴"},
+];
+
+const CATEGORIES = [
+  {id:"all",label:"Tutte",icon:"🌐"},
+  {id:"verbi",label:"Verbi",icon:"⚡"},
+  {id:"cibo",label:"Cibo",icon:"🍕"},
+  {id:"viaggi",label:"Viaggi",icon:"✈️"},
+  {id:"numeri",label:"Numeri",icon:"🔢"},
+  {id:"colori",label:"Colori",icon:"🎨"},
+];
+
+// ─── DATABASE (caricato da data/words.json) ───────────────────────────────────
+let WORDS_DB = [];
+let DB_LOADED = false;
+let DB_CALLBACKS = [];
+
+function onDBReady(cb){ if(DB_LOADED) cb(); else DB_CALLBACKS.push(cb); }
+
+// Converte il nuovo formato JSON nel formato interno usato dall'app
+function normalizeWords(rawWords){
+  return rawWords.map(w => {
+    const obj = { id: w.id, cat: w.cat, level: w.level || "A1" };
+    // Traduzioni flat: it, en, cs, es, fr, ro
+    Object.entries(w.translations || {}).forEach(([lang, val]) => { obj[lang] = val; });
+    // Esempi flat: ex_it, ex_en, ...
+    Object.entries(w.examples || {}).forEach(([lang, val]) => { obj["ex_"+lang] = val; });
+    return obj;
+  });
+}
+
+fetch("data/words.json")
+  .then(r => { if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+  .then(data => {
+    WORDS_DB = normalizeWords(data.words || []);
+    DB_LOADED = true;
+    DB_CALLBACKS.forEach(cb => cb());
+    DB_CALLBACKS = [];
+    console.log(`✅ LinguaNerd DB: ${WORDS_DB.length} parole caricate`);
+  })
+  .catch(err => {
+    console.warn("⚠️ Impossibile caricare data/words.json:", err.message);
+    // Fallback minimo per non bloccare l'app
+    WORDS_DB = [];
+    DB_LOADED = true;
+    DB_CALLBACKS.forEach(cb => cb());
+    DB_CALLBACKS = [];
+  });
+
+const LANG_VOICE = {it:"it-IT",en:"en-GB",cs:"cs-CZ",es:"es-ES",fr:"fr-FR",ro:"ro-RO"};
+const TIMER_MAX = 30;
+const CARD = {background:"rgba(255,255,255,0.06)",borderRadius:20,border:"1px solid rgba(255,255,255,0.1)"};
+const DEFAULT_STATS = {totalAnswered:0,totalCorrect:0,currentStreak:0,bestStreak:0,wordsLearned:0,rating:1000,sessionPoints:0,history:[],lastActiveDate:null,dayStreak:0,byPair:{}};
+const DEFAULT_PREFS = {dailyGoal:10};
+
+function getLang(id){ return LANGUAGES.find(l=>l.id===id)||LANGUAGES[0]; }
+function loadStats(){ try{ const r=localStorage.getItem("lm:v5"); return r?JSON.parse(r):{...DEFAULT_STATS}; }catch(e){ return {...DEFAULT_STATS}; } }
+function saveStats(s){ try{ localStorage.setItem("lm:v5",JSON.stringify(s)); }catch(e){} }
+function loadPrefs(){ try{ const r=localStorage.getItem("lm:prefs"); return r?JSON.parse(r):{...DEFAULT_PREFS}; }catch(e){ return {...DEFAULT_PREFS}; } }
+function savePrefs(p){ try{ localStorage.setItem("lm:prefs",JSON.stringify(p)); }catch(e){} }
+function speak(text,langId){ if(!window.speechSynthesis)return; window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=LANG_VOICE[langId]||"en-GB"; u.rate=0.85; window.speechSynthesis.speak(u); }
+function todayAnswered(stats){ const t=new Date().toDateString(); const e=stats.history.find(h=>h.date===t); return e?e.total:0; }
+function buildQuiz(ls,ln,cat){
+  const pool=(cat==="all"?WORDS_DB:WORDS_DB.filter(w=>w.cat===cat)).filter(w=>w[ls]&&w[ln]);
+  const src=pool.length>0?pool:WORDS_DB;
+  return [...src].sort(()=>Math.random()-0.5).map(w=>{
+    const correct=w[ln];
+    const opts=[correct,...src.filter(x=>x[ln]!==correct).map(x=>x[ln]).sort(()=>Math.random()-0.5).slice(0,3)].sort(()=>Math.random()-0.5);
+    return {word:w[ls],correct,options:opts,example:w["ex_"+ls]||"",translation:w["ex_"+ln]||""};
+  });
+}
+
+// ─── CHARTS ──────────────────────────────────────────────────────────────────
+function LineChart({data,color="#6366f1",height=70}){
+  if(!data||data.length<2) return <div style={{height,display:"flex",alignItems:"center",justifyContent:"center",color:"rgba(255,255,255,0.2)",fontSize:11}}>Studiati per vedere il grafico!</div>;
+  const w=260,h=height,min=Math.min(...data),max=Math.max(...data);
+  const pts=data.map((v,i)=>[(i/(data.length-1))*(w-20)+10,h-10-((v-min)/((max-min)||1))*(h-20)]);
+  const line=pts.map((p,i)=>`${i===0?"M":"L"} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" ");
+  const area=line+` L ${pts[pts.length-1][0]} ${h} L 10 ${h} Z`;
+  const [lx,ly]=pts[pts.length-1];
+  return <svg viewBox={`0 0 ${w} ${h}`} style={{width:"100%",height}} preserveAspectRatio="none">
+    <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity="0.35"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
+    <path d={area} fill="url(#g1)"/>
+    <path d={line} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx={lx} cy={ly} r="4" fill={color}/>
+  </svg>;
+}
+function BarChart({data,color="#8b5cf6",height=70}){
+  if(!data||data.every(v=>v===0)) return <div style={{height,display:"flex",alignItems:"center",justifyContent:"center",color:"rgba(255,255,255,0.2)",fontSize:11}}>Nessuna sessione ancora</div>;
+  const w=260,h=height,max=Math.max(...data,1),bw=Math.max(4,(w-16)/data.length-3);
+  return <svg viewBox={`0 0 ${w} ${h}`} style={{width:"100%",height}}>
+    {data.map((v,i)=>{const bh=Math.max(3,(v/max)*(h-10)),x=8+i*((w-16)/data.length); return <rect key={i} x={x} y={h-bh-4} width={bw} height={bh} rx="2" fill={color} opacity={0.5+(i/data.length)*0.5}/>;})}
+  </svg>;
+}
+
+// ─── LANG PICKER ─────────────────────────────────────────────────────────────
+function LangPicker({label,value,onChange,disabledId="",color="#6366f1",open,setOpen}){
+  const isGreen=color==="#10b981", cur=getLang(value);
+  const bg=isGreen?"rgba(16,185,129,0.15)":"rgba(99,102,241,0.15)";
+  const bc=isGreen?"rgba(16,185,129,0.35)":"rgba(99,102,241,0.35)";
+  return <div style={{position:"relative",flex:1}}>
+    <div style={{color:"rgba(255,255,255,0.4)",fontSize:8,fontWeight:700,letterSpacing:1,marginBottom:3,paddingLeft:2}}>{label}</div>
+    <button onClick={()=>setOpen(!open)} style={{width:"100%",background:bg,border:`1px solid ${bc}`,borderRadius:12,padding:"7px 10px",color:"#fff",fontWeight:800,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",gap:6,justifyContent:"space-between"}}>
+      <span>{cur.flag} {cur.label}</span><span style={{fontSize:9,opacity:0.5}}>{open?"▲":"▼"}</span>
+    </button>
+    {open && <div style={{position:"absolute",top:58,left:0,right:0,background:"#16163a",border:"1px solid rgba(99,102,241,0.4)",borderRadius:14,padding:5,zIndex:200,boxShadow:"0 16px 48px rgba(0,0,0,0.6)",animation:"fadeIn 0.15s ease"}}>
+      {LANGUAGES.map(l=>{
+        const dis=l.id===disabledId, sel=l.id===value;
+        return <button key={l.id} onClick={()=>{if(!dis){onChange(l.id);setOpen(false);}}} style={{width:"100%",background:sel?"rgba(99,102,241,0.25)":"transparent",border:"none",borderRadius:10,padding:"9px 10px",color:dis?"rgba(255,255,255,0.2)":sel?"#fff":"rgba(255,255,255,0.65)",fontWeight:700,fontSize:13,cursor:dis?"not-allowed":"pointer",textAlign:"left",display:"flex",alignItems:"center",gap:8,marginBottom:2}}>
+          <span style={{fontSize:18,opacity:dis?0.3:1}}>{l.flag}</span>
+          <span style={{flex:1}}>{l.label}</span>
+          {dis&&<span style={{fontSize:9,color:"rgba(255,255,255,0.2)"}}>già usata</span>}
+          {sel&&!dis&&<span style={{fontSize:12,color:"#a5b4fc"}}>✓</span>}
+        </button>;
+      })}
+    </div>}
+  </div>;
+}
+
+// ─── GOAL EDITOR ─────────────────────────────────────────────────────────────
+function GoalEditor({current,onSave,onClose}){
+  const [val,setVal]=useState(current);
+  return <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:300,display:"flex",alignItems:"center",justifyContent:"center"}}>
+    <div style={{background:"#1a1a4e",border:"1px solid rgba(99,102,241,0.4)",borderRadius:20,padding:"24px",width:"90%",maxWidth:300,animation:"popIn 0.2s ease"}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:18,fontWeight:800,color:"#fff",marginBottom:6}}>🎯 Obiettivo giornaliero</div>
+      <div style={{color:"rgba(255,255,255,0.4)",fontSize:12,marginBottom:16}}>Quante parole al giorno?</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginBottom:20}}>
+        {[5,10,15,20,30,50].map(n=><button key={n} onClick={()=>setVal(n)} style={{padding:"12px",borderRadius:12,background:val===n?"rgba(99,102,241,0.4)":"rgba(255,255,255,0.06)",border:val===n?"2px solid #6366f1":"1px solid rgba(255,255,255,0.1)",color:"#fff",fontWeight:800,fontSize:16,cursor:"pointer"}}>{n}</button>)}
+      </div>
+      <div style={{display:"flex",gap:10}}>
+        <button onClick={onClose} style={{flex:1,padding:"11px",borderRadius:12,background:"transparent",border:"1px solid rgba(255,255,255,0.15)",color:"rgba(255,255,255,0.5)",fontWeight:700,cursor:"pointer"}}>Annulla</button>
+        <button onClick={()=>onSave(val)} style={{flex:1,padding:"11px",borderRadius:12,background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",color:"#fff",fontWeight:800,cursor:"pointer"}}>Salva</button>
+      </div>
+    </div>
+  </div>;
+}
+
+// ─── STUDIA SECTIONS CONFIG ──────────────────────────────────────────────────
+const STUDIA_SECTIONS = [
+  {id:"parole",   icon:"📝", label:"Parole",     desc:"Vocabolario base per categoria",       color:"#6366f1", accent:"rgba(99,102,241,0.18)",  border:"rgba(99,102,241,0.35)"},
+  {id:"verbi",    icon:"⚡", label:"Verbi",      desc:"Coniugazioni e uso pratico",           color:"#8b5cf6", accent:"rgba(139,92,246,0.18)",  border:"rgba(139,92,246,0.35)"},
+  {id:"grammatica",icon:"📐",label:"Grammatica", desc:"Regole, strutture e pattern",          color:"#f59e0b", accent:"rgba(245,158,11,0.18)",  border:"rgba(245,158,11,0.35)"},
+  {id:"lezioni",  icon:"🎓", label:"Lezioni",    desc:"Percorsi guidati per livello",         color:"#10b981", accent:"rgba(16,185,129,0.18)",  border:"rgba(16,185,129,0.35)"},
+  {id:"esercizi", icon:"🏋️", label:"Esercizi",   desc:"Pratica con flashcard e quiz",         color:"#ef4444", accent:"rgba(239,68,68,0.18)",   border:"rgba(239,68,68,0.35)"},
+  {id:"pronuncia",icon:"🔊", label:"Pronuncia",  desc:"Ascolto e ripetizione audio",          color:"#06b6d4", accent:"rgba(6,182,212,0.18)",   border:"rgba(6,182,212,0.35)"},
+  {id:"frasi",    icon:"💬", label:"Frasi",      desc:"Espressioni e dialogo quotidiano",     color:"#ec4899", accent:"rgba(236,72,153,0.18)",  border:"rgba(236,72,153,0.35)"},
+  {id:"quiz",     icon:"⚔️", label:"Quiz Rapido",desc:"Sfida veloce su tutto il materiale",   color:"#f97316", accent:"rgba(249,115,22,0.18)",  border:"rgba(249,115,22,0.35)"},
+];
+
+// ─── STUDIA SECTION SCREEN ────────────────────────────────────────────────────
+function StudiaSectionScreen({section, stats, setStats, langNative, langStudy, prefs, setPrefs, onBack}){
+  const [cat,setCat]=useState("all");
+  const [words,setWords]=useState(()=>buildQuiz(langStudy,langNative,"all"));
+  const [idx,setIdx]=useState(0);
+  const [selected,setSelected]=useState(null);
+  const [showEx,setShowEx]=useState(false);
+  const [timer,setTimer]=useState(TIMER_MAX);
+  const [anim,setAnim]=useState(true);
+  const [goalEdit,setGoalEdit]=useState(false);
+
+  const cur=words[idx%Math.max(words.length,1)];
+  const studyLang=getLang(langStudy), nativeLang=getLang(langNative);
+  const timerColor=timer>15?"#10b981":timer>8?"#f59e0b":"#ef4444";
+  const acc=stats.totalAnswered>0?Math.round((stats.totalCorrect/stats.totalAnswered)*100):0;
+  const pairKey=langStudy+"to"+langNative;
+  const ps=(stats.byPair||{})[pairKey]||{answered:0,correct:0};
+  const pairAcc=ps.answered>0?Math.round((ps.correct/ps.answered)*100):0;
+  const todayDone=todayAnswered(stats), goal=prefs.dailyGoal||10;
+  const goalReached=todayDone>=goal;
+
+  useEffect(()=>{ setWords(buildQuiz(langStudy,langNative,cat)); setIdx(0); setSelected(null); setShowEx(false); setTimer(TIMER_MAX); },[langStudy,langNative,cat]);
+  useEffect(()=>{
+    if(selected!==null||!cur)return;
+    const t=setInterval(()=>setTimer(p=>{ if(p<=1){pick(null);return TIMER_MAX;} return p-1; }),1000);
+    return ()=>clearInterval(t);
+  },[selected,idx]);
+
+  function pick(opt){
+    if(selected!==null||!cur)return;
+    setSelected(opt);
+    const isCorrect=opt===cur.correct, today=new Date().toDateString();
+    setStats(prev=>{
+      const newStreak=isCorrect?prev.currentStreak+1:0;
+      const last=prev.history[prev.history.length-1];
+      let hist=[...prev.history];
+      if(last&&last.date===today) hist[hist.length-1]={...last,correct:last.correct+(isCorrect?1:0),total:last.total+1};
+      else{ hist.push({date:today,correct:isCorrect?1:0,total:1}); if(hist.length>30)hist=hist.slice(-30); }
+      let ds=prev.dayStreak;
+      if(prev.lastActiveDate!==today){ const y=new Date();y.setDate(y.getDate()-1); ds=prev.lastActiveDate===y.toDateString()?ds+1:1; }
+      const bp={...(prev.byPair||{})};
+      if(!bp[pairKey])bp[pairKey]={answered:0,correct:0};
+      bp[pairKey]={answered:bp[pairKey].answered+1,correct:bp[pairKey].correct+(isCorrect?1:0)};
+      const u={...prev,totalAnswered:prev.totalAnswered+1,totalCorrect:prev.totalCorrect+(isCorrect?1:0),currentStreak:newStreak,bestStreak:Math.max(prev.bestStreak,newStreak),wordsLearned:isCorrect?prev.wordsLearned+1:prev.wordsLearned,rating:isCorrect?prev.rating+5:Math.max(800,prev.rating-2),sessionPoints:prev.sessionPoints+(isCorrect?10:0),history:hist,lastActiveDate:today,dayStreak:ds,byPair:bp};
+      saveStats(u); return u;
+    });
+  }
+
+  function next(){ setAnim(false); setTimeout(()=>{ setIdx(i=>i+1); setSelected(null); setShowEx(false); setTimer(TIMER_MAX); setAnim(true); },180); }
+
+  const sec = STUDIA_SECTIONS.find(s=>s.id===section)||STUDIA_SECTIONS[0];
+
+  return <div style={{padding:"0 16px 16px",display:"flex",flexDirection:"column",gap:11}}>
+    {goalEdit&&<GoalEditor current={goal} onSave={v=>{const p={...prefs,dailyGoal:v};savePrefs(p);setPrefs(p);setGoalEdit(false);}} onClose={()=>setGoalEdit(false)}/>}
+
+    {/* Back button + section header */}
+    <div style={{display:"flex",alignItems:"center",gap:12,padding:"4px 0 2px"}}>
+      <button onClick={onBack} style={{background:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:10,padding:"6px 12px",color:"rgba(255,255,255,0.6)",fontSize:12,fontWeight:700,cursor:"pointer",display:"flex",alignItems:"center",gap:5}}>‹ Torna</button>
+      <div style={{display:"flex",alignItems:"center",gap:8}}>
+        <span style={{fontSize:22}}>{sec.icon}</span>
+        <div>
+          <div style={{color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:15}}>{sec.label}</div>
+          <div style={{color:"rgba(255,255,255,0.35)",fontSize:10}}>{sec.desc}</div>
+        </div>
+      </div>
+    </div>
+
+    {/* Daily goal */}
+    <div style={{...CARD,padding:"11px 14px"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+        <span style={{color:"#fff",fontSize:11,fontWeight:800}}>{goalReached?"🎉 Obiettivo raggiunto!":"🎯 Obiettivo giornaliero"}</span>
+        <div style={{display:"flex",alignItems:"center",gap:8}}>
+          <span style={{color:goalReached?"#10b981":"#a5b4fc",fontWeight:800,fontSize:12}}>{todayDone}/{goal}</span>
+          <button onClick={()=>setGoalEdit(true)} style={{background:"transparent",border:"1px solid rgba(255,255,255,0.15)",borderRadius:8,padding:"2px 7px",color:"rgba(255,255,255,0.4)",fontSize:10,cursor:"pointer"}}>✏️</button>
+        </div>
+      </div>
+      <div style={{height:7,borderRadius:4,background:"rgba(255,255,255,0.08)"}}>
+        <div style={{height:"100%",width:`${Math.min((todayDone/goal)*100,100)}%`,borderRadius:4,background:goalReached?"linear-gradient(90deg,#10b981,#6ee7b7)":`linear-gradient(90deg,${sec.color},${sec.color}bb)`,transition:"width 0.6s"}}/>
+      </div>
+    </div>
+
+    {/* Category picker */}
+    <div style={{display:"flex",gap:6,overflowX:"auto",paddingBottom:2}}>
+      {CATEGORIES.map(c=><button key={c.id} onClick={()=>setCat(c.id)} style={{flexShrink:0,display:"flex",alignItems:"center",gap:5,padding:"6px 12px",borderRadius:20,background:cat===c.id?sec.accent:"rgba(255,255,255,0.06)",border:cat===c.id?`1px solid ${sec.border}`:"1px solid rgba(255,255,255,0.1)",color:cat===c.id?"#fff":"rgba(255,255,255,0.5)",fontWeight:700,fontSize:11,cursor:"pointer",whiteSpace:"nowrap"}}>
+        {c.icon} {c.label}
+      </button>)}
+    </div>
+
+    {/* Stats bar */}
+    <div style={{...CARD,padding:"11px 14px",display:"flex"}}>
+      {[{icon:"🔥",v:stats.dayStreak+"g",l:"STREAK"},{icon:"⏱️",v:"00:"+String(timer).padStart(2,"0"),l:"TIMER"},{icon:"🎯",v:pairAcc+"%",l:"COPPIA"},{icon:"🏆",v:stats.rating,l:"RATING"}].map((s,i)=>(
+        <div key={i} style={{flex:1,textAlign:"center",borderRight:i<3?"1px solid rgba(255,255,255,0.08)":"none",padding:"0 4px"}}>
+          <div style={{fontSize:12,fontWeight:800,color:"#fff"}}>{s.icon} {s.v}</div>
+          <div style={{color:"#a5b4fc",fontSize:9,marginTop:2}}>{s.l}</div>
+        </div>
+      ))}
+    </div>
+
+    {/* Quiz card */}
+    {cur && <div style={{...CARD,overflow:"hidden",opacity:anim?1:0,transform:anim?"translateY(0)":"translateY(8px)",transition:"all 0.2s"}}>
+      <div style={{padding:"12px 18px 9px",borderBottom:"1px solid rgba(255,255,255,0.08)",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <span style={{color:"#a5b4fc",fontSize:11,fontWeight:700}}>{stats.wordsLearned} parole apprese</span>
+        <div style={{background:timer<=8?"rgba(239,68,68,0.2)":"rgba(99,102,241,0.2)",border:`2px solid ${timerColor}`,borderRadius:30,padding:"3px 11px",display:"flex",alignItems:"center",gap:5}}>
+          <div style={{width:6,height:6,borderRadius:"50%",background:timerColor,animation:timer<=8?"pulse 0.6s infinite":"none"}}/>
+          <span style={{color:"#fff",fontWeight:800,fontSize:13}}>00:{String(timer).padStart(2,"0")}</span>
+        </div>
+      </div>
+      <div style={{height:3,background:"rgba(255,255,255,0.06)"}}>
+        <div style={{height:"100%",width:`${(timer/TIMER_MAX)*100}%`,background:timerColor,transition:"width 1s linear"}}/>
+      </div>
+      <div style={{padding:"22px 18px 12px",textAlign:"center"}}>
+        <div style={{fontSize:11,color:"rgba(255,255,255,0.35)",marginBottom:6}}>{studyLang.flag} Come si dice in {nativeLang.label}? {nativeLang.flag}</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:40,fontWeight:800,color:"#fff",letterSpacing:-1,lineHeight:1.1}}>{cur.word}</div>
+        <button onClick={()=>speak(cur.word,langStudy)} style={{marginTop:10,background:"transparent",border:"none",cursor:"pointer",opacity:0.45,fontSize:18,lineHeight:1}} title="Ascolta pronuncia">🔊</button>
+      </div>
+      <div style={{padding:"0 18px 16px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
+        {cur.options.map((opt,i)=>{
+          const isC=opt===cur.correct,isSel=opt===selected;
+          let bg="rgba(255,255,255,0.06)",border="1px solid rgba(255,255,255,0.12)",color="#e2e8f0";
+          if(selected!==null){ if(isC){bg="rgba(16,185,129,0.2)";border="2px solid #10b981";color="#6ee7b7";} else if(isSel){bg="rgba(239,68,68,0.2)";border="2px solid #ef4444";color="#fca5a5";} }
+          return <button key={i} onClick={()=>pick(opt)} style={{background:bg,border,borderRadius:13,padding:"13px 8px",color,fontWeight:700,fontSize:13,cursor:selected?"default":"pointer",transition:"all 0.2s",outline:"none"}}>
+            {isC&&selected?"✓ ":isSel&&!isC?"✗ ":""}{opt}
+          </button>;
+        })}
+      </div>
+      <div style={{borderTop:"1px solid rgba(255,255,255,0.08)",padding:"9px 18px",display:"flex"}}>
+        {[{icon:"🎯",v:acc+"%",s:"globale"},{icon:"⚡",v:stats.currentStreak+"x",s:"streak",bar:Math.min(stats.currentStreak/10,1)},{icon:"📖",v:""+stats.wordsLearned,s:"parole"}].map((s,i)=>(
+          <div key={i} style={{flex:1,textAlign:"center",borderRight:i<2?"1px solid rgba(255,255,255,0.08)":"none"}}>
+            <div style={{fontSize:12,fontWeight:800,color:"#fff"}}>{s.icon} {s.v}</div>
+            {s.bar!==undefined&&<div style={{height:3,borderRadius:2,background:"rgba(255,255,255,0.1)",margin:"3px auto",width:"65%"}}><div style={{height:"100%",width:`${s.bar*100}%`,borderRadius:2,background:"#f59e0b"}}/></div>}
+            <div style={{color:"rgba(255,255,255,0.4)",fontSize:9,marginTop:2}}>{s.s}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{borderTop:"1px solid rgba(255,255,255,0.08)",padding:"9px 18px 13px"}}>
+        <button onClick={()=>setShowEx(!showEx)} style={{width:"100%",background:"rgba(99,102,241,0.15)",border:"1px solid rgba(99,102,241,0.3)",borderRadius:10,padding:"8px",color:"#a5b4fc",fontWeight:700,fontSize:12,cursor:"pointer",marginBottom:showEx?8:0}}>📘 Mostra Esempio</button>
+        {showEx&&<div style={{animation:"fadeIn 0.25s ease"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+            <span style={{color:"rgba(255,255,255,0.55)",fontSize:12,fontStyle:"italic",lineHeight:1.7,flex:1}}>{studyLang.flag} <span style={{color:"#e2e8f0",fontWeight:600}}>{cur.example}</span></span>
+            <button onClick={e=>{e.stopPropagation();speak(cur.example,langStudy);}} style={{flexShrink:0,width:32,height:32,borderRadius:"50%",background:"rgba(99,102,241,0.25)",border:"1px solid rgba(99,102,241,0.5)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15}}>🔊</button>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <div style={{color:"#a5b4fc",fontSize:11,flex:1}}>{nativeLang.flag} {cur.translation}</div>
+            <button onClick={e=>{e.stopPropagation();speak(cur.translation,langNative);}} style={{flexShrink:0,width:32,height:32,borderRadius:"50%",background:"rgba(16,185,129,0.2)",border:"1px solid rgba(16,185,129,0.4)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15}}>🔊</button>
+          </div>
+        </div>}
+      </div>
+    </div>}
+    {selected!==null
+      ?<button onClick={next} style={{width:"100%",padding:"15px",borderRadius:16,background:`linear-gradient(135deg,${sec.color},${sec.color}aa)`,border:"none",color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:15,cursor:"pointer",boxShadow:`0 8px 24px ${sec.color}55`}}>PROSSIMA PAROLA →</button>
+      :<><button onClick={()=>pick(null)} style={{width:"100%",padding:"11px",borderRadius:12,background:"transparent",border:"1.5px solid rgba(255,255,255,0.15)",color:"rgba(255,255,255,0.45)",fontWeight:700,fontSize:12,cursor:"pointer"}}>NON SO / DIFFICILE</button>
+        <button onClick={onBack} style={{width:"100%",padding:"15px",borderRadius:16,background:`linear-gradient(135deg,${sec.color}cc,${sec.color}66)`,border:"none",color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:15,cursor:"pointer",boxShadow:`0 8px 24px ${sec.color}44`}}>TERMINA SESSIONE</button></>
+    }
+  </div>;
+}
+
+// ─── STUDIA DASHBOARD ─────────────────────────────────────────────────────────
+function StudiaDashboard({stats, prefs, setPrefs, langNative, langStudy, onEnterSection}){
+  const todayDone=todayAnswered(stats), goal=prefs.dailyGoal||10;
+  const goalReached=todayDone>=goal;
+  const [goalEdit,setGoalEdit]=useState(false);
+  const studyLang=getLang(langStudy), nativeLang=getLang(langNative);
+  const acc=stats.totalAnswered>0?Math.round((stats.totalCorrect/stats.totalAnswered)*100):0;
+
+  // Fake per-section progress (basato su wordsLearned proporzionato)
+  const sectionProgress=(id)=>{
+    const base={parole:stats.wordsLearned,verbi:Math.floor(stats.wordsLearned*0.6),grammatica:Math.floor(stats.wordsLearned*0.3),lezioni:Math.floor(stats.wordsLearned*0.5),esercizi:stats.totalAnswered,pronuncia:Math.floor(stats.wordsLearned*0.4),frasi:Math.floor(stats.wordsLearned*0.45),quiz:stats.totalAnswered};
+    const max={parole:200,verbi:120,grammatica:80,lezioni:60,esercizi:500,pronuncia:100,frasi:150,quiz:200};
+    const v=Math.min(base[id]||0,max[id]);
+    return {val:v, max:max[id], pct:Math.round((v/max[id])*100)};
+  };
+
+  return <div style={{padding:"0 16px 16px",display:"flex",flexDirection:"column",gap:14}}>
+    {goalEdit&&<GoalEditor current={goal} onSave={v=>{const p={...prefs,dailyGoal:v};savePrefs(p);setPrefs(p);setGoalEdit(false);}} onClose={()=>setGoalEdit(false)}/>}
+
+    {/* Header benvenuto */}
+    <div style={{...CARD,padding:"14px 16px",background:"linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.12))",borderColor:"rgba(99,102,241,0.3)"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+        <div>
+          <div style={{color:"rgba(255,255,255,0.45)",fontSize:10,fontWeight:700,letterSpacing:1,marginBottom:3}}>STAI STUDIANDO</div>
+          <div style={{color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:17,marginBottom:2}}>
+            {studyLang.flag} {studyLang.label} <span style={{color:"rgba(255,255,255,0.3)",fontWeight:400,fontSize:13}}>→</span> {nativeLang.flag} {nativeLang.label}
+          </div>
+          <div style={{display:"flex",gap:12,marginTop:6}}>
+            <span style={{color:"#a5b4fc",fontSize:11,fontWeight:700}}>🔥 {stats.dayStreak}g streak</span>
+            <span style={{color:"#10b981",fontSize:11,fontWeight:700}}>🎯 {acc}% acc.</span>
+            <span style={{color:"#f59e0b",fontSize:11,fontWeight:700}}>🏆 {stats.rating} pt</span>
+          </div>
+        </div>
+        <div style={{textAlign:"right"}}>
+          <div style={{color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:22}}>{todayDone}<span style={{color:"rgba(255,255,255,0.3)",fontSize:14}}>/{goal}</span></div>
+          <div style={{color:"rgba(255,255,255,0.35)",fontSize:9,marginBottom:4}}>OGGI</div>
+          <button onClick={()=>setGoalEdit(true)} style={{background:"transparent",border:"1px solid rgba(255,255,255,0.15)",borderRadius:7,padding:"2px 8px",color:"rgba(255,255,255,0.4)",fontSize:9,cursor:"pointer"}}>✏️ goal</button>
+        </div>
+      </div>
+      <div style={{height:5,borderRadius:3,background:"rgba(255,255,255,0.08)",marginTop:10}}>
+        <div style={{height:"100%",width:`${Math.min((todayDone/goal)*100,100)}%`,borderRadius:3,background:goalReached?"linear-gradient(90deg,#10b981,#6ee7b7)":"linear-gradient(90deg,#6366f1,#8b5cf6)",transition:"width 0.6s",boxShadow:goalReached?"0 0 8px #10b98166":"0 0 8px #6366f155"}}/>
+      </div>
+    </div>
+
+    {/* Titolo griglia */}
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+      <div>
+        <div style={{color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:14}}>🗂️ Sistema di Studio</div>
+        <div style={{color:"rgba(255,255,255,0.35)",fontSize:10,marginTop:2}}>Seleziona un'area per iniziare</div>
+      </div>
+      <div style={{background:"rgba(99,102,241,0.15)",border:"1px solid rgba(99,102,241,0.3)",borderRadius:8,padding:"3px 10px",color:"#a5b4fc",fontSize:10,fontWeight:700}}>{STUDIA_SECTIONS.length} sezioni</div>
+    </div>
+
+    {/* Griglia sezioni */}
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+      {STUDIA_SECTIONS.map((sec,i)=>{
+        const prog=sectionProgress(sec.id);
+        return <button key={sec.id} onClick={()=>onEnterSection(sec.id)}
+          style={{background:sec.accent,border:`1px solid ${sec.border}`,borderRadius:16,padding:"14px 13px",cursor:"pointer",textAlign:"left",position:"relative",overflow:"hidden",transition:"all 0.18s",animation:`fadeIn 0.3s ease ${i*0.05}s both`}}
+          onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow=`0 8px 24px ${sec.color}33`;}}
+          onMouseLeave={e=>{e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none";}}>
+          {/* Decorative bg glow */}
+          <div style={{position:"absolute",top:-20,right:-20,width:70,height:70,borderRadius:"50%",background:`radial-gradient(circle,${sec.color}22,transparent 70%)`,pointerEvents:"none"}}/>
+          {/* Icon + label */}
+          <div style={{fontSize:24,marginBottom:6,lineHeight:1}}>{sec.icon}</div>
+          <div style={{color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:13,marginBottom:2}}>{sec.label}</div>
+          <div style={{color:"rgba(255,255,255,0.4)",fontSize:9,lineHeight:1.3,marginBottom:10}}>{sec.desc}</div>
+          {/* Progress bar */}
+          <div style={{height:4,borderRadius:2,background:"rgba(255,255,255,0.1)",overflow:"hidden"}}>
+            <div style={{height:"100%",width:`${prog.pct}%`,borderRadius:2,background:sec.color,transition:"width 0.8s",boxShadow:prog.pct>0?`0 0 6px ${sec.color}88`:"none"}}/>
+          </div>
+          <div style={{display:"flex",justifyContent:"space-between",marginTop:4}}>
+            <span style={{color:sec.color,fontSize:9,fontWeight:700}}>{prog.pct}%</span>
+            <span style={{color:"rgba(255,255,255,0.25)",fontSize:9}}>{prog.val}/{prog.max}</span>
+          </div>
+        </button>;
+      })}
+    </div>
+
+    {/* Quick stats row */}
+    <div style={{...CARD,padding:"11px 14px",display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:0}}>
+      {[{icon:"📖",v:stats.wordsLearned,l:"Parole"},{icon:"✅",v:stats.totalAnswered,l:"Risposte"},{icon:"⚡",v:stats.currentStreak+"x",l:"Streak"},{icon:"🎓",v:stats.rating,l:"Rating"}].map((s,i)=>(
+        <div key={i} style={{textAlign:"center",borderRight:i<3?"1px solid rgba(255,255,255,0.07)":"none",padding:"0 4px"}}>
+          <div style={{fontSize:11,fontWeight:800,color:"#fff",marginBottom:1}}>{s.icon} {s.v}</div>
+          <div style={{color:"rgba(255,255,255,0.3)",fontSize:9}}>{s.l}</div>
+        </div>
+      ))}
+    </div>
+  </div>;
+}
+
+// ─── STUDIA ───────────────────────────────────────────────────────────────────
+function StudiaTab({stats,setStats,langNative,langStudy,prefs,setPrefs}){
+  const [activeSection, setActiveSection]=useState(null);
+
+  if(activeSection){
+    return <StudiaSectionScreen
+      section={activeSection}
+      stats={stats} setStats={setStats}
+      langNative={langNative} langStudy={langStudy}
+      prefs={prefs} setPrefs={setPrefs}
+      onBack={()=>setActiveSection(null)}
+    />;
+  }
+  return <StudiaDashboard
+    stats={stats} prefs={prefs} setPrefs={setPrefs}
+    langNative={langNative} langStudy={langStudy}
+    onEnterSection={setActiveSection}
+  />;
+}
+
+// ─── CEFR CHART ──────────────────────────────────────────────────────────────
+const CEFR_LEVELS = [
+  {id:"A1",label:"A1",min:0,   max:500,  color:"#6ee7b7"},
+  {id:"A2",label:"A2",min:500, max:1000, color:"#34d399"},
+  {id:"B1",label:"B1",min:1000,max:2000, color:"#6366f1"},
+  {id:"B2",label:"B2",min:2000,max:4000, color:"#8b5cf6"},
+  {id:"C1",label:"C1",min:4000,max:8000, color:"#f59e0b"},
+  {id:"C2",label:"C2",min:8000,max:10000,color:"#ef4444"},
+];
+const TOTAL_WORDS = 10000;
+
+function CEFRChart({wordsLearned, lang}){
+  const current = Math.min(wordsLearned, TOTAL_WORDS);
+  const currentLevel = CEFR_LEVELS.slice().reverse().find(l=>current>=l.min) || CEFR_LEVELS[0];
+  const nextLevel = CEFR_LEVELS.find(l=>l.min>current);
+  const pct = (current/TOTAL_WORDS)*100;
+
+  return <div>
+    {/* Main progress bar */}
+    <div style={{position:"relative",marginBottom:20}}>
+      {/* Bar track */}
+      <div style={{height:28,borderRadius:14,background:"rgba(255,255,255,0.06)",overflow:"hidden",position:"relative"}}>
+        <div style={{height:"100%",width:`${pct}%`,borderRadius:14,background:`linear-gradient(90deg,#6ee7b7,#6366f1,#8b5cf6,#f59e0b)`,transition:"width 1s",boxShadow:"0 0 16px rgba(99,102,241,0.4)"}}/>
+        {/* Level markers */}
+        {CEFR_LEVELS.slice(1).map(l=>{
+          const pos=(l.min/TOTAL_WORDS)*100;
+          return <div key={l.id} style={{position:"absolute",top:0,left:`${pos}%`,width:2,height:"100%",background:"rgba(0,0,0,0.35)"}}/>
+        })}
+      </div>
+      {/* Level labels below bar */}
+      <div style={{position:"relative",height:18,marginTop:4}}>
+        {CEFR_LEVELS.map(l=>{
+          const pos=(l.min/TOTAL_WORDS)*100;
+          const active=currentLevel.id===l.id;
+          return <div key={l.id} style={{position:"absolute",left:`${pos}%`,transform:"translateX(-50%)",textAlign:"center"}}>
+            <span style={{fontSize:9,fontWeight:active?900:600,color:active?l.color:"rgba(255,255,255,0.3)",letterSpacing:0.5}}>{l.label}</span>
+          </div>;
+        })}
+        {/* C2 end label */}
+        <div style={{position:"absolute",right:0,textAlign:"right"}}>
+          <span style={{fontSize:9,fontWeight:600,color:"rgba(255,255,255,0.3)"}}>C2</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Current position info */}
+    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+      <div style={{display:"flex",alignItems:"center",gap:8}}>
+        <div style={{background:`${currentLevel.color}22`,border:`1px solid ${currentLevel.color}66`,borderRadius:10,padding:"4px 12px"}}>
+          <span style={{color:currentLevel.color,fontWeight:900,fontSize:15}}>{currentLevel.id}</span>
+        </div>
+        <div>
+          <div style={{color:"#fff",fontWeight:800,fontSize:13}}>{current.toLocaleString()} parole</div>
+          <div style={{color:"rgba(255,255,255,0.35)",fontSize:10}}>su {TOTAL_WORDS.toLocaleString()} totali</div>
+        </div>
+      </div>
+      {nextLevel && <div style={{textAlign:"right"}}>
+        <div style={{color:"rgba(255,255,255,0.4)",fontSize:10}}>prossimo livello</div>
+        <div style={{color:nextLevel.color,fontWeight:800,fontSize:12}}>{nextLevel.id} → {(nextLevel.min-current).toLocaleString()} parole</div>
+      </div>}
+    </div>
+
+    {/* Level breakdown */}
+    {CEFR_LEVELS.map(l=>{
+      const done=current>=l.max, active=currentLevel.id===l.id;
+      const lvlPct=active?Math.round(((current-l.min)/(l.max-l.min))*100):done?100:0;
+      return <div key={l.id} style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+        <div style={{width:26,textAlign:"center"}}>
+          <span style={{fontSize:10,fontWeight:800,color:active?l.color:done?"rgba(255,255,255,0.5)":"rgba(255,255,255,0.2)"}}>{l.label}</span>
+        </div>
+        <div style={{flex:1}}>
+          <div style={{height:6,borderRadius:3,background:"rgba(255,255,255,0.07)",overflow:"hidden"}}>
+            <div style={{height:"100%",width:`${lvlPct}%`,borderRadius:3,background:l.color,opacity:done?0.4:1,transition:"width 1s"}}/>
+          </div>
+        </div>
+        <div style={{width:70,textAlign:"right"}}>
+          <span style={{fontSize:9,color:active?"#fff":done?"rgba(255,255,255,0.4)":"rgba(255,255,255,0.15)",fontWeight:active?700:400}}>
+            {done?"✓ completo":active?`${current-l.min}/${l.max-l.min}`:`0/${l.max-l.min}`}
+          </span>
+        </div>
+      </div>;
+    })}
+  </div>;
+}
+
+// ─── TORRENT BAR ─────────────────────────────────────────────────────────────
+function TorrentBar({pct, complete, blocks=28}){
+  const filled = Math.round((pct/100)*blocks);
+  return <div style={{display:"flex",gap:2,alignItems:"center",height:14}}>
+    {Array.from({length:blocks}).map((_,i)=>{
+      const isDone = i < filled;
+      return <div key={i} style={{
+        flex:1,
+        height: isDone ? 14 : 10,
+        borderRadius:2,
+        background: isDone
+          ? complete
+            ? `hsl(${140+(i/blocks)*20},80%,${28+i/blocks*10}%)`
+            : `hsl(${145-(i/filled||1)*15},75%,${25+(i/(filled||1))*12}%)`
+          : "rgba(220,38,38,0.55)",
+        boxShadow: isDone && i===filled-1 ? "0 0 6px rgba(4,120,87,0.9)" : "none",
+        transition:"height 0.3s, background 0.3s",
+      }}/>;
+    })}
+  </div>;
+}
+
+// ─── ELO PROGRESSION ─────────────────────────────────────────────────────────
+const ELO_LEVELS = [
+  {id:"A1",name:"Principiante",min:800, max:1000,color:"#6ee7b7",
+   parole:{tot:500,  fatte:0}, verbi:{tot:100, fatte:0}, frasi:{tot:80,  fatte:0}, pronuncia:{tot:50, fatte:0}},
+  {id:"A2",name:"Elementare",  min:1000,max:1200,color:"#34d399",
+   parole:{tot:1000, fatte:0}, verbi:{tot:200, fatte:0}, frasi:{tot:150, fatte:0}, pronuncia:{tot:80, fatte:0}},
+  {id:"B1",name:"Intermedio",  min:1200,max:1400,color:"#6366f1",
+   parole:{tot:2000, fatte:0}, verbi:{tot:400, fatte:0}, frasi:{tot:300, fatte:0}, pronuncia:{tot:150,fatte:0}},
+  {id:"B2",name:"Intermedio+", min:1400,max:1600,color:"#8b5cf6",
+   parole:{tot:4000, fatte:0}, verbi:{tot:700, fatte:0}, frasi:{tot:500, fatte:0}, pronuncia:{tot:250,fatte:0}},
+  {id:"C1",name:"Avanzato",    min:1600,max:1800,color:"#f59e0b",
+   parole:{tot:8000, fatte:0}, verbi:{tot:1200,fatte:0}, frasi:{tot:900, fatte:0}, pronuncia:{tot:400,fatte:0}},
+  {id:"C2",name:"Madrelingua", min:1800,max:2000,color:"#ef4444",
+   parole:{tot:10000,fatte:0}, verbi:{tot:2000,fatte:0}, frasi:{tot:1500,fatte:0}, pronuncia:{tot:600,fatte:0}},
+];
+
+function ELOProgression({stats}){
+  const [hovered,setHovered]=useState(null);
+  const r=stats.rating;
+
+  return <div style={{...CARD,padding:"13px"}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+      <span style={{color:"#fff",fontSize:11,fontWeight:800}}>🏆 Progressione ELO</span>
+      <span style={{color:"#a5b4fc",fontWeight:800,fontSize:16}}>{r} pt</span>
+    </div>
+    {ELO_LEVELS.map(lv=>{
+      const active=r>=lv.min&&r<lv.max;
+      const done=r>=lv.max;
+      const pct=active?((r-lv.min)/(lv.max-lv.min))*100:done?100:0;
+      const isHovered=hovered===lv.id;
+      // parole conosciute stimate dal rating
+      const ratingProgress=Math.max(0,r-lv.min);
+      const ratingRange=lv.max-lv.min;
+      const progressRatio=Math.min(ratingProgress/ratingRange,1);
+      const paroleConosciute=done?lv.parole.tot:Math.round(lv.parole.tot*progressRatio);
+      const verbiConosciuti=done?lv.verbi.tot:Math.round(lv.verbi.tot*progressRatio);
+      const frasiConosciute=done?lv.frasi.tot:Math.round(lv.frasi.tot*progressRatio);
+      const pronunciaConosciuta=done?lv.pronuncia.tot:Math.round(lv.pronuncia.tot*progressRatio);
+
+      return <div key={lv.id} style={{marginBottom:10,position:"relative"}}
+        onMouseEnter={()=>setHovered(lv.id)}
+        onMouseLeave={()=>setHovered(null)}
+        onTouchStart={()=>setHovered(isHovered?null:lv.id)}>
+        {/* Row header */}
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
+          <div style={{display:"flex",alignItems:"center",gap:7}}>
+            <span style={{fontSize:12,fontWeight:900,color:active?lv.color:done?"rgba(255,255,255,0.5)":"rgba(255,255,255,0.2)",minWidth:24}}>{lv.id}</span>
+            <span style={{fontSize:11,color:active?"#fff":done?"rgba(255,255,255,0.45)":"rgba(255,255,255,0.2)",fontWeight:active?700:400}}>{lv.name}</span>
+            {done&&<span style={{fontSize:10,color:lv.color}}>✓</span>}
+          </div>
+          <span style={{fontSize:9,color:active?lv.color:"rgba(255,255,255,0.2)",fontWeight:active?700:400}}>{lv.parole.tot.toLocaleString()} parole</span>
+        </div>
+        {/* Progress bar */}
+        <div style={{height:6,borderRadius:3,background:"rgba(255,255,255,0.07)",overflow:"hidden",cursor:"pointer"}}>
+          <div style={{height:"100%",width:`${pct}%`,borderRadius:3,background:done?lv.color:`linear-gradient(90deg,${lv.color}88,${lv.color})`,transition:"width 1s",boxShadow:active?`0 0 8px ${lv.color}55`:"none"}}/>
+        </div>
+        {active&&<div style={{fontSize:9,color:lv.color,marginTop:3,fontWeight:700}}>
+          ● Livello attuale · {r-lv.min}/{lv.max-lv.min} pt al prossimo
+        </div>}
+        {/* Tooltip on hover */}
+        {isHovered&&<div style={{position:"absolute",top:"100%",left:0,right:0,marginTop:6,background:"#1a1a4e",border:`1px solid ${lv.color}44`,borderRadius:14,padding:"12px 14px",zIndex:50,boxShadow:"0 12px 32px rgba(0,0,0,0.6)",animation:"fadeIn 0.15s ease"}}>
+          {(()=>{
+            const ptMancanti=Math.max(0,lv.max-r);
+            const giorniStimati=done?0:Math.ceil(ptMancanti/5);
+            const settimane=Math.floor(giorniStimati/7);
+            const giorniRimasti=giorniStimati%7;
+            const tempoStr=done?"🎉 completato"
+              :active?(settimane>0?`⏱️ ~${settimane} sett${giorniRimasti>0?" e "+giorniRimasti+"g":""}`:`⏱️ ~${giorniStimati}g`)
+              :null;
+            return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <span style={{color:lv.color,fontWeight:900,fontSize:13}}>{lv.id}</span>
+                <span style={{color:"rgba(255,255,255,0.7)",fontWeight:700,fontSize:12}}>{lv.name}</span>
+                {tempoStr&&<span style={{color:"#fff",fontSize:9,fontWeight:700,textShadow:"0 0 8px rgba(255,255,255,0.6)"}}>{"Tempo Stimato - "+tempoStr.replace("⏱️ ~","").replace("🎉 ","")}</span>}
+              </div>
+              <span style={{color:"rgba(255,255,255,0.25)",fontSize:9}}>{lv.min}–{lv.max} pt</span>
+            </div>;
+          })()}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:7}}>
+            {[
+              {icon:"📝",label:"Parole",   fatte:paroleConosciute,   tot:lv.parole.tot},
+              {icon:"⚡",label:"Verbi",    fatte:verbiConosciuti,    tot:lv.verbi.tot},
+              {icon:"💬",label:"Frasi",    fatte:frasiConosciute,    tot:lv.frasi.tot},
+              {icon:"🔊",label:"Pronuncia",fatte:pronunciaConosciuta,tot:lv.pronuncia.tot},
+            ].map(({icon,label,fatte,tot})=>{
+              const p=Math.round((fatte/tot)*100);
+              const complete=p>=100;
+              return <div key={label} style={{background:"rgba(255,255,255,0.05)",borderRadius:10,padding:"8px 10px"}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5}}>
+                  <span style={{fontSize:10,color:"rgba(255,255,255,0.7)",fontWeight:700}}>{icon} {label}</span>
+                  <span style={{fontSize:9,color:complete?"#4ade80":"#fff",fontWeight:800}}>
+                    {complete?"🏆 Completo!": <>{fatte}<span style={{color:"rgba(255,255,255,0.3)",fontWeight:400}}>/{tot}</span></>}
+                  </span>
+                </div>
+                <TorrentBar pct={p} complete={complete}/>
+                {complete&&<div style={{textAlign:"center",fontSize:12,marginTop:4,animation:"fadeIn 0.3s ease"}}>🎉</div>}
+              </div>;
+            })}
+          </div>
+        </div>}
+      </div>;
+    })}
+  </div>;
+}
+
+// ─── STATS ───────────────────────────────────────────────────────────────────
+function StatsTab({stats,setStats,langStudy}){
+  const acc=stats.totalAnswered>0?Math.round((stats.totalCorrect/stats.totalAnswered)*100):0;
+  const accH=stats.history.map(h=>h.total>0?Math.round((h.correct/h.total)*100):0);
+  const totH=stats.history.map(h=>h.total);
+  const pairs=Object.entries(stats.byPair||{}).sort((a,b)=>b[1].answered-a[1].answered);
+  const [showCEFR,setShowCEFR]=useState(false);
+  const [cefrLang,setCefrLang]=useState(langStudy||"cs");
+  const [eloLang,setEloLang]=useState(langStudy||"cs");
+  function reset(){ if(!window.confirm("Azzerare tutto?"))return; const f={...DEFAULT_STATS};saveStats(f);setStats(f); }
+  const studiedLangs=[...new Set(Object.keys(stats.byPair||{}).flatMap(k=>k.split("to")))];
+  const cefrWords=stats.wordsLearned;
+  return <div style={{padding:"0 16px 16px",display:"flex",flexDirection:"column",gap:11}}>
+    <div style={{...CARD,padding:"13px 12px"}}>
+      <div style={{color:"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1,marginBottom:9}}>LE MIE STATISTICHE</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:7}}>
+        {[[stats.rating,"RATING"],[acc+"%","ACCURATEZZA"],[stats.wordsLearned,"PAROLE"],[stats.totalAnswered,"RISPOSTE"],[stats.dayStreak+"🔥","STREAK"],[stats.bestStreak,"RECORD"]].map(([v,l],i)=>(
+          <div key={i} style={{background:"rgba(255,255,255,0.05)",borderRadius:11,padding:"9px 6px",textAlign:"center"}}>
+            <div style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:800,color:"#fff"}}>{v}</div>
+            <div style={{color:"rgba(255,255,255,0.35)",fontSize:8,marginTop:2}}>{l}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    {/* CEFR card */}
+    <div style={{...CARD,padding:"13px 14px",cursor:"pointer"}} onClick={()=>setShowCEFR(!showCEFR)}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:showCEFR?14:0}}>
+        <div>
+          <div style={{color:"#fff",fontSize:11,fontWeight:800}}>🗺️ Mappa del progresso</div>
+          <div style={{color:"rgba(255,255,255,0.35)",fontSize:10,marginTop:2}}>
+            {CEFR_LEVELS.slice().reverse().find(l=>cefrWords>=l.min)?.id||"A1"} · {cefrWords} parole su {TOTAL_WORDS.toLocaleString()}
+          </div>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:8}}>
+          {studiedLangs.length>0&&!showCEFR&&<div style={{display:"flex",gap:4}}>
+            {studiedLangs.slice(0,3).map(l=><span key={l} style={{fontSize:16}}>{getLang(l).flag}</span>)}
+          </div>}
+          <span style={{color:"rgba(255,255,255,0.3)",fontSize:14}}>{showCEFR?"▲":"▼"}</span>
+        </div>
+      </div>
+      {showCEFR&&<div onClick={e=>e.stopPropagation()}>
+        {/* Lang selector */}
+        {studiedLangs.length>1&&<div style={{display:"flex",gap:6,marginBottom:14,flexWrap:"wrap"}}>
+          {studiedLangs.map(l=>{
+            const lang=getLang(l);
+            const active=cefrLang===l;
+            return <button key={l} onClick={()=>setCefrLang(l)} style={{display:"flex",alignItems:"center",gap:5,padding:"5px 11px",borderRadius:16,background:active?"rgba(99,102,241,0.3)":"rgba(255,255,255,0.06)",border:active?"1px solid rgba(99,102,241,0.6)":"1px solid rgba(255,255,255,0.1)",color:active?"#fff":"rgba(255,255,255,0.5)",fontWeight:700,fontSize:11,cursor:"pointer"}}>
+              {lang.flag} {lang.label}
+            </button>;
+          })}
+        </div>}
+        <CEFRChart wordsLearned={cefrWords} lang={cefrLang}/>
+      </div>}
+    </div>
+
+    {pairs.length>0&&<div style={{...CARD,padding:"13px 12px"}}>
+      <div style={{color:"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1,marginBottom:9}}>PER COPPIA</div>
+      {pairs.map(([key,ps])=>{
+        const [from,to]=key.split("to"),fl=getLang(from),tl=getLang(to||"it"),pa=ps.answered>0?Math.round((ps.correct/ps.answered)*100):0;
+        return <div key={key} style={{display:"flex",alignItems:"center",gap:8,marginBottom:9}}>
+          <span style={{fontSize:16}}>{fl.flag}</span><span style={{color:"rgba(255,255,255,0.4)",fontSize:11}}>→</span><span style={{fontSize:16}}>{tl.flag}</span>
+          <div style={{flex:1}}>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
+              <span style={{color:"rgba(255,255,255,0.7)",fontSize:11,fontWeight:700}}>{fl.label} → {tl.label}</span>
+              <span style={{color:"#a5b4fc",fontSize:10,fontWeight:700}}>{ps.answered} · {pa}%</span>
+            </div>
+            <div style={{height:5,borderRadius:3,background:"rgba(255,255,255,0.08)"}}><div style={{height:"100%",width:`${pa}%`,borderRadius:3,background:"linear-gradient(90deg,#6366f1,#8b5cf6)",transition:"width 1s"}}/></div>
+          </div>
+        </div>;
+      })}
+    </div>}
+    <div style={{...CARD,padding:"13px"}}>
+      <div style={{color:"#fff",fontSize:11,fontWeight:800,marginBottom:6}}>📈 ACCURATEZZA NEL TEMPO</div>
+      <LineChart data={accH.length>1?accH:null} color="#6366f1" height={75}/>
+    </div>
+    <div style={{...CARD,padding:"13px"}}>
+      <div style={{color:"#fff",fontSize:11,fontWeight:800,marginBottom:6}}>📚 ESERCIZI PER SESSIONE</div>
+      <BarChart data={totH} color="#8b5cf6" height={70}/>
+    </div>
+    <ELOProgression stats={stats}/>
+    <button onClick={reset} style={{width:"100%",padding:"11px",borderRadius:12,background:"transparent",border:"1.5px solid rgba(239,68,68,0.3)",color:"rgba(239,68,68,0.6)",fontWeight:700,fontSize:12,cursor:"pointer"}}>🗑️ Azzera statistiche</button>
+  </div>;
+}
+
+// ─── DUELLI ──────────────────────────────────────────────────────────────────
+function DuelliTab({stats}){
+  const pts=stats.sessionPoints,target=500;
+  const lp=stats.rating>=1800?"C2":stats.rating>=1600?"C1":stats.rating>=1400?"B2":stats.rating>=1200?"B1":stats.rating>=1000?"A2":"A1";
+  const badges=[];
+  if(stats.dayStreak>=3)badges.push({icon:"🔥",t:`${stats.dayStreak} Giorni`,s:"di Fila"});
+  if(stats.wordsLearned>=10)badges.push({icon:"📖",t:`${stats.wordsLearned} Parole`,s:"Apprese"});
+  if(stats.totalCorrect>=20)badges.push({icon:"⭐",t:"20 Corrette",s:"Risposte"});
+  if(stats.bestStreak>=5)badges.push({icon:"⚡",t:`Streak ${stats.bestStreak}`,s:"Record"});
+  if(Object.keys(stats.byPair||{}).length>=2)badges.push({icon:"🌍",t:"Poliglotta",s:"2+ coppie"});
+  if(badges.length===0)badges.push({icon:"🌱",t:"Inizia",s:"ad studiarti!"});
+  return <div style={{padding:"0 16px 16px",display:"flex",flexDirection:"column",gap:12}}>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+      <div style={{...CARD,padding:"16px",textAlign:"center"}}>
+        <div style={{color:"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1,marginBottom:8}}>RATING LINGUISTICO</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:44,fontWeight:800,color:"#fff",lineHeight:1}}>{stats.rating}</div>
+        <div style={{display:"inline-block",background:"rgba(99,102,241,0.25)",border:"1px solid rgba(99,102,241,0.45)",borderRadius:20,padding:"3px 14px",marginTop:8}}>
+          <span style={{color:"#a5b4fc",fontSize:10,fontWeight:700}}>ELO · {lp}</span>
+        </div>
+      </div>
+      <div style={{...CARD,padding:"14px",textAlign:"center",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+        <div style={{color:"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1}}>QUESTA SESSIONE</div>
+        <div><div style={{fontFamily:"'Syne',sans-serif",fontSize:34,fontWeight:800,color:"#fff",marginTop:8}}>{pts}</div><div style={{color:"#a5b4fc",fontSize:11,marginTop:2}}>punti</div></div>
+        <div style={{color:"rgba(255,255,255,0.3)",fontSize:10}}>+10 pt / risposta</div>
+      </div>
+    </div>
+    <div style={{...CARD,padding:"14px 15px"}}>
+      <div style={{color:"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1,marginBottom:11,textAlign:"center"}}>I TUOI BADGE</div>
+      <div style={{display:"grid",gridTemplateColumns:`repeat(${Math.min(badges.length,4)},1fr)`,gap:8}}>
+        {badges.map((b,i)=><div key={i} style={{textAlign:"center",background:"rgba(255,255,255,0.05)",borderRadius:13,padding:"11px 5px",border:"1px solid rgba(255,255,255,0.07)"}}>
+          <div style={{fontSize:24,marginBottom:3}}>{b.icon}</div>
+          <div style={{color:"#fff",fontSize:9,fontWeight:800,lineHeight:1.4}}>{b.t}</div>
+          <div style={{color:"rgba(255,255,255,0.35)",fontSize:8}}>{b.s}</div>
+        </div>)}
+      </div>
+    </div>
+    <div style={{...CARD,padding:"13px 15px"}}>
+      <div style={{display:"flex",justifyContent:"space-between",marginBottom:7}}>
+        <span style={{color:"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1}}>PUNTI SESSIONE</span>
+        <span style={{color:"#fff",fontWeight:800,fontSize:14}}>{pts} / {target}</span>
+      </div>
+      <div style={{height:7,borderRadius:4,background:"rgba(255,255,255,0.07)",overflow:"hidden"}}>
+        <div style={{height:"100%",width:`${Math.min((pts/target)*100,100)}%`,borderRadius:4,background:"linear-gradient(90deg,#cd7f32,#c0c0c0,#ffd700)",transition:"width 0.8s"}}/>
+      </div>
+      <div style={{display:"flex",justifyContent:"space-around",marginTop:5}}>
+        {[["Bronzo 100","#cd7f32"],["Argento 250","#c0c0c0"],["Oro 500","#ffd700"]].map(([l,c])=><span key={l} style={{color:c,fontSize:8,fontWeight:700}}>{l}</span>)}
+      </div>
+    </div>
+  </div>;
+}
+
+// ─── TEST TAB ─────────────────────────────────────────────────────────────────
+function TestTab({stats,langStudy,langNative}){
+  const [activeTest,setActiveTest]=useState(null); // null | "livello" | "generale"
+  const [testState,setTestState]=useState("idle"); // idle | running | result
+  const [questions,setQuestions]=useState([]);
+  const [qIdx,setQIdx]=useState(0);
+  const [selected,setSelected]=useState(null);
+  const [score,setScore]=useState(0);
+  const [answers,setAnswers]=useState([]);
+
+  const TOTAL_Q=20, PASS_Q=18;
+  const currentLevel=ELO_LEVELS.slice().reverse().find(l=>stats.rating>=l.min)||ELO_LEVELS[0];
+  const studyLang=getLang(langStudy), nativeLang=getLang(langNative);
+
+  function buildTest(type){
+    const pool = type==="livello"
+      ? WORDS_DB.filter(w=>w.cat==="verbi"||w.cat==="cibo") // per ora tutte, poi per livello
+      : WORDS_DB;
+    const shuffled=[...pool].sort(()=>Math.random()-0.5).slice(0,TOTAL_Q);
+    return shuffled.map(w=>{
+      const correct=w[langNative];
+      const opts=[correct,...WORDS_DB.filter(x=>x[langNative]!==correct).map(x=>x[langNative]).sort(()=>Math.random()-0.5).slice(0,3)].sort(()=>Math.random()-0.5);
+      return {word:w[langStudy],correct,options:opts};
+    });
+  }
+
+  function startTest(type){
+    setActiveTest(type);
+    setQuestions(buildTest(type));
+    setQIdx(0); setSelected(null); setScore(0); setAnswers([]);
+    setTestState("running");
+  }
+
+  function pick(opt){
+    if(selected!==null)return;
+    setSelected(opt);
+    const isC=opt===questions[qIdx].correct;
+    setAnswers(a=>[...a,isC]);
+    if(isC)setScore(s=>s+1);
+  }
+
+  function next(){
+    if(qIdx+1>=questions.length){ setTestState("result"); return; }
+    setQIdx(i=>i+1); setSelected(null);
+  }
+
+  function reset(){ setTestState("idle"); setActiveTest(null); }
+
+  const cur=questions[qIdx];
+  const passed=score>=PASS_Q;
+
+  // ── RESULT SCREEN
+  if(testState==="result") return <div style={{padding:"0 16px 16px",display:"flex",flexDirection:"column",gap:14,alignItems:"center"}}>
+    <div style={{...CARD,padding:"28px 20px",textAlign:"center",width:"100%",marginTop:8}}>
+      <div style={{fontSize:52,marginBottom:12}}>{passed?"🏆":"📚"}</div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:28,fontWeight:800,color:passed?"#4ade80":"#f87171"}}>{passed?"SUPERATO!":"NON ANCORA"}</div>
+      <div style={{color:"rgba(255,255,255,0.5)",fontSize:13,marginTop:6,marginBottom:20}}>{activeTest==="livello"?`Test livello ${currentLevel.id}`:"Test generale"}</div>
+      <div style={{display:"flex",justifyContent:"center",gap:6,marginBottom:20}}>
+        {answers.map((a,i)=><div key={i} style={{width:14,height:14,borderRadius:3,background:a?"#10b981":"#ef4444"}}/>)}
+      </div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:48,fontWeight:800,color:"#fff"}}>{score}<span style={{fontSize:20,color:"rgba(255,255,255,0.3)"}}>/{TOTAL_Q}</span></div>
+      <div style={{color:"rgba(255,255,255,0.4)",fontSize:11,marginTop:4}}>soglia minima: {PASS_Q}/{TOTAL_Q}</div>
+      {passed&&<div style={{marginTop:14,color:"#4ade80",fontSize:12,fontWeight:700}}>Livello {currentLevel.id} certificato! 🎉</div>}
+      {!passed&&<div style={{marginTop:14,color:"rgba(255,255,255,0.4)",fontSize:12}}>Mancano {PASS_Q-score} risposte corrette. Continua a studiare!</div>}
+    </div>
+    <button onClick={reset} style={{width:"100%",padding:"14px",borderRadius:16,background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:15,cursor:"pointer"}}>↩ Torna ai Test</button>
+  </div>;
+
+  // ── RUNNING TEST
+  if(testState==="running"&&cur) return <div style={{padding:"0 16px 16px",display:"flex",flexDirection:"column",gap:12}}>
+    {/* Progress */}
+    <div style={{...CARD,padding:"11px 14px"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+        <span style={{color:"#fff",fontWeight:800,fontSize:11}}>{activeTest==="livello"?`🎯 Test ${currentLevel.id}`:"🌍 Test Generale"}</span>
+        <span style={{color:"#a5b4fc",fontWeight:800,fontSize:13}}>{qIdx+1}/{TOTAL_Q}</span>
+      </div>
+      <div style={{height:6,borderRadius:3,background:"rgba(255,255,255,0.08)"}}>
+        <div style={{height:"100%",width:`${((qIdx+1)/TOTAL_Q)*100}%`,borderRadius:3,background:"linear-gradient(90deg,#6366f1,#8b5cf6)",transition:"width 0.4s"}}/>
+      </div>
+      <div style={{display:"flex",justifyContent:"space-between",marginTop:5}}>
+        <span style={{color:"#10b981",fontSize:10,fontWeight:700}}>✓ {score} corrette</span>
+        <span style={{color:"rgba(255,255,255,0.3)",fontSize:10}}>serve {PASS_Q} per passare</span>
+      </div>
+    </div>
+    {/* Question */}
+    <div style={{...CARD,padding:"24px 18px",textAlign:"center"}}>
+      <div style={{fontSize:11,color:"rgba(255,255,255,0.35)",marginBottom:8}}>{studyLang.flag} Come si dice in {nativeLang.label}? {nativeLang.flag}</div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:38,fontWeight:800,color:"#fff",letterSpacing:-1}}>{cur.word}</div>
+      <button onClick={()=>speak(cur.word,langStudy)} style={{marginTop:8,background:"transparent",border:"none",cursor:"pointer",opacity:0.4,fontSize:18}}>🔊</button>
+    </div>
+    {/* Options */}
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
+      {cur.options.map((opt,i)=>{
+        const isC=opt===cur.correct,isSel=opt===selected;
+        let bg="rgba(255,255,255,0.06)",border="1px solid rgba(255,255,255,0.12)",color="#e2e8f0";
+        if(selected!==null){if(isC){bg="rgba(16,185,129,0.2)";border="2px solid #10b981";color="#6ee7b7";}else if(isSel){bg="rgba(239,68,68,0.2)";border="2px solid #ef4444";color="#fca5a5";}}
+        return <button key={i} onClick={()=>pick(opt)} style={{background:bg,border,borderRadius:13,padding:"14px 8px",color,fontWeight:700,fontSize:13,cursor:selected?"default":"pointer",transition:"all 0.2s",outline:"none"}}>
+          {isC&&selected?"✓ ":isSel&&!isC?"✗ ":""}{opt}
+        </button>;
+      })}
+    </div>
+    {selected!==null&&<button onClick={next} style={{width:"100%",padding:"15px",borderRadius:16,background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",color:"#fff",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:15,cursor:"pointer",boxShadow:"0 8px 24px rgba(99,102,241,0.4)"}}>
+      {qIdx+1>=TOTAL_Q?"VEDi RISULTATO →":"PROSSIMA →"}
+    </button>}
+  </div>;
+
+  // ── IDLE: test selection
+  return <div style={{padding:"0 16px 16px",display:"flex",flexDirection:"column",gap:14}}>
+    <div style={{...CARD,padding:"18px",marginTop:8}}>
+      <div style={{color:"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1,marginBottom:4}}>IL TUO LIVELLO ATTUALE</div>
+      <div style={{display:"flex",alignItems:"center",gap:10}}>
+        <div style={{background:`${currentLevel.color}22`,border:`1px solid ${currentLevel.color}55`,borderRadius:12,padding:"8px 16px"}}>
+          <span style={{color:currentLevel.color,fontFamily:"'Syne',sans-serif",fontSize:24,fontWeight:900}}>{currentLevel.id}</span>
+        </div>
+        <div>
+          <div style={{color:"#fff",fontWeight:800,fontSize:15}}>{currentLevel.name}</div>
+          <div style={{color:"rgba(255,255,255,0.35)",fontSize:11}}>{stats.rating} pt ELO · {studyLang.flag} {studyLang.label}</div>
+        </div>
+      </div>
+    </div>
+
+    {/* Test di livello */}
+    <button onClick={()=>startTest("livello")} style={{...CARD,padding:"22px",textAlign:"left",cursor:"pointer",display:"flex",alignItems:"center",gap:16,width:"100%",border:"1px solid rgba(99,102,241,0.3)"}}>
+      <div style={{width:58,height:58,borderRadius:16,background:"rgba(99,102,241,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,flexShrink:0,boxShadow:"0 0 20px rgba(99,102,241,0.3)"}}>🎯</div>
+      <div style={{flex:1}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:800,color:"#fff"}}>Test di Livello</div>
+        <div style={{color:"rgba(255,255,255,0.4)",fontSize:12,marginTop:3}}>Verifica se sei pronto a passare al livello successivo</div>
+        <div style={{color:"#6366f1",fontSize:11,fontWeight:700,marginTop:6}}>20 domande · soglia {PASS_Q}/20 · livello {currentLevel.id}</div>
+      </div>
+      <div style={{color:"rgba(255,255,255,0.2)",fontSize:22}}>›</div>
+    </button>
+
+    {/* Test generale */}
+    <button onClick={()=>startTest("generale")} style={{...CARD,padding:"22px",textAlign:"left",cursor:"pointer",display:"flex",alignItems:"center",gap:16,width:"100%",border:"1px solid rgba(16,185,129,0.3)"}}>
+      <div style={{width:58,height:58,borderRadius:16,background:"rgba(16,185,129,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,flexShrink:0,boxShadow:"0 0 20px rgba(16,185,129,0.3)"}}>🌍</div>
+      <div style={{flex:1}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:800,color:"#fff"}}>Test Generale</div>
+        <div style={{color:"rgba(255,255,255,0.4)",fontSize:12,marginTop:3}}>Fotografia completa del tuo italiano — tutti i livelli</div>
+        <div style={{color:"#10b981",fontSize:11,fontWeight:700,marginTop:6}}>20 domande · mix A1→C2 · dove sei davvero?</div>
+      </div>
+      <div style={{color:"rgba(255,255,255,0.2)",fontSize:22}}>›</div>
+    </button>
+
+    <div style={{...CARD,padding:"13px 14px"}}>
+      <div style={{color:"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1,marginBottom:8}}>ℹ️ COME FUNZIONA</div>
+      <div style={{color:"rgba(255,255,255,0.5)",fontSize:11,lineHeight:1.7}}>
+        Rispondi a <span style={{color:"#fff",fontWeight:700}}>20 domande</span>. Devi rispondere correttamente ad almeno <span style={{color:"#fff",fontWeight:700}}>{PASS_Q}/20</span> per superare il test. Il <span style={{color:"#6366f1",fontWeight:700}}>Test di Livello</span> certifica il tuo {currentLevel.id}, mentre il <span style={{color:"#10b981",fontWeight:700}}>Test Generale</span> ti dice dove sei in assoluto.
+      </div>
+    </div>
+  </div>;
+}
+
+// ─── HOME ─────────────────────────────────────────────────────────────────────
+function HomeScreen({langNative,langStudy,handleNativeChange,handleStudyChange,openNative,setOpenNative,openStudy,setOpenStudy,stats,prefs,onEnter}){
+  const nl=getLang(langNative),sl=getLang(langStudy);
+  const acc=stats.totalAnswered>0?Math.round((stats.totalCorrect/stats.totalAnswered)*100):0;
+  const todayDone=todayAnswered(stats),goal=prefs.dailyGoal||10;
+  const cards=[
+    {id:"studia",icon:"🎓",title:"STUDIA",desc:"Flashcard · Ascolto · Categorie",color:"#6366f1",glow:"rgba(99,102,241,0.4)",stat:`${stats.wordsLearned} parole apprese`},
+    {id:"test",icon:"📝",title:"TEST",desc:"Test di livello e test generale",color:"#ec4899",glow:"rgba(236,72,153,0.4)",stat:`Livello attuale: ${ELO_LEVELS.slice().reverse().find(l=>stats.rating>=l.min)?.id||"A1"}`},
+    {id:"duelli",icon:"⚔️",title:"DUELLI",desc:"Sfida e scala la classifica",color:"#f59e0b",glow:"rgba(245,158,11,0.4)",stat:`Rating ELO: ${stats.rating}`},
+    {id:"stats",icon:"📊",title:"STATS",desc:"Analizza i tuoi progressi",color:"#10b981",glow:"rgba(16,185,129,0.4)",stat:`Accuratezza: ${acc}%`},
+  ];
+  return <div style={{minHeight:"100vh",background:"linear-gradient(160deg,#0f0c29 0%,#1a1a4e 55%,#24243e 100%)",display:"flex",flexDirection:"column",alignItems:"center"}}>
+    <div style={{position:"fixed",top:-80,left:-60,width:320,height:320,borderRadius:"50%",background:"radial-gradient(circle,rgba(99,102,241,0.13) 0%,transparent 70%)",pointerEvents:"none"}}/>
+    <div style={{position:"fixed",bottom:60,right:-60,width:280,height:280,borderRadius:"50%",background:"radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%)",pointerEvents:"none"}}/>
+    <div style={{width:"100%",maxWidth:440,padding:"50px 24px 40px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+      {/* Logo */}
+      <div style={{textAlign:"center",marginBottom:6}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:36,fontWeight:800,color:"#fff",letterSpacing:-1,lineHeight:1}}>
+          <span style={{color:"#6366f1"}}>LINGUA</span>NERD
+        </div>
+        <div style={{color:"rgba(255,255,255,0.3)",fontSize:11,marginTop:6,letterSpacing:2}}>IL TUO COACH LINGUISTICO</div>
+      </div>
+      {/* Streak + avatar row */}
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12,marginTop:10,width:"100%"}}>
+        {stats.dayStreak>0&&<div style={{display:"flex",alignItems:"center",gap:6,background:"rgba(245,158,11,0.15)",border:"1px solid rgba(245,158,11,0.3)",borderRadius:20,padding:"5px 14px"}}>
+          <span style={{fontSize:16}}>🔥</span><span style={{color:"#fbbf24",fontWeight:800,fontSize:12}}>{stats.dayStreak} giorni di fila!</span>
+        </div>}
+        <div style={{width:36,height:36,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,boxShadow:"0 0 16px rgba(99,102,241,0.5)",cursor:"pointer",flexShrink:0}}>👤</div>
+      </div>
+      {/* Lang pickers */}
+      <div style={{width:"100%",display:"flex",gap:8,alignItems:"flex-end",marginTop:24}}>
+        <LangPicker label="🏠 LINGUA MADRE" value={langNative} onChange={handleNativeChange} disabledId={langStudy} color="#10b981" open={openNative} setOpen={setOpenNative}/>
+        <div style={{padding:"0 2px 8px",color:"rgba(255,255,255,0.3)",fontSize:20,fontWeight:800}}>→</div>
+        <LangPicker label="📚 STUDIO" value={langStudy} onChange={handleStudyChange} disabledId={langNative} color="#6366f1" open={openStudy} setOpen={setOpenStudy}/>
+      </div>
+      <div style={{marginTop:8,color:"rgba(255,255,255,0.3)",fontSize:11,textAlign:"center"}}>
+        Stai imparando <span style={{color:"#a5b4fc",fontWeight:800}}>{sl.flag} {sl.label}</span> partendo dal <span style={{color:"#6ee7b7",fontWeight:800}}>{nl.flag} {nl.label}</span>
+      </div>
+      {/* Daily goal mini */}
+      <div style={{width:"100%",marginTop:14,marginBottom:6}}>
+        <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
+          <span style={{color:"rgba(255,255,255,0.4)",fontSize:10,fontWeight:700}}>🎯 Obiettivo oggi</span>
+          <span style={{color:todayDone>=goal?"#10b981":"#a5b4fc",fontWeight:800,fontSize:11}}>{todayDone}/{goal} parole{todayDone>=goal?" ✓":""}</span>
+        </div>
+        <div style={{height:5,borderRadius:3,background:"rgba(255,255,255,0.08)"}}>
+          <div style={{height:"100%",width:`${Math.min((todayDone/goal)*100,100)}%`,borderRadius:3,background:todayDone>=goal?"#10b981":"linear-gradient(90deg,#6366f1,#8b5cf6)",transition:"width 0.6s"}}/>
+        </div>
+      </div>
+      {/* Cards 2x2 */}
+      <div style={{width:"100%",display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginTop:8}}>
+        {cards.map(c=><button key={c.id} onClick={()=>onEnter(c.id)} style={{background:"rgba(255,255,255,0.05)",border:`1px solid ${c.color}33`,borderRadius:22,padding:"20px 14px",cursor:"pointer",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:10,boxShadow:`0 4px 24px rgba(0,0,0,0.2)`,transition:"all 0.2s",minHeight:140}}>
+          <div style={{width:56,height:56,borderRadius:16,background:`${c.color}18`,border:`1px solid ${c.color}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,boxShadow:`0 0 20px ${c.glow}`}}>{c.icon}</div>
+          <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:3}}>
+            <div style={{fontFamily:"'Syne',sans-serif",fontSize:16,fontWeight:800,color:"#fff",letterSpacing:0.5}}>{c.title}</div>
+            <div style={{color:"rgba(255,255,255,0.35)",fontSize:10,lineHeight:1.4,textAlign:"center"}}>{c.desc}</div>
+            <div style={{color:c.color,fontSize:10,fontWeight:700,marginTop:2}}>{c.stat}</div>
+          </div>
+        </button>)}
+      </div>
+    </div>
+  </div>;
+}
+
+// ─── PC SIDEBAR ──────────────────────────────────────────────────────────────
+function PCSidebar({tab,setTab,langNative,langStudy,stats,screen,setScreen}){
+  const nl=getLang(langNative),sl=getLang(langStudy);
+  const acc=stats.totalAnswered>0?Math.round((stats.totalCorrect/stats.totalAnswered)*100):0;
+  const currentLevel=ELO_LEVELS.slice().reverse().find(l=>stats.rating>=l.min)||ELO_LEVELS[0];
+  const navItems=[
+    {id:"studia",icon:"🎓",label:"Studia",desc:"Flashcard & Quiz"},
+    {id:"test",  icon:"📝",label:"Test",  desc:"Certifica il livello"},
+    {id:"duelli",icon:"⚔️",label:"Duelli",desc:"Sfida la classifica"},
+    {id:"stats", icon:"📊",label:"Stats", desc:"I tuoi progressi"},
+  ];
+  return <div className="pc-sidebar">
+    {/* Logo */}
+    <div style={{padding:"18px 16px 14px",borderBottom:"1px solid rgba(99,102,241,0.12)"}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:18,fontWeight:800,color:"#fff",letterSpacing:-0.5}}><span style={{color:"#6366f1"}}>LINGUA</span>NERD</div>
+      <div style={{fontSize:9,color:"rgba(255,255,255,0.2)",letterSpacing:2,marginTop:2}}>IL TUO COACH LINGUISTICO</div>
+    </div>
+    {/* User block */}
+    <div style={{padding:"12px 14px",borderBottom:"1px solid rgba(255,255,255,0.05)"}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+        <div style={{width:36,height:36,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>👤</div>
+        <div>
+          <div style={{color:"#fff",fontSize:12,fontWeight:800}}>Studente</div>
+          <div style={{color:currentLevel.color,fontSize:10,fontWeight:700}}>{currentLevel.id} · {currentLevel.name}</div>
+        </div>
+      </div>
+      {/* Language pair */}
+      <div style={{background:"rgba(255,255,255,0.04)",borderRadius:8,padding:"7px 10px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <span style={{fontSize:16}}>{nl.flag}</span>
+        <span style={{fontSize:9,color:"rgba(255,255,255,0.3)",fontWeight:700}}>→</span>
+        <span style={{fontSize:16}}>{sl.flag}</span>
+        <span style={{fontSize:10,color:"rgba(255,255,255,0.5)",fontWeight:700}}>{sl.label}</span>
+      </div>
+    </div>
+    {/* Nav */}
+    <nav style={{padding:"8px 0",flex:1}}>
+      <div style={{color:"rgba(255,255,255,0.2)",fontSize:8,fontWeight:700,letterSpacing:2,padding:"8px 16px 4px"}}>NAVIGAZIONE</div>
+      {navItems.map(n=><button key={n.id} className={`pc-nav-btn${tab===n.id?" active":""}`} onClick={()=>setTab(n.id)}>
+        <span style={{fontSize:15}}>{n.icon}</span>
+        <div>
+          <div style={{fontSize:12,fontWeight:800,lineHeight:1}}>{n.label}</div>
+          <div style={{fontSize:9,color:"rgba(255,255,255,0.3)",marginTop:1}}>{n.desc}</div>
+        </div>
+      </button>)}
+    </nav>
+    {/* Quick stats */}
+    <div style={{padding:"12px 14px",borderTop:"1px solid rgba(255,255,255,0.05)"}}>
+      <div className="pc-label">SESSIONE</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:5}}>
+        {[[stats.dayStreak+"🔥","Streak"],[acc+"%","Accuratezza"],[stats.wordsLearned,"Parole"],[stats.rating,"ELO"]].map(([v,l],i)=>
+          <div key={i} className="pc-stat"><div className="pc-stat-val" style={{fontSize:14}}>{v}</div><div className="pc-stat-lbl">{l}</div></div>
+        )}
+      </div>
+    </div>
+    {/* Home btn */}
+    <button onClick={()=>setScreen("home")} style={{margin:"0 14px 16px",padding:"8px",borderRadius:8,background:"transparent",border:"1px solid rgba(255,255,255,0.08)",color:"rgba(255,255,255,0.3)",fontSize:11,fontWeight:700,cursor:"pointer",letterSpacing:0.5}}>‹ HOME</button>
+  </div>;
+}
+
+// ─── PC RIGHT PANEL ───────────────────────────────────────────────────────────
+function PCRightPanel({stats,langStudy}){
+  const acc=stats.totalAnswered>0?Math.round((stats.totalCorrect/stats.totalAnswered)*100):0;
+  const accH=stats.history.map(h=>h.total>0?Math.round((h.correct/h.total)*100):0);
+  const currentLevel=ELO_LEVELS.slice().reverse().find(l=>stats.rating>=l.min)||ELO_LEVELS[0];
+  const [hovered,setHovered]=useState(null);
+  const r=stats.rating;
+
+  return <div className="pc-right" style={{padding:"16px 14px",display:"flex",flexDirection:"column",gap:12}}>
+    {/* Header */}
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingBottom:10,borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+      <div style={{color:"rgba(255,255,255,0.3)",fontSize:9,fontWeight:700,letterSpacing:2}}>PANNELLO STATS</div>
+      <div style={{display:"flex",alignItems:"center",gap:4}}>
+        <div style={{width:5,height:5,borderRadius:"50%",background:"#10b981",animation:"pulse 2s infinite"}}/>
+        <span style={{color:"#10b981",fontSize:9,fontWeight:700}}>LIVE</span>
+      </div>
+    </div>
+
+    {/* Rating big */}
+    <div className="pc-card" style={{textAlign:"center",background:"linear-gradient(135deg,rgba(99,102,241,0.12),rgba(139,92,246,0.08))"}}>
+      <div className="pc-label">RATING ELO</div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:42,fontWeight:800,color:"#fff",lineHeight:1}}>{r}</div>
+      <div style={{display:"inline-block",background:`${currentLevel.color}22`,border:`1px solid ${currentLevel.color}44`,borderRadius:20,padding:"3px 12px",marginTop:6}}>
+        <span style={{color:currentLevel.color,fontSize:10,fontWeight:700}}>{currentLevel.id} · {currentLevel.name}</span>
+      </div>
+    </div>
+
+    {/* Stats grid */}
+    <div className="pc-card">
+      <div className="pc-label">STATISTICHE</div>
+      <div className="pc-stat-grid">
+        {[[acc+"%","Accuratezza"],[stats.wordsLearned,"Parole"],[stats.dayStreak+"🔥","Streak"],[stats.bestStreak,"Record"],[stats.totalAnswered,"Risposte"],[stats.totalCorrect,"Corrette"]].map(([v,l],i)=>
+          <div key={i} className="pc-stat"><div className="pc-stat-val">{v}</div><div className="pc-stat-lbl">{l}</div></div>
+        )}
+      </div>
+    </div>
+
+    {/* ELO levels compact */}
+    <div className="pc-card">
+      <div className="pc-label">PROGRESSIONE LIVELLI</div>
+      {ELO_LEVELS.map(lv=>{
+        const active=r>=lv.min&&r<lv.max, done=r>=lv.max;
+        const pct=active?((r-lv.min)/(lv.max-lv.min))*100:done?100:0;
+        return <div key={lv.id} style={{marginBottom:7,position:"relative"}}
+          onMouseEnter={()=>setHovered(lv.id)} onMouseLeave={()=>setHovered(null)}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:3}}>
+            <span style={{fontSize:10,fontWeight:800,color:active?lv.color:done?"rgba(255,255,255,0.4)":"rgba(255,255,255,0.15)"}}>{lv.id}</span>
+            <span style={{fontSize:9,color:"rgba(255,255,255,0.2)"}}>{active?`${r-lv.min}/${lv.max-lv.min} pt`:done?"✓":""}</span>
+          </div>
+          <div style={{height:4,borderRadius:2,background:"rgba(255,255,255,0.06)"}}>
+            <div style={{height:"100%",width:`${pct}%`,borderRadius:2,background:lv.color,transition:"width 0.8s",boxShadow:active?`0 0 6px ${lv.color}66`:""}}/>
+          </div>
+        </div>;
+      })}
+    </div>
+
+    {/* Accuracy chart */}
+    <div className="pc-card">
+      <div className="pc-label">ACCURATEZZA NEL TEMPO</div>
+      <LineChart data={accH.length>1?accH:null} color="#6366f1" height={55}/>
+    </div>
+
+    {/* Recent activity */}
+    <div className="pc-card">
+      <div className="pc-label">ATTIVITÀ RECENTE</div>
+      {stats.history.slice(-5).reverse().map((h,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"5px 0",borderBottom:i<4?"1px solid rgba(255,255,255,0.04)":"none"}}>
+        <span style={{fontSize:10,color:"rgba(255,255,255,0.35)"}}>{h.date?.slice(4,10)||"—"}</span>
+        <span style={{fontSize:10,color:"rgba(255,255,255,0.5)"}}>{h.total||0} esercizi</span>
+        <span style={{fontSize:10,color:h.total>0?Math.round((h.correct/h.total)*100)>=70?"#10b981":"#f59e0b":"rgba(255,255,255,0.2)",fontWeight:700}}>{h.total>0?Math.round((h.correct/h.total)*100)+"%":"—"}</span>
+      </div>)}
+      {stats.history.filter(h=>h.total>0).length===0&&<div style={{color:"rgba(255,255,255,0.2)",fontSize:11,textAlign:"center",padding:"8px 0"}}>Nessuna sessione ancora</div>}
+    </div>
+  </div>;
+}
+
+// ─── APP ─────────────────────────────────────────────────────────────────────
+function App(){
+  const [screen,setScreen]=useState("home");
+  const [tab,setTab]=useState("studia");
+  const [langNative,setLangNative]=useState("it");
+  const [langStudy,setLangStudy]=useState("cs");
+  const [stats,setStats]=useState(loadStats);
+  const [prefs,setPrefs]=useState(loadPrefs);
+  const [openNative,setOpenNative]=useState(false);
+  const [openStudy,setOpenStudy]=useState(false);
+  const [dbReady,setDbReady]=useState(DB_LOADED);
+
+  useEffect(()=>{ onDBReady(()=>setDbReady(true)); },[]);
+  useEffect(()=>{ if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{}); },[]);
+
+  function handleNativeChange(l){ setLangNative(l); if(l===langStudy){const o=LANGUAGES.find(x=>x.id!==l);if(o)setLangStudy(o.id);} }
+  function handleStudyChange(l){ setLangStudy(l); if(l===langNative){const o=LANGUAGES.find(x=>x.id!==l);if(o)setLangNative(o.id);} }
+  function enterSection(id){ setTab(id); setScreen("app"); }
+
+  // Loading screen mentre il DB si carica
+  if(!dbReady) return <div style={{minHeight:"100vh",background:"#0f0c29",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16}}>
+    <div style={{fontFamily:"'Syne',sans-serif",fontSize:24,fontWeight:800,color:"#fff"}}><span style={{color:"#6366f1"}}>LINGUA</span>NERD</div>
+    <div style={{display:"flex",gap:6}}>
+      {[0,1,2].map(i=><div key={i} style={{width:8,height:8,borderRadius:"50%",background:"#6366f1",animation:`pulse 1s ${i*0.2}s infinite`}}/>)}
+    </div>
+    <div style={{color:"rgba(255,255,255,0.3)",fontSize:12}}>Caricamento database...</div>
+  </div>;
+
+  const content = <>
+    {tab==="studia"&&<StudiaTab stats={stats} setStats={setStats} langNative={langNative} langStudy={langStudy} prefs={prefs} setPrefs={setPrefs}/>}
+    {tab==="test"&&<TestTab stats={stats} langStudy={langStudy} langNative={langNative}/>}
+    {tab==="stats"&&<StatsTab stats={stats} setStats={setStats} langStudy={langStudy}/>}
+    {tab==="duelli"&&<DuelliTab stats={stats}/>}
+  </>;
+
+  if(screen==="home") return <HomeScreen langNative={langNative} langStudy={langStudy} handleNativeChange={handleNativeChange} handleStudyChange={handleStudyChange} openNative={openNative} setOpenNative={setOpenNative} openStudy={openStudy} setOpenStudy={setOpenStudy} stats={stats} prefs={prefs} onEnter={enterSection}/>;
+
+  return <>
+    {/* ── MOBILE LAYOUT ── */}
+    <div className="mobile-root" style={{minHeight:"100vh",background:"linear-gradient(160deg,#0f0c29 0%,#1a1a4e 55%,#24243e 100%)",display:"flex",flexDirection:"column",alignItems:"center",paddingBottom:80}}>
+      <div style={{position:"fixed",top:-80,left:-60,width:320,height:320,borderRadius:"50%",background:"radial-gradient(circle,rgba(99,102,241,0.11) 0%,transparent 70%)",pointerEvents:"none"}}/>
+      <div style={{width:"100%",maxWidth:440,padding:"14px 16px 10px",position:"sticky",top:0,zIndex:100,background:"linear-gradient(180deg,#0f0c29 70%,transparent)"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:4}}>
+          <button onClick={()=>setScreen("home")} style={{background:"transparent",border:"none",color:"rgba(255,255,255,0.4)",fontSize:13,fontWeight:700,cursor:"pointer",display:"flex",alignItems:"center",gap:4,padding:0}}>‹ HOME</button>
+          <span style={{fontFamily:"'Syne',sans-serif",fontSize:17,fontWeight:800,color:"#fff"}}><span style={{color:"#6366f1"}}>LINGUA</span>NERD</span>
+          <div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15}}>👤</div>
+        </div>
+      </div>
+      <div style={{width:"100%",maxWidth:440,flex:1}}>{content}</div>
+      <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:440,background:"rgba(15,12,41,0.97)",backdropFilter:"blur(20px)",borderTop:"1px solid rgba(255,255,255,0.08)",display:"flex",padding:"8px 14px 14px",gap:8}}>
+        {[{id:"studia",icon:"🎓",label:"STUDIA"},{id:"test",icon:"📝",label:"TEST"},{id:"duelli",icon:"⚔️",label:"DUELLI"},{id:"stats",icon:"📊",label:"STATS"}].map(t=>(
+          <button key={t.id} onClick={()=>setTab(t.id)} style={{flex:1,background:tab===t.id?"rgba(99,102,241,0.25)":"transparent",border:tab===t.id?"1px solid rgba(99,102,241,0.4)":"1px solid transparent",borderRadius:13,padding:"7px 4px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:2,transition:"all 0.2s"}}>
+            <span style={{fontSize:19}}>{t.icon}</span>
+            <span style={{color:tab===t.id?"#a5b4fc":"rgba(255,255,255,0.35)",fontSize:9,fontWeight:700,letterSpacing:1}}>{t.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* ── PC LAYOUT ── */}
+    <div className="pc-root">
+      <PCSidebar tab={tab} setTab={setTab} langNative={langNative} langStudy={langStudy} stats={stats} screen={screen} setScreen={setScreen}/>
+      <div className="pc-main">
+        {/* PC top bar */}
+        <div style={{position:"sticky",top:0,zIndex:40,background:"rgba(8,6,18,0.95)",backdropFilter:"blur(20px)",borderBottom:"1px solid rgba(99,102,241,0.1)",padding:"10px 24px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+          <div style={{display:"flex",alignItems:"center",gap:16}}>
+            <span style={{color:"rgba(255,255,255,0.2)",fontSize:11}}>▸</span>
+            <span style={{color:"#fff",fontWeight:800,fontSize:13,fontFamily:"'Syne',sans-serif"}}>{tab.toUpperCase()}</span>
+            <span style={{color:"rgba(255,255,255,0.2)",fontSize:9,letterSpacing:1}}>{getLang(langStudy).flag} {getLang(langStudy).label.toUpperCase()}</span>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:16}}>
+            <span style={{color:"rgba(255,255,255,0.3)",fontSize:10}}>{new Date().toLocaleDateString("it-IT",{weekday:"short",day:"numeric",month:"short"})}</span>
+            <div style={{display:"flex",alignItems:"center",gap:4}}>
+              <div style={{width:4,height:4,borderRadius:"50%",background:"#10b981"}}/>
+              <span style={{color:"#10b981",fontSize:9,fontWeight:700}}>ONLINE</span>
+            </div>
+          </div>
+        </div>
+        {/* Content with padding */}
+        <div style={{padding:"20px 24px",maxWidth:720}}>{content}</div>
+      </div>
+      <PCRightPanel stats={stats} langStudy={langStudy}/>
+    </div>
+  </>;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

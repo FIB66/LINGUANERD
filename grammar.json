@@ -1,0 +1,672 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "LinguaNerd - Database grammatica",
+    "languages": ["it", "en", "cs", "es", "fr", "ro"],
+    "levels": ["A1", "A2", "B1", "B2"],
+    "topics": ["articoli", "pronomi", "verbi", "sostantivi", "aggettivi", "avverbi", "preposizioni", "congiunzioni"],
+    "last_updated": "2026-03-08",
+    "total_rules": 12
+  },
+  "rules": [
+
+    // ── ARTICOLI ──────────────────────────────────────────────────────────────
+    {
+      "id": "g001",
+      "topic": "articoli",
+      "level": "A1",
+      "title": {
+        "it": "Articoli determinativi",
+        "en": "Definite articles",
+        "cs": "Určité členy",
+        "es": "Artículos determinados",
+        "fr": "Articles définis",
+        "ro": "Articolul hotărât"
+      },
+      "explanation": {
+        "it": "L'articolo determinativo indica un elemento specifico già noto. In italiano: il (masc. sing.), la (femm. sing.), i (masc. plur.), le (femm. plur.), lo/gli davanti a s+consonante, z, gn, ps.",
+        "en": "The definite article 'the' refers to a specific noun already known to the speaker and listener. It does not change for gender or number in English.",
+        "cs": "Il ceco non ha articoli determinativi. Il contesto e l'ordine delle parole indicano la definitezza.",
+        "es": "El artículo determinado señala algo específico. Masculino: el (sing.), los (plur.); Femenino: la (sing.), las (plur.).",
+        "fr": "L'article défini désigne quelque chose de précis. Masculin: le; Féminin: la; Pluriel: les; Devant voyelle: l'.",
+        "ro": "În română, articolul hotărât si atașează la sfârșitul cuvântului: -ul/-le (masc.), -a (femm.), -ii/-le (plur.)."
+      },
+      "examples": [
+        {
+          "it": "il cane — la casa — i cani — le case",
+          "en": "the dog — the house — the dogs — the houses",
+          "cs": "(pas — dům — psi — domy) [no article]",
+          "es": "el perro — la casa — los perros — las casas",
+          "fr": "le chien — la maison — les chiens — les maisons",
+          "ro": "câinele — casa — câinii — casele"
+        },
+        {
+          "it": "lo studente — gli studenti",
+          "en": "the student — the students",
+          "cs": "(student — studenti) [no article]",
+          "es": "el estudiante — los estudiantes",
+          "fr": "l'étudiant — les étudiants",
+          "ro": "studentul — studenții"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g001_e1",
+          "type": "fill_blank",
+          "lang": "it",
+          "question": "__ gatto è sul tavolo.",
+          "answer": "Il",
+          "options": ["Il", "La", "Lo", "I"],
+          "explanation": "'Gatto' è maschile singolare, quindi si usa 'il'."
+        },
+        {
+          "id": "g001_e2",
+          "type": "fill_blank",
+          "lang": "es",
+          "question": "__ niñas juegan en el parque.",
+          "answer": "Las",
+          "options": ["El", "La", "Los", "Las"],
+          "explanation": "'Niñas' è femminile plurale, quindi si usa 'las'."
+        },
+        {
+          "id": "g001_e3",
+          "type": "fill_blank",
+          "lang": "fr",
+          "question": "__ enfant mange une pomme.",
+          "answer": "L'",
+          "options": ["Le", "La", "L'", "Les"],
+          "explanation": "Davanti a vocale si usa l'elisione: l'enfant."
+        }
+      ]
+    },
+
+    // ── PRONOMI ───────────────────────────────────────────────────────────────
+    {
+      "id": "g002",
+      "topic": "pronomi",
+      "level": "A1",
+      "title": {
+        "it": "Pronomi soggetto",
+        "en": "Subject pronouns",
+        "cs": "Osobní zájmena",
+        "es": "Pronombres sujeto",
+        "fr": "Pronoms sujets",
+        "ro": "Pronumele personal subiect"
+      },
+      "explanation": {
+        "it": "I pronomi soggetto sostituiscono il nome nella funzione di soggetto: io, tu, lui/lei, noi, voi, loro.",
+        "en": "Subject pronouns replace the noun as the subject of a sentence: I, you, he/she/it, we, you, they.",
+        "cs": "Osobní zájmena: já, ty, on/ona/ono, my, vy, oni/ony. In Czech they are often omitted since the verb ending indicates the person.",
+        "es": "Los pronombres personales sujeto: yo, tú, él/ella, nosotros, vosotros, ellos/ellas. En español suelen omitirse porque la conjugación verbal lo indica.",
+        "fr": "Les pronoms sujets: je, tu, il/elle, nous, vous, ils/elles. Ils sont obligatoires en français, sauf à l'impératif.",
+        "ro": "Pronumele personale subiect: eu, tu, el/ea, noi, voi, ei/ele. Se pot omite când verbul indică persoana."
+      },
+      "examples": [
+        {
+          "it": "Io parlo italiano. — Tu parli italiano.",
+          "en": "I speak Italian. — You speak Italian.",
+          "cs": "(Já) mluvím italsky. — (Ty) mluvíš italsky.",
+          "es": "(Yo) hablo italiano. — (Tú) hablas italiano.",
+          "fr": "Je parle italien. — Tu parles italien.",
+          "ro": "Eu vorbesc italiană. — Tu vorbești italiană."
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g002_e1",
+          "type": "translate",
+          "source_lang": "it",
+          "target_lang": "en",
+          "question": "Noi mangiamo la pizza.",
+          "answer": "We eat pizza.",
+          "explanation": "'Noi' = 'we', verbo alla 1ª plurale."
+        },
+        {
+          "id": "g002_e2",
+          "type": "choose",
+          "lang": "fr",
+          "question": "__ parles très bien français.",
+          "answer": "Tu",
+          "options": ["Je", "Tu", "Il", "Nous"],
+          "explanation": "La forma verbale 'parles' indica la 2ª persona singolare 'tu'."
+        },
+        {
+          "id": "g002_e3",
+          "type": "fill_blank",
+          "lang": "es",
+          "question": "__ somos estudiantes.",
+          "answer": "Nosotros",
+          "options": ["Yo", "Tú", "Nosotros", "Ellos"],
+          "explanation": "'Somos' è la 1ª persona plurale del verbo ser."
+        }
+      ]
+    },
+
+    // ── VERBI ─────────────────────────────────────────────────────────────────
+    {
+      "id": "g003",
+      "topic": "verbi",
+      "level": "A1",
+      "title": {
+        "it": "Presente indicativo - verbi regolari",
+        "en": "Simple present - regular verbs",
+        "cs": "Přítomný čas - pravidelná slovesa",
+        "es": "Presente de indicativo - verbos regulares",
+        "fr": "Présent de l'indicatif - verbes réguliers",
+        "ro": "Prezentul indicativ - verbe regulate"
+      },
+      "explanation": {
+        "it": "I verbi regolari italiani si dividono in -ARE, -ERE, -IRE. Es. parlare: parlo, parli, parla, parliamo, parlate, parlano.",
+        "en": "Regular English verbs in the simple present add -s/-es in the 3rd person singular. Es. to work: I work, you work, he works, we work, you work, they work.",
+        "cs": "I verbi cechi si coniugano in base alla classe. Es. dělat (fare): dělám, děláš, dělá, děláme, děláte, dělají.",
+        "es": "Los verbos regulares se dividen en -AR, -ER, -IR. Ej. hablar: hablo, hablas, habla, hablamos, habláis, hablan.",
+        "fr": "Les verbes du 1er groupe (-ER) sont réguliers. Ex. parler: je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.",
+        "ro": "Verbele regulate: a lucra: lucrez, lucrezi, lucrează, lucrăm, lucrați, lucrează."
+      },
+      "examples": [
+        {
+          "it": "Io parlo — tu parli — lui parla — noi parliamo — voi parlate — loro parlano",
+          "en": "I speak — you speak — he speaks — we speak — you speak — they speak",
+          "cs": "já mluvím — ty mluvíš — on mluví — my mluvíme — vy mluvíte — oni mluví",
+          "es": "yo hablo — tú hablas — él habla — nosotros hablamos — vosotros habláis — ellos hablan",
+          "fr": "je parle — tu parles — il parle — nous parlons — vous parlez — ils parlent",
+          "ro": "eu vorbesc — tu vorbești — el vorbește — noi vorbim — voi vorbiți — ei vorbesc"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g003_e1",
+          "type": "fill_blank",
+          "lang": "it",
+          "question": "Loro __ (lavorare) in ufficio.",
+          "answer": "lavorano",
+          "options": ["lavoro", "lavori", "lavora", "lavorano"],
+          "explanation": "3ª persona plurale di -ARE: radice + -ano."
+        },
+        {
+          "id": "g003_e2",
+          "type": "fill_blank",
+          "lang": "es",
+          "question": "Ella __ (escribir) una carta.",
+          "answer": "escribe",
+          "options": ["escribo", "escribes", "escribe", "escriben"],
+          "explanation": "3ª persona singolare di -IR: radice + -e."
+        },
+        {
+          "id": "g003_e3",
+          "type": "fill_blank",
+          "lang": "fr",
+          "question": "Nous __ (manger) ensemble.",
+          "answer": "mangeons",
+          "options": ["mange", "manges", "mangeons", "mangent"],
+          "explanation": "1ª persona plurale di -ER: radice + -ons. Attenzione: manger → mangeons (si mantiene la e per il suono)."
+        }
+      ]
+    },
+
+    {
+      "id": "g004",
+      "topic": "verbi",
+      "level": "A1",
+      "title": {
+        "it": "Il verbo essere",
+        "en": "The verb to be",
+        "cs": "Sloveso být",
+        "es": "El verbo ser/estar",
+        "fr": "Le verbe être",
+        "ro": "Verbul a fi"
+      },
+      "explanation": {
+        "it": "Essere è il verbo più usato. Coniugazione: sono, sei, è, siamo, siete, sono.",
+        "en": "To be is the most irregular and frequent verb: am, are, is, are, are, are.",
+        "cs": "Být: jsem, jsi, je, jsme, jste, jsou.",
+        "es": "Ser (caratteristiche permanenti): soy, eres, es, somos, sois, son. Estar (stati temporanei): estoy, estás, está, estamos, estáis, están.",
+        "fr": "Être: je suis, tu es, il est, nous sommes, vous êtes, ils sont.",
+        "ro": "A fi: sunt, ești, este, suntem, sunteți, sunt."
+      },
+      "examples": [
+        {
+          "it": "Sono italiano. — Sei stanco? — Lui è medico.",
+          "en": "I am Italian. — Are you tired? — He is a doctor.",
+          "cs": "Jsem Ital. — Jsi unavený? — On je doktor.",
+          "es": "Soy italiano. — ¿Estás cansado? — Él es médico.",
+          "fr": "Je suis italien. — Tu es fatigué? — Il est médecin.",
+          "ro": "Sunt italian. — Ești obosit? — El este doctor."
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g004_e1",
+          "type": "fill_blank",
+          "lang": "it",
+          "question": "Noi __ studenti.",
+          "answer": "siamo",
+          "options": ["sono", "sei", "siamo", "siete"],
+          "explanation": "1ª persona plurale di 'essere' è 'siamo'."
+        },
+        {
+          "id": "g004_e2",
+          "type": "choose",
+          "lang": "es",
+          "question": "Ella __ cansada hoy. (stato temporaneo)",
+          "answer": "está",
+          "options": ["es", "está", "son", "están"],
+          "explanation": "Si usa 'estar' per stati temporanei: stanchezza, emozioni, posizione."
+        }
+      ]
+    },
+
+    // ── SOSTANTIVI ────────────────────────────────────────────────────────────
+    {
+      "id": "g005",
+      "topic": "sostantivi",
+      "level": "A1",
+      "title": {
+        "it": "Genere dei sostantivi",
+        "en": "Gender of nouns",
+        "cs": "Rod podstatných jmen",
+        "es": "Género de los sustantivos",
+        "fr": "Genre des noms",
+        "ro": "Genul substantivelor"
+      },
+      "explanation": {
+        "it": "In italiano i sostantivi sono maschili o femminili. Di solito: -o = maschile (libro), -a = femminile (casa). Eccezioni: mano (femm.), problema (masch.).",
+        "en": "English nouns don't have grammatical gender, except for pronouns (he/she/it). Natural gender follows biology.",
+        "cs": "Il ceco ha 3 generi: maschile, femminile, neutro. Il genere non segue regole semplici e va memorizzato con ogni sostantivo.",
+        "es": "I sostantivi spagnoli sono maschili o femminili. Di solito: -o = maschile, -a = femminile. Ma: el problema (masch.), la mano (femm.).",
+        "fr": "Les noms français sont masculins ou féminins. Il n'y a pas de règle absolue; il faut mémoriser le genre avec chaque mot.",
+        "ro": "Il rumeno ha 3 generi: maschile (-u/-e), femminile (-ă/-e), neutro (maschile al sing., femminile al plur.)."
+      },
+      "examples": [
+        {
+          "it": "il libro (m.) — la penna (f.) — il problema (m., eccezione)",
+          "en": "the book — the pen — the problem (no gender)",
+          "cs": "ten kluk (m.) — ta žena (f.) — to dítě (n.)",
+          "es": "el libro (m.) — la pluma (f.) — el problema (m., excepción)",
+          "fr": "le livre (m.) — la plume (f.) — le problème (m.)",
+          "ro": "băiatul (m.) — fata (f.) — scaunul (n.)"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g005_e1",
+          "type": "choose",
+          "lang": "it",
+          "question": "Qual è il genere di 'finestra'?",
+          "answer": "Femminile",
+          "options": ["Maschile", "Femminile"],
+          "explanation": "'Finestra' termina in -a, quindi è femminile."
+        },
+        {
+          "id": "g005_e2",
+          "type": "choose",
+          "lang": "es",
+          "question": "Qual è il genere di 'ciudad'?",
+          "answer": "Femminile",
+          "options": ["Maschile", "Femminile"],
+          "explanation": "Le parole in -dad/-tad/-tud sono quasi sempre femminili."
+        }
+      ]
+    },
+
+    // ── AGGETTIVI ─────────────────────────────────────────────────────────────
+    {
+      "id": "g006",
+      "topic": "aggettivi",
+      "level": "A1",
+      "title": {
+        "it": "Accordo degli aggettivi",
+        "en": "Adjective agreement",
+        "cs": "Shoda přídavných jmen",
+        "es": "Concordancia de adjetivos",
+        "fr": "Accord des adjectifs",
+        "ro": "Acordul adjectivelor"
+      },
+      "explanation": {
+        "it": "In italiano gli aggettivi concordano in genere e numero con il sostantivo: un libro rosso — una casa rossa — libri rossi — case rosse.",
+        "en": "In English adjectives do not change form for gender or number: a red book, a red house, red books, red houses.",
+        "cs": "Gli aggettivi cechi concordano in genere, numero e caso con il sostantivo. Molto più complesso dell'italiano.",
+        "es": "Gli aggettivi spagnoli concordano in genere e numero: un libro rojo — una casa roja — libros rojos — casas rojas.",
+        "fr": "Les adjectifs s'accordent en genre et en nombre: un livre rouge — une maison rouge — des livres rouges — des maisons rouges.",
+        "ro": "Adjectivele concordă în gen și număr: un om bun — o femeie bună — oameni buni — femei bune."
+      },
+      "examples": [
+        {
+          "it": "ragazzo alto — ragazza alta — ragazzi alti — ragazze alte",
+          "en": "tall boy — tall girl — tall boys — tall girls",
+          "cs": "vysoký chlapec — vysoká dívka — vysocí chlapci — vysoké dívky",
+          "es": "chico alto — chica alta — chicos altos — chicas altas",
+          "fr": "garçon grand — fille grande — garçons grands — filles grandes",
+          "ro": "băiat înalt — fată înaltă — băieți înalți — fete înalte"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g006_e1",
+          "type": "fill_blank",
+          "lang": "it",
+          "question": "Le ragazze sono molto __. (bello)",
+          "answer": "belle",
+          "options": ["bello", "bella", "belli", "belle"],
+          "explanation": "Le ragazze = femminile plurale → 'belle'."
+        },
+        {
+          "id": "g006_e2",
+          "type": "fill_blank",
+          "lang": "es",
+          "question": "Las casas son muy __. (grande)",
+          "answer": "grandes",
+          "options": ["grande", "grandes", "gran", "grando"],
+          "explanation": "Per aggettivi in -e, il plurale aggiunge solo -s."
+        }
+      ]
+    },
+
+    // ── PREPOSIZIONI ──────────────────────────────────────────────────────────
+    {
+      "id": "g007",
+      "topic": "preposizioni",
+      "level": "A2",
+      "title": {
+        "it": "Preposizioni di luogo",
+        "en": "Prepositions of place",
+        "cs": "Předložky místa",
+        "es": "Preposiciones de lugar",
+        "fr": "Prépositions de lieu",
+        "ro": "Prepozițiile de loc"
+      },
+      "explanation": {
+        "it": "Le principali preposizioni di luogo: in (dentro/paese), a (città), su (sopra), sotto, davanti a, dietro a, vicino a, lontano da.",
+        "en": "Main prepositions of place: in (enclosed space), on (surface), at (point/place), under, in front of, behind, next to, far from.",
+        "cs": "Principali preposizioni di luogo cece: v/ve (in), na (su/a), před (davanti), za (dietro), vedle (accanto), pod (sotto).",
+        "es": "Principales preposiciones de lugar: en (in/su), a (a), sobre (sopra), bajo (sotto), delante de, detrás de, junto a.",
+        "fr": "Principales prépositions de lieu: dans (dentro), sur (su), à (a), sous (sotto), devant, derrière, à côté de.",
+        "ro": "Principalele prepoziții de loc: în (in), pe (su/a), la (a), sub (sotto), în fața (davanti), în spatele (dietro)."
+      },
+      "examples": [
+        {
+          "it": "Il gatto è sul tavolo. — Vivo in Italia. — Sono a Roma.",
+          "en": "The cat is on the table. — I live in Italy. — I am in Rome.",
+          "cs": "Kočka je na stole. — Žiji v Itálii. — Jsem v Římě.",
+          "es": "El gato está sobre la mesa. — Vivo en Italia. — Estoy en Roma.",
+          "fr": "Le chat est sur la table. — Je vis en Italie. — Je suis à Rome.",
+          "ro": "Pisica este pe masă. — Locuiesc în Italia. — Sunt la Roma."
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g007_e1",
+          "type": "fill_blank",
+          "lang": "it",
+          "question": "Il libro è __ tavolo.",
+          "answer": "sul",
+          "options": ["sul", "nel", "al", "dal"],
+          "explanation": "'Sul' = su + il. Il libro è sulla superficie del tavolo."
+        },
+        {
+          "id": "g007_e2",
+          "type": "fill_blank",
+          "lang": "en",
+          "question": "She lives __ London.",
+          "answer": "in",
+          "options": ["in", "at", "on", "to"],
+          "explanation": "Per città grandi in inglese si usa generalmente 'in'."
+        }
+      ]
+    },
+
+    // ── NEGAZIONE ─────────────────────────────────────────────────────────────
+    {
+      "id": "g008",
+      "topic": "verbi",
+      "level": "A1",
+      "title": {
+        "it": "La forma negativa",
+        "en": "The negative form",
+        "cs": "Záporná forma",
+        "es": "La forma negativa",
+        "fr": "La forme négative",
+        "ro": "Forma negativă"
+      },
+      "explanation": {
+        "it": "In italiano si mette 'non' prima del verbo: Non parlo tedesco.",
+        "en": "In English use do not / don't (does not / doesn't) + infinitive: I don't speak German.",
+        "cs": "In ceco si aggiunge il prefisso 'ne-' al verbo: Nemluvím německy.",
+        "es": "In spagnolo si mette 'no' prima del verbo: No hablo alemán.",
+        "fr": "In francese si usa ne...pas attorno al verbo: Je ne parle pas allemand.",
+        "ro": "In rumeno si mette 'nu' prima del verbo: Nu vorbesc germană."
+      },
+      "examples": [
+        {
+          "it": "Non capisco. — Non ho fame. — Non voglio andare.",
+          "en": "I don't understand. — I'm not hungry. — I don't want to go.",
+          "cs": "Nerozumím. — Nemám hlad. — Nechci jít.",
+          "es": "No entiendo. — No tengo hambre. — No quiero ir.",
+          "fr": "Je ne comprends pas. — Je n'ai pas faim. — Je ne veux pas y aller.",
+          "ro": "Nu înțeleg. — Nu mi-e foame. — Nu vreau să merg."
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g008_e1",
+          "type": "transform",
+          "lang": "it",
+          "question": "Trasforma in negativo: 'Parlo italiano.'",
+          "answer": "Non parlo italiano.",
+          "explanation": "Basta aggiungere 'non' prima del verbo."
+        },
+        {
+          "id": "g008_e2",
+          "type": "fill_blank",
+          "lang": "fr",
+          "question": "Je __ comprends __.",
+          "answer": "ne / pas",
+          "options": ["ne/pas", "no/pas", "ne/non", "pas/ne"],
+          "explanation": "La negazione in francese è ne...pas, il verbo va in mezzo."
+        }
+      ]
+    },
+
+    // ── DOMANDE ───────────────────────────────────────────────────────────────
+    {
+      "id": "g009",
+      "topic": "pronomi",
+      "level": "A1",
+      "title": {
+        "it": "Parole interrogative",
+        "en": "Question words",
+        "cs": "Tázací slova",
+        "es": "Palabras interrogativas",
+        "fr": "Mots interrogatifs",
+        "ro": "Cuvinte interogative"
+      },
+      "explanation": {
+        "it": "Le principali parole interrogative: chi (who), cosa/che (what), dove (where), quando (when), perché (why), come (how), quanto (how much).",
+        "en": "The main question words: who, what, where, when, why, how, how much/many.",
+        "cs": "Principali parole interrogative: kdo (chi), co (cosa), kde (dove), kdy (quando), proč (perché), jak (come), kolik (quanto).",
+        "es": "Principales palabras interrogativas: quién, qué, dónde, cuándo, por qué, cómo, cuánto.",
+        "fr": "Principaux mots interrogatifs: qui, quoi/que, où, quand, pourquoi, comment, combien.",
+        "ro": "Principalele cuvinte interogative: cine, ce, unde, când, de ce, cum, cât."
+      },
+      "examples": [
+        {
+          "it": "Chi sei? — Cosa fai? — Dove abiti? — Quando arrivi?",
+          "en": "Who are you? — What do you do? — Where do you live? — When do you arrive?",
+          "cs": "Kdo jsi? — Co děláš? — Kde bydlíš? — Kdy přijedeš?",
+          "es": "¿Quién eres? — ¿Qué haces? — ¿Dónde vives? — ¿Cuándo llegas?",
+          "fr": "Qui es-tu? — Que fais-tu? — Où habites-tu? — Quand arrives-tu?",
+          "ro": "Cine ești? — Ce faci? — Unde locuiești? — Când ajungi?"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g009_e1",
+          "type": "choose",
+          "lang": "it",
+          "question": "__ si chiama tuo fratello?",
+          "answer": "Come",
+          "options": ["Chi", "Cosa", "Come", "Dove"],
+          "explanation": "'Come' si usa per chiedere il nome o una descrizione."
+        },
+        {
+          "id": "g009_e2",
+          "type": "choose",
+          "lang": "es",
+          "question": "¿__ vives? — En Madrid.",
+          "answer": "Dónde",
+          "options": ["Quién", "Qué", "Dónde", "Cuándo"],
+          "explanation": "'Dónde' si usa per chiedere il luogo."
+        }
+      ]
+    },
+
+    // ── PASSATO ───────────────────────────────────────────────────────────────
+    {
+      "id": "g010",
+      "topic": "verbi",
+      "level": "A2",
+      "title": {
+        "it": "Passato prossimo",
+        "en": "Simple past / Present perfect",
+        "cs": "Minulý čas",
+        "es": "Pretérito indefinido",
+        "fr": "Passé composé",
+        "ro": "Perfectul compus"
+      },
+      "explanation": {
+        "it": "Il passato prossimo si forma con avere/essere + participio passato: ho mangiato, sono andato. Con essere il participio concorda con il soggetto.",
+        "en": "Simple past: regular verbs add -ed (worked, played). Irregular verbs have unique forms (go→went, eat→ate).",
+        "cs": "Il passato ceco si forma con il participio passato + ausiliare (essere): pracoval jsem (ho lavorato). L'ausiliare può essere omesso alla 3a persona.",
+        "es": "Il pretérito indefinido si coniuga con desinenze proprie: -AR: hablé, hablaste, habló... -ER/-IR: comí, comiste, comió...",
+        "fr": "Le passé composé: avoir/être + participe passé. Avec être, le participe s'accorde: je suis allé(e). 17 verbes se conjuguent avec être.",
+        "ro": "Perfectul compus: a avea + participiu trecut: am mâncat, am mers."
+      },
+      "examples": [
+        {
+          "it": "Ho mangiato la pizza. — Sono andato a Roma.",
+          "en": "I ate pizza. — I went to Rome.",
+          "cs": "Jedl jsem pizzu. — Jel jsem do Říma.",
+          "es": "Comí pizza. — Fui a Roma.",
+          "fr": "J'ai mangé la pizza. — Je suis allé à Rome.",
+          "ro": "Am mâncat pizza. — Am mers la Roma."
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g010_e1",
+          "type": "fill_blank",
+          "lang": "it",
+          "question": "Ieri Marco __ (mangiare) una pizza.",
+          "answer": "ha mangiato",
+          "options": ["mangia", "ha mangiato", "è mangiato", "mangiò"],
+          "explanation": "'Mangiare' usa 'avere' come ausiliare. 3a pers. sing. = ha mangiato."
+        },
+        {
+          "id": "g010_e2",
+          "type": "fill_blank",
+          "lang": "fr",
+          "question": "Hier, elle __ (aller) au cinéma.",
+          "answer": "est allée",
+          "options": ["a allé", "est allé", "est allée", "a été"],
+          "explanation": "'Aller' si coniuga con 'être'. Poiché il soggetto è femminile, il participio concorda: allée."
+        }
+      ]
+    },
+
+    // ── AVVERBI ───────────────────────────────────────────────────────────────
+    {
+      "id": "g011",
+      "topic": "avverbi",
+      "level": "A2",
+      "title": {
+        "it": "Avverbi di frequenza",
+        "en": "Adverbs of frequency",
+        "cs": "Příslovce četnosti",
+        "es": "Adverbios de frecuencia",
+        "fr": "Adverbes de fréquence",
+        "ro": "Adverbe de frecvență"
+      },
+      "explanation": {
+        "it": "Gli avverbi di frequenza indicano con quale frequenza si compie un'azione: sempre, spesso, a volte, raramente, mai.",
+        "en": "Adverbs of frequency: always, usually, often, sometimes, rarely, never. They go before the main verb or after 'to be'.",
+        "cs": "Avverbi di frequenza cechi: vždy/vždycky (sempre), často (spesso), někdy (a volte), zřídka (raramente), nikdy (mai).",
+        "es": "Adverbios de frecuencia: siempre, normalmente, a menudo, a veces, raramente, nunca.",
+        "fr": "Adverbes de fréquence: toujours, souvent, parfois, rarement, jamais. Se placent entre le verbe et le sujet.",
+        "ro": "Adverbe de frecvență: întotdeauna, adesea, uneori, rar, niciodată."
+      },
+      "examples": [
+        {
+          "it": "Mangio sempre la colazione. — A volte vado al cinema. — Non vado mai in palestra.",
+          "en": "I always eat breakfast. — I sometimes go to the cinema. — I never go to the gym.",
+          "cs": "Vždy snídám. — Někdy chodím do kina. — Nikdy nechodím do posilovny.",
+          "es": "Siempre desayuno. — A veces voy al cine. — Nunca voy al gimnasio.",
+          "fr": "Je prends toujours le petit déjeuner. — Je vais parfois au cinéma. — Je ne vais jamais à la salle de sport.",
+          "ro": "Iau întotdeauna micul dejun. — Uneori merg la cinema. — Nu merg niciodată la sală."
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g011_e1",
+          "type": "reorder",
+          "lang": "en",
+          "question": "Riordina: [go / I / to / never / gym / the]",
+          "answer": "I never go to the gym.",
+          "explanation": "In inglese gli avverbi di frequenza si mettono prima del verbo principale."
+        }
+      ]
+    },
+
+    // ── FUTURO ────────────────────────────────────────────────────────────────
+    {
+      "id": "g012",
+      "topic": "verbi",
+      "level": "A2",
+      "title": {
+        "it": "Futuro semplice",
+        "en": "Future simple",
+        "cs": "Budoucí čas",
+        "es": "Futuro simple",
+        "fr": "Futur simple",
+        "ro": "Viitorul simplu"
+      },
+      "explanation": {
+        "it": "Il futuro semplice si forma aggiungendo le desinenze al verbo: parlerò, parlerai, parlerà, parleremo, parlerete, parleranno.",
+        "en": "Future simple uses 'will' + infinitive for all persons: I will go, you will go, he will go...",
+        "cs": "Il futuro ceco si forma con il prefisso verbale o con l'ausiliare 'budu' + infinito: budu pracovat (lavorerò).",
+        "es": "El futuro simple aggiunge desinenze all'infinito: -é, -ás, -á, -emos, -éis, -án. Es. hablaré, hablarás...",
+        "fr": "Le futur simple ajoute les terminaisons à l'infinitif: -ai, -as, -a, -ons, -ez, -ont. Ex. parlerai, parleras...",
+        "ro": "Viitorul se formează cu 'o să' + conjunctiv sau cu formele verbale proprii: voi merge, vei merge..."
+      },
+      "examples": [
+        {
+          "it": "Domani andrò a Roma. — Parleremo italiano.",
+          "en": "Tomorrow I will go to Rome. — We will speak Italian.",
+          "cs": "Zítra pojedu do Říma. — Budeme mluvit italsky.",
+          "es": "Mañana iré a Roma. — Hablaremos italiano.",
+          "fr": "Demain j'irai à Rome. — Nous parlerons italien.",
+          "ro": "Mâine o să merg la Roma. — O să vorbim italiană."
+        }
+      ],
+      "exercises": [
+        {
+          "id": "g012_e1",
+          "type": "fill_blank",
+          "lang": "it",
+          "question": "Domani loro __ (partire) per Parigi.",
+          "answer": "partiranno",
+          "options": ["partono", "partiranno", "sono partiti", "partirete"],
+          "explanation": "Futuro di -IRE, 3a persona plurale: partiranno."
+        },
+        {
+          "id": "g012_e2",
+          "type": "fill_blank",
+          "lang": "fr",
+          "question": "Demain, je __ (travailler) à la maison.",
+          "answer": "travaillerai",
+          "options": ["travaille", "travaillais", "travaillerai", "travaillerait"],
+          "explanation": "Futur simple, 1a persona singolare: infinito + -ai."
+        }
+      ]
+    }
+  ]
+}
