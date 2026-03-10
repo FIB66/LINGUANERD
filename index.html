@@ -61,6 +61,7 @@ const LANGUAGES = [
   {id:"es",label:"Spagnolo",flag:"🇪🇸"},
   {id:"fr",label:"Francese",flag:"🇫🇷"},
   {id:"ro",label:"Rumeno",flag:"🇷🇴"},
+  {id:"hi",label:"Hindi",flag:"🇮🇳"},
 ];
 
 const CATEGORIES = [
@@ -109,7 +110,7 @@ fetch("data/words.json")
     DB_CALLBACKS = [];
   });
 
-const LANG_VOICE = {it:"it-IT",en:"en-GB",cs:"cs-CZ",es:"es-ES",fr:"fr-FR",ro:"ro-RO"};
+const LANG_VOICE = {it:"it-IT",en:"en-GB",cs:"cs-CZ",es:"es-ES",fr:"fr-FR",ro:"ro-RO",hi:"hi-IN"};
 const TIMER_MAX = 30;
 const CARD = {background:"rgba(255,255,255,0.06)",borderRadius:20,border:"1px solid rgba(255,255,255,0.1)"};
 const DEFAULT_STATS = {totalAnswered:0,totalCorrect:0,currentStreak:0,bestStreak:0,wordsLearned:0,rating:1000,sessionPoints:0,history:[],lastActiveDate:null,dayStreak:0,byPair:{}};
