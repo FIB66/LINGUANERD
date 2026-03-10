@@ -2,9 +2,23 @@
   "_meta": {
     "version": "1.0",
     "description": "LinguaNerd - Database parole",
-    "languages": ["it", "en", "cs", "es", "fr", "ro"],
-    "categories": ["verbi", "cibo", "viaggi", "numeri", "colori"],
-    "last_updated": "2026-03-08",
+    "languages": [
+      "it",
+      "en",
+      "cs",
+      "es",
+      "fr",
+      "ro",
+      "hi"
+    ],
+    "categories": [
+      "verbi",
+      "cibo",
+      "viaggi",
+      "numeri",
+      "colori"
+    ],
+    "last_updated": "2026-03-10",
     "total_words": 24
   },
   "words": [
@@ -18,7 +32,8 @@
         "cs": "studovat",
         "es": "estudiar",
         "fr": "etudier",
-        "ro": "a studia"
+        "ro": "a studia",
+        "hi": "पढ़ना"
       },
       "examples": {
         "it": "Anna studia economia.",
@@ -26,7 +41,8 @@
         "cs": "Anna studuje ekonomii.",
         "es": "Anna estudia economia.",
         "fr": "Anna etudie l'economie.",
-        "ro": "Anna studiaza economia."
+        "ro": "Anna studiaza economia.",
+        "hi": "अन्ना अर्थशास्त्र पढ़ती है।"
       }
     },
     {
@@ -39,7 +55,8 @@
         "cs": "pracovat",
         "es": "trabajar",
         "fr": "travailler",
-        "ro": "a lucra"
+        "ro": "a lucra",
+        "hi": "काम करना"
       },
       "examples": {
         "it": "Lavoro ogni giorno.",
@@ -47,7 +64,8 @@
         "cs": "Kazdy den pracuji.",
         "es": "Trabajo cada dia.",
         "fr": "Je travaille chaque jour.",
-        "ro": "Lucrez in fiecare zi."
+        "ro": "Lucrez in fiecare zi.",
+        "hi": "मैं हर दिन काम करता हूँ।"
       }
     },
     {
@@ -60,7 +78,8 @@
         "cs": "cestovat",
         "es": "viajar",
         "fr": "voyager",
-        "ro": "a calatori"
+        "ro": "a calatori",
+        "hi": "यात्रा करना"
       },
       "examples": {
         "it": "Adoro viaggiare.",
@@ -68,7 +87,8 @@
         "cs": "Rada cestuji.",
         "es": "Me encanta viajar.",
         "fr": "J'adore voyager.",
-        "ro": "Imi place sa calatoresc."
+        "ro": "Imi place sa calatoresc.",
+        "hi": "मुझे यात्रा करना पसंद है।"
       }
     },
     {
@@ -81,7 +101,8 @@
         "cs": "jist",
         "es": "comer",
         "fr": "manger",
-        "ro": "a manca"
+        "ro": "a manca",
+        "hi": "खाना"
       },
       "examples": {
         "it": "Mangiamo insieme.",
@@ -89,7 +110,8 @@
         "cs": "Jime spolecne.",
         "es": "Comemos juntos.",
         "fr": "Nous mangeons ensemble.",
-        "ro": "Mancam impreuna."
+        "ro": "Mancam impreuna.",
+        "hi": "हम साथ खाते हैं।"
       }
     },
     {
@@ -102,7 +124,8 @@
         "cs": "spat",
         "es": "dormir",
         "fr": "dormir",
-        "ro": "a dormi"
+        "ro": "a dormi",
+        "hi": "सोना"
       },
       "examples": {
         "it": "Dormo otto ore.",
@@ -110,7 +133,8 @@
         "cs": "Spim osm hodin.",
         "es": "Duermo ocho horas.",
         "fr": "Je dors huit heures.",
-        "ro": "Dorm opt ore."
+        "ro": "Dorm opt ore.",
+        "hi": "मैं आठ घंटे सोता हूँ।"
       }
     },
     {
@@ -123,7 +147,8 @@
         "cs": "cist",
         "es": "leer",
         "fr": "lire",
-        "ro": "a citi"
+        "ro": "a citi",
+        "hi": "पढ़ना"
       },
       "examples": {
         "it": "Mi piace leggere libri.",
@@ -131,7 +156,8 @@
         "cs": "Rad ctu knihy.",
         "es": "Me gusta leer libros.",
         "fr": "J'aime lire des livres.",
-        "ro": "Imi place sa citesc carti."
+        "ro": "Imi place sa citesc carti.",
+        "hi": "मुझे किताबें पढ़ना पसंद है।"
       }
     },
     {
@@ -144,7 +170,8 @@
         "cs": "mluvit",
         "es": "hablar",
         "fr": "parler",
-        "ro": "a vorbi"
+        "ro": "a vorbi",
+        "hi": "बोलना"
       },
       "examples": {
         "it": "Parlo italiano.",
@@ -152,7 +179,8 @@
         "cs": "Mluvim cesky.",
         "es": "Hablo espanol.",
         "fr": "Je parle francais.",
-        "ro": "Vorbesc romaneste."
+        "ro": "Vorbesc romaneste.",
+        "hi": "मैं हिंदी बोलता हूँ।"
       }
     },
     {
@@ -165,7 +193,8 @@
         "cs": "psat",
         "es": "escribir",
         "fr": "ecrire",
-        "ro": "a scrie"
+        "ro": "a scrie",
+        "hi": "लिखना"
       },
       "examples": {
         "it": "Scrivo una lettera.",
@@ -173,7 +202,8 @@
         "cs": "Pisu dopis.",
         "es": "Escribo una carta.",
         "fr": "J'ecris une lettre.",
-        "ro": "Scriu o scrisoare."
+        "ro": "Scriu o scrisoare.",
+        "hi": "मैं एक पत्र लिखता हूँ।"
       }
     },
     {
@@ -186,7 +216,8 @@
         "cs": "chleb",
         "es": "pan",
         "fr": "pain",
-        "ro": "paine"
+        "ro": "paine",
+        "hi": "रोटी"
       },
       "examples": {
         "it": "Compro il pane.",
@@ -194,7 +225,8 @@
         "cs": "Kupuji chleb.",
         "es": "Compro pan.",
         "fr": "J'achete du pain.",
-        "ro": "Cumpar paine."
+        "ro": "Cumpar paine.",
+        "hi": "मैं रोटी खरीदता हूँ।"
       }
     },
     {
@@ -207,7 +239,8 @@
         "cs": "voda",
         "es": "agua",
         "fr": "eau",
-        "ro": "apa"
+        "ro": "apa",
+        "hi": "पानी"
       },
       "examples": {
         "it": "Bevo acqua.",
@@ -215,7 +248,8 @@
         "cs": "Piju vodu.",
         "es": "Bebo agua.",
         "fr": "Je bois de l'eau.",
-        "ro": "Beau apa."
+        "ro": "Beau apa.",
+        "hi": "मैं पानी पीता हूँ।"
       }
     },
     {
@@ -228,7 +262,8 @@
         "cs": "kava",
         "es": "cafe",
         "fr": "cafe",
-        "ro": "cafea"
+        "ro": "cafea",
+        "hi": "कॉफी"
       },
       "examples": {
         "it": "Bevo caffe.",
@@ -236,7 +271,8 @@
         "cs": "Piju kavu.",
         "es": "Bebo cafe.",
         "fr": "Je bois du cafe.",
-        "ro": "Beau cafea."
+        "ro": "Beau cafea.",
+        "hi": "मैं कॉफी पीता हूँ।"
       }
     },
     {
@@ -249,7 +285,8 @@
         "cs": "maso",
         "es": "carne",
         "fr": "viande",
-        "ro": "carne"
+        "ro": "carne",
+        "hi": "मांस"
       },
       "examples": {
         "it": "Mangio carne.",
@@ -257,7 +294,8 @@
         "cs": "Jim maso.",
         "es": "Como carne.",
         "fr": "Je mange de la viande.",
-        "ro": "Manc carne."
+        "ro": "Manc carne.",
+        "hi": "मैं मांस खाता हूँ।"
       }
     },
     {
@@ -270,7 +308,8 @@
         "cs": "ovoce",
         "es": "fruta",
         "fr": "fruit",
-        "ro": "fructe"
+        "ro": "fructe",
+        "hi": "फल"
       },
       "examples": {
         "it": "Mangio frutta.",
@@ -278,7 +317,8 @@
         "cs": "Jim ovoce.",
         "es": "Como fruta.",
         "fr": "Je mange des fruits.",
-        "ro": "Manc fructe."
+        "ro": "Manc fructe.",
+        "hi": "मैं फल खाता हूँ।"
       }
     },
     {
@@ -291,7 +331,8 @@
         "cs": "letiste",
         "es": "aeropuerto",
         "fr": "aeroport",
-        "ro": "aeroport"
+        "ro": "aeroport",
+        "hi": "हवाई अड्डा"
       },
       "examples": {
         "it": "Sono all'aeroporto.",
@@ -299,7 +340,8 @@
         "cs": "Jsem na letisti.",
         "es": "Estoy en el aeropuerto.",
         "fr": "Je suis a l'aeroport.",
-        "ro": "Sunt la aeroport."
+        "ro": "Sunt la aeroport.",
+        "hi": "मैं हवाई अड्डे पर हूँ।"
       }
     },
     {
@@ -312,7 +354,8 @@
         "cs": "hotel",
         "es": "hotel",
         "fr": "hotel",
-        "ro": "hotel"
+        "ro": "hotel",
+        "hi": "होटल"
       },
       "examples": {
         "it": "Alloggio all'hotel.",
@@ -320,7 +363,8 @@
         "cs": "Bydlim v hotelu.",
         "es": "Me alojo en el hotel.",
         "fr": "Je loge a l'hotel.",
-        "ro": "Stau la hotel."
+        "ro": "Stau la hotel.",
+        "hi": "मैं होटल में रहता हूँ।"
       }
     },
     {
@@ -333,7 +377,8 @@
         "cs": "vlak",
         "es": "tren",
         "fr": "train",
-        "ro": "tren"
+        "ro": "tren",
+        "hi": "ट्रेन"
       },
       "examples": {
         "it": "Viaggio in treno.",
@@ -341,7 +386,8 @@
         "cs": "Jedu vlakem.",
         "es": "Viajo en tren.",
         "fr": "Je voyage en train.",
-        "ro": "Calatoresc cu trenul."
+        "ro": "Calatoresc cu trenul.",
+        "hi": "मैं ट्रेन से यात्रा करता हूँ।"
       }
     },
     {
@@ -354,7 +400,8 @@
         "cs": "pas",
         "es": "pasaporte",
         "fr": "passeport",
-        "ro": "pasaport"
+        "ro": "pasaport",
+        "hi": "पासपोर्ट"
       },
       "examples": {
         "it": "Ho il passaporto.",
@@ -362,7 +409,8 @@
         "cs": "Mam pas.",
         "es": "Tengo pasaporte.",
         "fr": "J'ai un passeport.",
-        "ro": "Am un pasaport."
+        "ro": "Am un pasaport.",
+        "hi": "मेरे पास पासपोर्ट है।"
       }
     },
     {
@@ -375,7 +423,8 @@
         "cs": "jedna",
         "es": "uno",
         "fr": "un",
-        "ro": "unu"
+        "ro": "unu",
+        "hi": "एक"
       },
       "examples": {
         "it": "Ho un fratello.",
@@ -383,7 +432,8 @@
         "cs": "Mam jednoho brata.",
         "es": "Tengo un hermano.",
         "fr": "J'ai un frere.",
-        "ro": "Am un frate."
+        "ro": "Am un frate.",
+        "hi": "मेरा एक भाई है।"
       }
     },
     {
@@ -396,7 +446,8 @@
         "cs": "dva",
         "es": "dos",
         "fr": "deux",
-        "ro": "doi"
+        "ro": "doi",
+        "hi": "दो"
       },
       "examples": {
         "it": "Ho due cani.",
@@ -404,7 +455,8 @@
         "cs": "Mam dva psy.",
         "es": "Tengo dos perros.",
         "fr": "J'ai deux chiens.",
-        "ro": "Am doi caini."
+        "ro": "Am doi caini.",
+        "hi": "मेरे दो कुत्ते हैं।"
       }
     },
     {
@@ -417,7 +469,8 @@
         "cs": "pet",
         "es": "cinco",
         "fr": "cinq",
-        "ro": "cinci"
+        "ro": "cinci",
+        "hi": "पाँच"
       },
       "examples": {
         "it": "Ho cinque libri.",
@@ -425,7 +478,8 @@
         "cs": "Mam pet knih.",
         "es": "Tengo cinco libros.",
         "fr": "J'ai cinq livres.",
-        "ro": "Am cinci carti."
+        "ro": "Am cinci carti.",
+        "hi": "मेरे पास पाँच किताबें हैं।"
       }
     },
     {
@@ -438,7 +492,8 @@
         "cs": "deset",
         "es": "diez",
         "fr": "dix",
-        "ro": "zece"
+        "ro": "zece",
+        "hi": "दस"
       },
       "examples": {
         "it": "Sono le dieci.",
@@ -446,7 +501,8 @@
         "cs": "Je deset hodin.",
         "es": "Son las diez.",
         "fr": "Il est dix heures.",
-        "ro": "Este ora zece."
+        "ro": "Este ora zece.",
+        "hi": "दस बजे हैं।"
       }
     },
     {
@@ -459,7 +515,8 @@
         "cs": "cervena",
         "es": "rojo",
         "fr": "rouge",
-        "ro": "rosu"
+        "ro": "rosu",
+        "hi": "लाल"
       },
       "examples": {
         "it": "Ho una macchina rossa.",
@@ -467,7 +524,8 @@
         "cs": "Mam cervene auto.",
         "es": "Tengo un coche rojo.",
         "fr": "J'ai une voiture rouge.",
-        "ro": "Am o masina rosie."
+        "ro": "Am o masina rosie.",
+        "hi": "मेरे पास लाल गाड़ी है।"
       }
     },
     {
@@ -480,7 +538,8 @@
         "cs": "modra",
         "es": "azul",
         "fr": "bleu",
-        "ro": "albastru"
+        "ro": "albastru",
+        "hi": "नीला"
       },
       "examples": {
         "it": "Il cielo e blu.",
@@ -488,7 +547,8 @@
         "cs": "Obloha je modra.",
         "es": "El cielo es azul.",
         "fr": "Le ciel est bleu.",
-        "ro": "Cerul este albastru."
+        "ro": "Cerul este albastru.",
+        "hi": "आकाश नीला है।"
       }
     },
     {
@@ -501,7 +561,8 @@
         "cs": "zelena",
         "es": "verde",
         "fr": "vert",
-        "ro": "verde"
+        "ro": "verde",
+        "hi": "हरा"
       },
       "examples": {
         "it": "L'erba e verde.",
@@ -509,7 +570,8 @@
         "cs": "Trava je zelena.",
         "es": "La hierba es verde.",
         "fr": "L'herbe est verte.",
-        "ro": "Iarba este verde."
+        "ro": "Iarba este verde.",
+        "hi": "घास हरी है।"
       }
     },
     {
@@ -522,7 +584,8 @@
         "cs": "zluta",
         "es": "amarillo",
         "fr": "jaune",
-        "ro": "galben"
+        "ro": "galben",
+        "hi": "पीला"
       },
       "examples": {
         "it": "Il sole e giallo.",
@@ -530,7 +593,8 @@
         "cs": "Slunce je zlute.",
         "es": "El sol es amarillo.",
         "fr": "Le soleil est jaune.",
-        "ro": "Soarele este galben."
+        "ro": "Soarele este galben.",
+        "hi": "सूरज पीला है।"
       }
     }
   ]
